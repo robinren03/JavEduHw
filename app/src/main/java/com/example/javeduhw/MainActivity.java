@@ -2,6 +2,8 @@ package com.example.javeduhw;
 
 import android.os.Bundle;
 
+import com.example.javeduhw.databinding.ActivityLoginBinding;
+import com.example.javeduhw.ui.login.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,11 @@ import com.example.javeduhw.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+
+import android.app.Activity;
+import android.content.Intent;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent itent = new Intent();
+                itent.setClass(MainActivity.this, LoginActivity.class);
+                startActivity(itent);
+
             }
         });
     }
