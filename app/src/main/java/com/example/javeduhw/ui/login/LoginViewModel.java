@@ -63,6 +63,18 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    public void registerDataChanged(String username, String password, String passwdCheck) {
+        if (!isUserNameValid(username)) {
+            loginFormState.setValue(new LoginFormState(R.string.invalid_register_username, null));
+        } else if (!isPasswordValid(password)) {
+            loginFormState.setValue(new LoginFormState(null, R.string.invalid_register_password));
+        } else if (!isPassWordChecked(password, passwdCheck)) {
+            loginFormState.setValue(new LoginFormState(null, R.string.invalid_register_check_passwd));
+        }
+        else {
+                loginFormState.setValue(new LoginFormState(true));
+            }
+    }
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
         if (username == null) {
@@ -74,5 +86,9 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    private boolean isPassWordChecked(String password, String passwdCheck){
+        return password != null && passwdCheck != null && passwdCheck.equals(password);
     }
 }

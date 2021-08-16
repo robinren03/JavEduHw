@@ -31,7 +31,7 @@ import com.example.javeduhw.R;
 
 public class RegisterFragment extends Fragment{
 
-    private LoginViewModel loginViewModel;
+    private LoginViewModel registerViewModel;
     private FragmentRegisterBinding binding;
 
     @Nullable
@@ -48,15 +48,21 @@ public class RegisterFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+        registerViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
                 .get(LoginViewModel.class);
         mmySend = (MySend) getActivity();
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
+        final EditText passwdCheckEditText = binding.passwdCheck;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {
+        usernameEditText.setFocusable(true);
+        usernameEditText.setFocusableInTouchMode(true);
+        usernameEditText.requestFocus();
+        usernameEditText.requestFocusFromTouch();
+
+        registerViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
                 if (loginFormState == null) {
@@ -67,11 +73,16 @@ public class RegisterFragment extends Fragment{
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
                 if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                    if (loginFormState.getPasswordError() == (R.string.invalid_register_password)) {
+                        passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                    }
+                    if (loginFormState.getPasswordError() == (R.string.invalid_register_check_passwd)) {
+                        passwdCheckEditText.setError(getString(loginFormState.getPasswordError()));
+                    }
                 }
             }
         });
-        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
+        registerViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
                 if (loginResult == null) {
@@ -83,7 +94,7 @@ public class RegisterFragment extends Fragment{
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                    mmySend.userCreated(usernameEditText.toString());
+                    mmySend.userCreated(usernameEditText.getText().toString());
                 }
             }
         });
@@ -101,8 +112,8 @@ public class RegisterFragment extends Fragment{
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
@@ -112,25 +123,35 @@ public class RegisterFragment extends Fragment{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.register(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
                 }
                 return false;
             }
         });
+        passwdCheckEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
+                }
+                return false;
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                registerViewModel.register(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
+        String welcome = getString(R.string.register_success);
         // TODO : initiate successful logged in experience
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();

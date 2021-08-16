@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
     private Fragment fragment;
     private FragmentManager fm;
     private FragmentTransaction beginTransaction;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +59,12 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
+        usernameEditText = binding.username;
+        passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
         final TextView regLink = binding.regLink;
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -166,6 +169,11 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
     @Override
     public void userCreated(String s) {
         getSupportFragmentManager().popBackStack();
+        usernameEditText.setText(s);
+        passwordEditText.setFocusable(true);
+        passwordEditText.setFocusableInTouchMode(true);
+        passwordEditText.requestFocus();
+        passwordEditText.requestFocusFromTouch();
         //System.out.println(s);
     }
 }
