@@ -68,6 +68,19 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        switch(id)
+        {
+            case R.id.page_my_info://菜单栏中的"我的"按钮
+                //TODO:
+                Intent intent = new Intent(MainActivity.this,MyInfo.class);
+                startActivity(intent);
+                break;
+            case R.id.action_settings://其他设置按钮
+                //
+                break;
+            default:
+                break;
+        }
         if (id == R.id.action_settings) {
             return true;
         }
