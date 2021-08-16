@@ -1,23 +1,20 @@
 package com.example.javeduhw.ui.login;
 
-import android.app.Activity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Context;
-import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,45 +22,41 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.javeduhw.MainActivity;
+
+import com.example.javeduhw.MainActivity;
+import com.example.javeduhw.databinding.FragmentRegisterBinding;
+
 import com.example.javeduhw.R;
-import com.example.javeduhw.ui.login.LoginViewModel;
-import com.example.javeduhw.ui.login.LoginViewModelFactory;
-import com.example.javeduhw.databinding.ActivityLoginBinding;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-
-public class LoginActivity extends AppCompatActivity implements RegisterFragment.MySend{
+public class RegisterFragment extends Fragment{
 
     private LoginViewModel loginViewModel;
-    private ActivityLoginBinding binding;
-    private ImageView img;
-    private int imagePath = R.drawable.face;
-    private Fragment fragment;
-    private FragmentManager fm;
-    private FragmentTransaction beginTransaction;
+    private FragmentRegisterBinding binding;
+
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.linearLayout);
-        img = new ImageView(LoginActivity.this);
-        img.setImageResource(imagePath);
-        img.setMaxHeight(2);
-        layout.addView(img);
+        binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
+    MySend mmySend;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-
+        mmySend = (MySend) getActivity();
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
-        final TextView regLink = binding.regLink;
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
                 if (loginFormState == null) {
@@ -78,8 +71,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
                 }
             }
         });
-
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
                 if (loginResult == null) {
@@ -91,11 +83,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                    setResult(Activity.RESULT_OK);
-                    finish();
+                    mmySend.userCreated(usernameEditText.toString());
                 }
-
-                //Complete and destroy login activity once successful
             }
         });
 
@@ -123,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                    loginViewModel.register(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -138,34 +127,32 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
                         passwordEditText.getText().toString());
             }
         });
-
-        regLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragment = new RegisterFragment();
-                fm = getSupportFragmentManager();
-                beginTransaction = fm.beginTransaction();
-                beginTransaction.replace(R.id.container,fragment);
-                beginTransaction.addToBackStack(null);
-                beginTransaction.commit();
-            }
-        });
-
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        if (getContext() != null && getContext().getApplicationContext() != null) {
+            Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        if (getContext() != null && getContext().getApplicationContext() != null) {
+            Toast.makeText(
+                    getContext().getApplicationContext(),
+                    errorString,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void userCreated(String s) {
-        getSupportFragmentManager().popBackStack();
-        //System.out.println(s);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    public interface MySend{
+        void userCreated(String s);
     }
 }

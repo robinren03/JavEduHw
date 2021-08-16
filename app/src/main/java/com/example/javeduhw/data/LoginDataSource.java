@@ -17,8 +17,8 @@ public class LoginDataSource {
                     new LoggedInUser(
                             java.util.UUID.randomUUID().toString(),
                             "JavEduHw User");
-            //return new Result.Success<>(fakeUser);
-            return new Result.Error(new IOException("Error logging in", new IOException("Hello")));
+            return new Result.Success<>(fakeUser);
+            //return new Result.Error(new IOException("Error logging in", new IOException("Hello")));
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }
@@ -26,5 +26,19 @@ public class LoginDataSource {
 
     public void logout() {
         // TODO: revoke authentication
+    }
+
+    public Result<LoggedInUser> register(String username, String password) {
+        try {
+            // TODO: handle loggedInUser authentication
+            LoggedInUser fakeUser =
+                    new LoggedInUser(
+                            java.util.UUID.randomUUID().toString(),
+                            "JavEduHw User");
+            return new Result.Success<>(fakeUser);
+            //return new Result.Error(new IOException("Error logging in", new IOException("Hello")));
+        } catch (Exception e) {
+            return new Result.Error(new IOException("Error logging in", e));
+        }
     }
 }

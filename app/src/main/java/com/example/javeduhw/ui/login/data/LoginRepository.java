@@ -1,6 +1,6 @@
-package com.example.javeduhw.data;
+package com.example.javeduhw.ui.login.data;
 
-import com.example.javeduhw.data.model.LoggedInUser;
+import com.example.javeduhw.ui.login.data.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -22,7 +22,7 @@ public class LoginRepository {
     }
 
     public static LoginRepository getInstance(LoginDataSource dataSource) {
-        if (instance == null) {
+        if(instance == null){
             instance = new LoginRepository(dataSource);
         }
         return instance;
@@ -54,7 +54,7 @@ public class LoginRepository {
 
     public Result<LoggedInUser> register(String username, String password) {
         // handle login
-        Result<LoggedInUser> result = dataSource.register(username, password);
+        Result<LoggedInUser> result = dataSource.login(username, password);
         if (result instanceof Result.Success) {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }

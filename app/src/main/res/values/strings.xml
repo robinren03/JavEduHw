@@ -13,9 +13,10 @@
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in!</string>
+    <string name="action_sign_up">Sign up!</string>
     <string name="action_sign_in_short">Login</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">"请输入您注册时使用的手机号"</string>
-    <string name="invalid_password">密码长度应不小于5位</string>
+    <string name="invalid_password">密码长度应不小于6位</string>
     <string name="login_failed">"登录失败"</string>
 </resources>
