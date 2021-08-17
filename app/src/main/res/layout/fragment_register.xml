@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/fragment_horizontal_margin"
     android:paddingTop="@dimen/fragment_vertical_margin"
-    android:layout_marginTop="80dp"
+    android:layout_marginTop="20dp"
     android:paddingRight="@dimen/fragment_horizontal_margin"
     android:paddingBottom="@dimen/fragment_vertical_margin"
     android:background="@color/white"
