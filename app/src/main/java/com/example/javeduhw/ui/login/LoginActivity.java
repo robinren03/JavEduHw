@@ -149,6 +149,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
                 fm = getSupportFragmentManager();
                 beginTransaction = fm.beginTransaction();
                 beginTransaction.replace(R.id.container,fragment);
+                beginTransaction.setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit,
+                            R.anim.fragment_fade_enter, R.anim.fragment_close_exit);
                 beginTransaction.addToBackStack(null);
                 beginTransaction.commit();
             }
