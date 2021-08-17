@@ -41,9 +41,9 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    public void register(String username, String password) {
+    public void register(String username, String displayname, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.register(username, password);
+        Result<LoggedInUser> result = loginRepository.register(username, displayname, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
@@ -63,9 +63,11 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    public void registerDataChanged(String username, String password, String passwdCheck) {
+    public void registerDataChanged(String username, String displayname, String password, String passwdCheck) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_register_username, null));
+        } else if (!isDisplayNameValid(displayname)) {
+            loginFormState.setValue(new LoginFormState(R.string.invalid_register_displayname, null));
         } else if (!isPasswordValid(password)) {
             loginFormState.setValue(new LoginFormState(null, R.string.invalid_register_password));
         } else if (!isPassWordChecked(password, passwdCheck)) {
@@ -73,7 +75,7 @@ public class LoginViewModel extends ViewModel {
         }
         else {
                 loginFormState.setValue(new LoginFormState(true));
-            }
+        }
     }
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
@@ -83,6 +85,9 @@ public class LoginViewModel extends ViewModel {
         return Patterns.PHONE.matcher(username).matches();
     }
 
+    private boolean isDisplayNameValid(String displayname) {
+        return displayname != null && displayname.trim().length() > 0;
+    }
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;

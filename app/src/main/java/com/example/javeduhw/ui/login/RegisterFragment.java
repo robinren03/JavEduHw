@@ -52,6 +52,7 @@ public class RegisterFragment extends Fragment{
                 .get(LoginViewModel.class);
         mmySend = (MySend) getActivity();
         final EditText usernameEditText = binding.username;
+        final EditText displaynameEditText = binding.displayname;
         final EditText passwordEditText = binding.password;
         final EditText passwdCheckEditText = binding.passwdCheck;
         final Button loginButton = binding.login;
@@ -70,9 +71,13 @@ public class RegisterFragment extends Fragment{
                 }
                 loginButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
+                    if (loginFormState.getUsernameError() == R.string.invalid_register_username) {
+                        usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                    }
+                    if (loginFormState.getUsernameError() == R.string.invalid_register_displayname) {
+                        displaynameEditText.setError(getString(loginFormState.getUsernameError()));
+                    }
+                }else if (loginFormState.getPasswordError() != null) {
                     if (loginFormState.getPasswordError() == (R.string.invalid_register_password)) {
                         passwordEditText.setError(getString(loginFormState.getPasswordError()));
                     }
@@ -113,10 +118,12 @@ public class RegisterFragment extends Fragment{
             @Override
             public void afterTextChanged(Editable s) {
                 registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                        displaynameEditText.getText().toString(),
                         passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
+        displaynameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -124,6 +131,7 @@ public class RegisterFragment extends Fragment{
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                            displaynameEditText.getText().toString(),
                             passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
                 }
                 return false;
@@ -135,6 +143,7 @@ public class RegisterFragment extends Fragment{
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                            displaynameEditText.getText().toString(),
                             passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
                 }
                 return false;
@@ -145,6 +154,7 @@ public class RegisterFragment extends Fragment{
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 registerViewModel.register(usernameEditText.getText().toString(),
+                        displaynameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });

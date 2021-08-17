@@ -28,7 +28,7 @@ public class LoginDataSource {
         // TODO: revoke authentication
     }
 
-    public Result<LoggedInUser> register(String username, String password) {
+    public Result<LoggedInUser> register(String username, String displayname, String password) {
         try {
             // TODO: handle loggedInUser authentication
             LoggedInUser fakeUser =
