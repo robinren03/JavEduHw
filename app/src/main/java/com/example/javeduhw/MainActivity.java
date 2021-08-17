@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import com.example.javeduhw.databinding.ActivityLoginBinding;
 import com.example.javeduhw.ui.login.LoginActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toolbar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Toolbar toolbar=(Toolbar) findViewById()
         setSupportActionBar(binding.toolbar);
 
         //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
