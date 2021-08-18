@@ -5,14 +5,20 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/fragment_horizontal_margin"
-    android:paddingTop="@dimen/fragment_vertical_margin"
-    android:layout_marginTop="20dp"
-    android:paddingRight="@dimen/fragment_horizontal_margin"
+    android:paddingLeft="0dp"
+    android:paddingTop="0dp"
+    android:layout_marginTop="0dp"
+    android:paddingRight="0dp"
     android:paddingBottom="@dimen/fragment_vertical_margin"
-    android:background="@color/white"
+    android:background="@drawable/background"
     tools:context=".ui.login.RegisterFragment">
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/shape_radius"
+        >
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
@@ -129,4 +135,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="Deprecated" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

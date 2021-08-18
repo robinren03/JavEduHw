@@ -12,6 +12,13 @@
     android:background="@drawable/background"
     tools:context=".ui.login.LoginActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/shape_radius"
+        >
     <ProgressBar
         android:id="@+id/loading"
         android:layout_width="wrap_content"
@@ -81,7 +88,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -97,4 +104,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
