@@ -26,10 +26,12 @@ public class MyInfo extends AppCompatActivity {
                 switch (id)
                 {
                     case R.id.item_favorite:
-                        Intent intent = new Intent(MyInfo.this,Collection.class);
-                        startActivity(intent);
+                        Intent goToCollectionPage = new Intent(MyInfo.this,Collection.class);
+                        startActivity(goToCollectionPage);
                         break;
                     case R.id.item_history:
+                        Intent goToHistoryPage = new Intent(MyInfo.this,History.class);
+                        startActivity(goToHistoryPage);
                         break;
                     case R.id.item_logout:
                         break;
