@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavEduHw">
         <activity
+            android:name=".Collection"
+            android:exported="true" />
+        <activity
             android:name=".MyInfo"
             android:exported="true" />
         <activity

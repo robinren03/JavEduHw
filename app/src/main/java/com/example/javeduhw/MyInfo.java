@@ -3,6 +3,7 @@ package com.example.javeduhw;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,6 +22,20 @@ public class MyInfo extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //mDrawerLa
+                int id=item.getItemId();
+                switch (id)
+                {
+                    case R.id.item_favorite:
+                        Intent intent = new Intent(MyInfo.this,Collection.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_history:
+                        break;
+                    case R.id.item_logout:
+                        break;
+                    default:
+                        break;
+                }
                 return false;
             }
         });
