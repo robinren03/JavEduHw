@@ -39,8 +39,8 @@ public class Collection extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Intent goToHistoryPage = new Intent(Collection.this,History.class);
-                startActivity(goToHistoryPage);
+//                Intent goToHistoryPage = new Intent(Collection.this,History.class);
+//                startActivity(goToHistoryPage);
             }
         });
     }
