@@ -27,8 +27,8 @@ public class History extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-//                Intent goToHistoryPage = new Intent(History.this,History.class);
-//                startActivity(goToHistoryPage);
+                Intent goToEntityDetailsPage = new Intent(History.this,EntityDetails.class);
+                startActivity(goToEntityDetailsPage);
             }
         });
     }

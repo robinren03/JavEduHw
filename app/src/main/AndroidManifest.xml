@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavEduHw">
         <activity
+            android:name=".EntityDetails"
+            android:exported="true" />
+        <activity
             android:name=".History"
             android:exported="true" />
         <activity
