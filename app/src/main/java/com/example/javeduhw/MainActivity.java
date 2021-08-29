@@ -81,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_settings://其他设置按钮
-                //
+                //这里用于测试，跳转到实体链接界面
                 Toast.makeText(MainActivity.this, getText(R.string.next), Toast.LENGTH_SHORT).show();
+                Intent goToEntityLinkPage = new Intent(MainActivity.this,EntityLink.class);
+                startActivity(goToEntityLinkPage);
                 break;
             default:
                 break;
