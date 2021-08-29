@@ -86,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent goToEntityLinkPage = new Intent(MainActivity.this,EntityLink.class);
                 startActivity(goToEntityLinkPage);
                 break;
+            case R.id.page_qa://其他设置按钮
+                //这里用于测试，跳转到实体链接界面
+                Toast.makeText(MainActivity.this, getText(R.string.next), Toast.LENGTH_SHORT).show();
+                Intent goToQAPage = new Intent(MainActivity.this,QA.class);
+                startActivity(goToQAPage);
+                break;
             default:
                 break;
         }

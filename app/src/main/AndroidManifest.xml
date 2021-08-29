@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavEduHw">
         <activity
+            android:name=".QA"
+            android:exported="true" />
+        <activity
             android:name=".EntityLink"
             android:exported="true" />
         <activity

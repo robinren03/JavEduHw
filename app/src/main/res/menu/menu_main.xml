@@ -12,6 +12,11 @@
         android:orderInCategory="100"
         android:title="我的"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/page_qa"
+        android:orderInCategory="100"
+        android:title="知识问答"
+        app:showAsAction="never" />
 
 
 
