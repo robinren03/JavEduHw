@@ -44,6 +44,14 @@
             app:icon="@drawable/ic_favorite"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             />
+        <Button
+            android:id="@+id/hadAddedToCollectionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已添加到收藏"
+            app:icon="@drawable/ic_had_added_to_collection"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            />
     </LinearLayout>
 
 

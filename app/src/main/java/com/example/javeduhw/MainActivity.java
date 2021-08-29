@@ -25,6 +25,7 @@ import android.view.MenuItem;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_settings://其他设置按钮
                 //
+                Toast.makeText(MainActivity.this, getText(R.string.next), Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

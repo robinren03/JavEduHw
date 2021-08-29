@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class EntityDetails extends AppCompatActivity {
 
@@ -39,11 +41,29 @@ public class EntityDetails extends AppCompatActivity {
             }
         }) ;
         Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
-        shareButton.setOnClickListener(new View.OnClickListener() {
+        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
+        hadAddedToCollectionButton.setVisibility(View.GONE);
+
+        addToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(EntityDetails.this,"已收藏",Toast.LENGTH_LONG).show();
+                addToCollectionButton.setVisibility(View.GONE);
+                hadAddedToCollectionButton.setVisibility(View.VISIBLE);
 
             }
         }) ;
+
+        hadAddedToCollectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(EntityDetails.this,"已取消收藏",Toast.LENGTH_LONG).show();
+//                addToCollectionButton.setPointerIcon(R.id.shareButton);
+                //  shareButton.setIm
+                addToCollectionButton.setVisibility(View.VISIBLE);
+                hadAddedToCollectionButton.setVisibility(View.GONE);
+            }
+        }) ;
+
     }
 }
