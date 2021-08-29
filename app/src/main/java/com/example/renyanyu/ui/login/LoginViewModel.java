@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import android.content.Context;
 import android.util.Patterns;
 
 import com.example.renyanyu.data.LoginRepository;
@@ -29,26 +30,26 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(Context context, String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        Result<LoggedInUser> result = loginRepository.login(context, username, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName(), data.getUserId())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
     }
 
-    public void register(String username, String displayname, String password) {
+    public void register(Context context, String username, String displayname, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.register(username, displayname, password);
+        Result<LoggedInUser> result = loginRepository.register(context, username, displayname, password);
 
         if (result instanceof Result.Success) {
-            loginResult.setValue(new LoginResult(new LoggedInUserView("")));
+            loginResult.setValue(new LoginResult(new LoggedInUserView("", "")));
         } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
+            loginResult.setValue(new LoginResult(R.string.register_failed));
         }
     }
 
@@ -89,7 +90,7 @@ public class LoginViewModel extends ViewModel {
     }
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+        return password != null && password.trim().length() > 5 && password.trim().length() < 16;
     }
 
     private boolean isPassWordChecked(String password, String passwdCheck){

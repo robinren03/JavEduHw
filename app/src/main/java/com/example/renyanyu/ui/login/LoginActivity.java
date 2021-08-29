@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -123,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                    loginViewModel.login(v.getContext(), usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -134,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                loginViewModel.login(v.getContext(), usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
@@ -142,6 +143,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
         regLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                usernameEditText.setText("");
+                passwordEditText.setText("");
                 fragment = new RegisterFragment();
                 fm = getSupportFragmentManager();
                 beginTransaction = fm.beginTransaction();
@@ -157,7 +160,12 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
+        SharedPreferences userInfo = getSharedPreferences("user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = userInfo.edit();
+        editor.putString("displayName", model.getDisplayName());
+        editor.putString("token", model.getToken());
+        editor.putString("username", usernameEditText.getText().toString());
+        editor.commit();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 

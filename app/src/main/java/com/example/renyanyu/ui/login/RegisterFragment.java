@@ -39,7 +39,6 @@ public class RegisterFragment extends Fragment{
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
     MySend mmySend;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class RegisterFragment extends Fragment{
         mmySend = (MySend) getActivity();
         final EditText usernameEditText = binding.username;
         final EditText displaynameEditText = binding.displayname;
-        final EditText passwordEditText = binding.password;
+        final EditText passwordEditText = binding.regPassword;
         final EditText passwdCheckEditText = binding.passwdCheck;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
@@ -149,7 +148,7 @@ public class RegisterFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                registerViewModel.register(usernameEditText.getText().toString(),
+                registerViewModel.register(v.getContext() , usernameEditText.getText().toString(),
                         displaynameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
