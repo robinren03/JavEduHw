@@ -2,9 +2,6 @@ package com.example.javeduhw;
 
 import android.os.Bundle;
 import android.graphics.drawable.Drawable;
-import com.example.javeduhw.databinding.ActivityLoginBinding;
-import com.example.javeduhw.ui.login.LoginActivity;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 
@@ -15,23 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.javeduhw.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
-
 import android.widget.SearchView;
-
 
 import java.util.*;
 import android.text.TextUtils;
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
+
 import androidx.core.content.ContextCompat;
 
 
@@ -54,15 +42,25 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         channel_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,Channel.class);
-                startActivity(intent);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Intent intent=new Intent();
+                intent.setClass(MainActivity.this,Channel.class);
+                startActivityForResult(intent,0);
             }
         });
+
+
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //单击搜索按钮的监听
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
+
+                Intent intent1=new Intent(MainActivity.this, SearchResult.class);
+                startActivity(intent1);
+
+                return true;
             }
             //输入字符的监听
             @Override
@@ -79,13 +77,18 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         });
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1&&requestCode==0){
+            initView();
+        }
+    }
 
+    public void initView(){
 
-    private void initView(){
-
-        setContentView(R.layout.activity_main);
 
         //获取数据 在values/arrays.xml中进行定义然后调用
+        //Toast.makeText(MainActivity.this,"mainactivity",Toast.LENGTH_LONG).show();
         String[] tabTitle = getResources().getStringArray(R.array.tab_titles);
         //将fragment装进列表中
         List<Fragment> fragmentList = new ArrayList<>();
@@ -102,17 +105,17 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //Toast.makeText(MainActivity.this,"点击了1：",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onPageSelected(int position) {
-
+                //Toast.makeText(MainActivity.this,"点击了2：",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                //Toast.makeText(MainActivity.this,"点击了3：",Toast.LENGTH_LONG).show();
             }
         });
 

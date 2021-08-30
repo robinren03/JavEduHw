@@ -1,17 +1,27 @@
 package com.example.javeduhw;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class Channel extends AppCompatActivity{
     private DragGridlayout mSelectedChannel;
     private DragGridlayout mUnSelectedChannel;
+
+    List<String> selectedChannel = new ArrayList<>();
+    List<String> unSelectedChannel = new ArrayList<>();
+    Map<String,String> sub=new HashMap<String,String>();
+    String[] subs={"语文","数学","英语","生物","地理","化学","物理","政治","历史"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +29,7 @@ public class Channel extends AppCompatActivity{
         initView();
         initData();
         initEvent();
+        setResult(1);
     }
     private void initView(){
         //setContentView(R.layout.channel_change);
@@ -28,22 +39,40 @@ public class Channel extends AppCompatActivity{
         mUnSelectedChannel.setAllowDrag(true);
     }
     private void initData() {
-        List<String> selectedChannel = new ArrayList<>();
-        selectedChannel.add("数学");
-        selectedChannel.add("语文");
-        selectedChannel.add("英语");
-        selectedChannel.add("体育");
-        mSelectedChannel.setItems(selectedChannel);
 
-        List<String> unSelectedChannel = new ArrayList<>();
-        unSelectedChannel.add("物理");
-        unSelectedChannel.add("化学");
-        unSelectedChannel.add("生物");
-        unSelectedChannel.add("地理");
-        unSelectedChannel.add("历史");
-        unSelectedChannel.add("政治");
-        unSelectedChannel.add("美术");
-        unSelectedChannel.add("音乐");
+        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml")){
+            System.out.println("sssssssssssssssss");
+            for(int i=0;i<9;i++){
+                if(i<3){
+                    selectedChannel.add(subs[i].toString());
+                    sub.put(subs[i],"1");
+                }
+                else{
+                    unSelectedChannel.add(subs[i].toString());
+                    sub.put(subs[i],"0");
+                }
+            }
+            saveSettingNote(Channel.this, "subinfo", sub);
+        }
+        else{
+            //String sss=getSettingNote(Channel.this,"subinfo","语文");
+            try{
+                String zero="0";
+                for(int i=0;i<9;i++){
+                    //if()
+                    if(getSettingNote(Channel.this,"subinfo",subs[i].toString()).equals(zero)){
+                        unSelectedChannel.add(subs[i].toString());
+                        sub.put(subs[i],"0");
+                    }
+                    else{
+                        selectedChannel.add(subs[i].toString());
+                        sub.put(subs[i],"1");
+                    }
+
+                }
+            }catch(NullPointerException e){}
+        }
+        mSelectedChannel.setItems(selectedChannel);
         mUnSelectedChannel.setItems(unSelectedChannel);
     }
 
@@ -55,6 +84,8 @@ public class Channel extends AppCompatActivity{
                 //移除点击的条目，把条目添加到下面的Gridlayout
                 mSelectedChannel.removeView(tv);//移除是需要时间,不能直接添加
                 mUnSelectedChannel.addItem(tv.getText().toString(),0);
+                sub.put(tv.getText().toString(),"0");
+                saveSettingNote(Channel.this, "subinfo", sub);
             }
         });
 
@@ -64,6 +95,8 @@ public class Channel extends AppCompatActivity{
                 //移除点击的条目，把条目添加到上面的Gridlayout
                 mUnSelectedChannel.removeView(tv);//移除是需要时间,不能直接添加
                 mSelectedChannel.addItem(tv.getText().toString());
+                sub.put(tv.getText().toString(),"1");
+                saveSettingNote(Channel.this, "subinfo", sub);
             }
         });
     }
@@ -72,5 +105,52 @@ public class Channel extends AppCompatActivity{
 
     public void addItem(View view) {
         mSelectedChannel.addItem("频道" + index++,0);
+    }
+
+
+
+
+
+
+    public static void saveSettingNote(Context context,String filename ,Map<String, String> map) {
+        SharedPreferences.Editor note = context.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
+            note.putString(entry.getKey(), entry.getValue());
+            note.commit();
+        }
+
+    }
+
+
+    /**
+     * 从本地取出要保存的数据
+     * @param context 上下文
+     * @param filename 文件名
+     * @param dataname 生成XML中每条数据名
+     * @return 对应的数据(找不到为NUll)
+     */
+    public static String getSettingNote(Context context,String filename ,String dataname) {
+        SharedPreferences read = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        return read.getString(dataname,null);
+    }
+    //判断文件是否存在
+    public boolean fileIsExists(String strFile)
+    {
+        try
+        {
+            File f=new File(strFile);
+            if(!f.exists())
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:clipToPadding="true">
 
-
-    <android.widget.SearchView
-        android:id="@+id/search"
+    <TextView
+        android:id="@+id/shiti"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="请输入搜索内容" />
-
-    <Button
-        android:id="@+id/channel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="频道选择"
-        />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="18dp"
+        android:text="实体" />
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
@@ -37,5 +24,11 @@
         app:tabGravity="fill"
         style="@style/MyCustomTabLayout" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </LinearLayout>

@@ -19,11 +19,21 @@
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/drawable/shape_tv_focus.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/drawable/shape_tv_normal.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/drawable/tab1.xml" value="0.23897435897435898" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/drawable/tab2.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/drawable/tab3.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/activity_main.xml" value="0.11018237082066869" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/answer_fragment.xml" value="0.2504528985507246" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/channel_change.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/content_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/deatail_fragment.xml" value="0.2504528985507246" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/detail_fragment.xml" value="0.2504528985507246" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/detail_page.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/fragment_blank_fragment1.xml" value="0.1296875" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/fragment_blank_fragment2.xml" value="0.11018237082066869" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/fragment_blank_fragment3.xml" value="0.11018237082066869" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/introduction_fragment.xml" value="0.2504528985507246" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/item_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/search_result.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/layout/text_item.xml" value="0.1296875" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/menu/menu_main.xml" value="0.1296875" />
         <entry key="..\:/Users/dell/Desktop/javeduhw-master/app/src/main/res/menu/menu_search.xml" value="0.1296875" />
