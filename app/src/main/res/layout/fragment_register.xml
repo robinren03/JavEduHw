@@ -31,6 +31,8 @@
         android:inputType="number"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/displayname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeUser" />
@@ -47,12 +49,14 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/reg_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/username" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/reg_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -63,6 +67,8 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        android:imeOptions="actionNext"
+        android:nextFocusForward="@+id/passwd_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/displayname" />
@@ -83,7 +89,7 @@
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/reg_password" />
 
     <Button
         android:id="@+id/login"
