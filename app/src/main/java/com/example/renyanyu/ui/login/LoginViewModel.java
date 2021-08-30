@@ -12,6 +12,8 @@ import com.example.renyanyu.data.Result;
 import com.example.renyanyu.data.model.LoggedInUser;
 import com.example.renyanyu.R;
 
+// This file is brand new
+
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();

@@ -3,6 +3,7 @@ package com.example.renyanyu.ui.login;
 /**
  * Class exposing authenticated user details
  */
+// This file is brand new
 class LoggedInUserView {
     private String displayName;
 
