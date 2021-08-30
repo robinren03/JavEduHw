@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.renyanyu">
+    package="com.example.javeduhw">
 
     <application
         android:allowBackup="true"
@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JavEduHw">
         <activity
-            android:name="com.example.renyanyu.ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login" />
         <activity
-            android:name="com.example.renyanyu.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.JavEduHw.NoActionBar">
@@ -25,14 +25,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.renyanyu.Channel"
+            android:name=".Channel"
             />
         <activity
-            android:name="com.example.renyanyu.Detail"
+            android:name=".Detail"
             />
         <activity
-            android:name="com.example.renyanyu.SearchResult"
+            android:name=".SearchResult"
             />
+        <activity
+            android:name="com.example.javeduhw.QA"
+            android:exported="true" />
+        <activity
+            android:name="com.example.javeduhw.EntityLink"
+            android:exported="true" />
+        <activity
+            android:name="com.example.javeduhw.EntityDetails"
+            android:exported="true" />
+        <activity
+            android:name="com.example.javeduhw.History"
+            android:exported="true" />
+        <activity
+            android:name="com.example.javeduhw.Collection"
+            android:exported="true" />
+
     </application>
 
 </manifest>

@@ -20,7 +20,7 @@
             android:text="添加条目"
             android:textColor="?android:attr/textColorPrimary"/>
 
-        <com.example.renyanyu.DragGridlayout
+        <com.example.javeduhw.DragGridlayout
             android:id="@+id/selectedChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:text="点击选择频道"
             android:textColor="?android:attr/textColorPrimary"/>
 
-        <com.example.renyanyu.DragGridlayout
+        <com.example.javeduhw.DragGridlayout
             android:id="@+id/unSelectedChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

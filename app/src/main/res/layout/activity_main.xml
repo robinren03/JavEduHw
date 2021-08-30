@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:clipToPadding="true">
 
-
     <android.widget.SearchView
         android:id="@+id/search"
         android:layout_width="match_parent"

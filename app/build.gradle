@@ -50,6 +50,7 @@ dependencies {
     //SmartRefreshLayout 开源库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.2'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
 
 }
