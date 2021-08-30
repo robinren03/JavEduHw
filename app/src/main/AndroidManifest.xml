@@ -30,6 +30,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.renyanyu.Channel"
+            />
+        <activity
+            android:name="com.example.renyanyu.Detail"
+            />
+        <activity
+            android:name="com.example.renyanyu.SearchResult"
+            />
+        <activity
+            android:name="com.example.renyanyu.QA"
+            android:exported="true" />
+        <activity
+            android:name="com.example.renyanyu.EntityLink"
+            android:exported="true" />
+        <activity
+            android:name="com.example.renyanyu.EntityDetails"
+            android:exported="true" />
+        <activity
+            android:name="com.example.renyanyu.History"
+            android:exported="true" />
+        <activity
+            android:name="com.example.renyanyu.Collection"
+            android:exported="true" />
+
     </application>
 
 </manifest>
