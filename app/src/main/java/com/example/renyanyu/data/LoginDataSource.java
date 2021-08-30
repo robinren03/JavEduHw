@@ -10,7 +10,7 @@ import com.example.renyanyu.ServerHttpResponse;
 import org.json.JSONObject;
 
 import java.io.IOException;
-// This file is brand new
+
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */

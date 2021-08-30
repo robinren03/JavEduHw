@@ -1,5 +1,5 @@
 package com.example.renyanyu.data.model;
-// This file is brand new
+
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */

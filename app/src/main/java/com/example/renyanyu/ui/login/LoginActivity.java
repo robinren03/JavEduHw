@@ -30,7 +30,6 @@ import com.example.renyanyu.databinding.ActivityLoginBinding;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-// This file is brand new
 public class LoginActivity extends AppCompatActivity implements RegisterFragment.MySend{
 
     private LoginViewModel loginViewModel;

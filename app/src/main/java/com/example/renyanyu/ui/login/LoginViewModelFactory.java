@@ -12,7 +12,6 @@ import com.example.renyanyu.data.LoginRepository;
  * Required given LoginViewModel has a non-empty constructor
  */
 
-// This file is brand new
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull

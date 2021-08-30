@@ -6,7 +6,6 @@ import java.security.MessageDigest;
  * MD5 decoding
  */
 
-// This file is brand new
 public class MD5Util {
 
     /***

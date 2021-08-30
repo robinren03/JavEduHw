@@ -3,7 +3,7 @@ package com.example.renyanyu.data;
 import android.content.Context;
 
 import com.example.renyanyu.data.model.LoggedInUser;
-// This file is brand new
+
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.

@@ -25,7 +25,6 @@ import com.example.renyanyu.databinding.FragmentRegisterBinding;
 
 import com.example.renyanyu.R;
 
-// This file is brand new
 public class RegisterFragment extends Fragment{
 
     private LoginViewModel registerViewModel;
