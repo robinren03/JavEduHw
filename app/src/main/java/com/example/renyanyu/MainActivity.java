@@ -16,72 +16,22 @@ import android.widget.SearchView;
 import java.util.*;
 import android.text.TextUtils;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 
 public class MainActivity extends AppCompatActivity /*implements SearchView.OnQueryTextListener*/{
 
-    private SearchView search;
-    private Button channel_change;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //初始化各控件
-        channel_change=(Button)findViewById(R.id.channel);
-        search = (SearchView) findViewById(R.id.search);
-        search.setIconifiedByDefault(true);
-        //显示搜索按钮
-        search.setSubmitButtonEnabled(true);
         initView();
-
-        //初始化各控件
-        channel_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(MainActivity.this,Channel.class);
-                startActivityForResult(intent,0);
-            }
-        });
-
-
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //单击搜索按钮的监听
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
-
-                Intent intent1=new Intent(MainActivity.this, SearchResult.class);
-                startActivity(intent1);
-
-                return true;
-            }
-            //输入字符的监听
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)){
-
-                }
-                else {
-
-                }
-
-                return true;
-            }
-        });
-
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1&&requestCode==0){
-            initView();
-        }
-    }
+
 
     public void initView(){
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,47 @@ public class BlankFragment1 extends Fragment {
         history=(Button)view.findViewById(R.id.politics);
         geography=(Button)view.findViewById(R.id.geography);
         qa=(Button)view.findViewById(R.id.IVButton_Id);
+        channel_change=(Button)view.findViewById(R.id.channel);
+        search = (SearchView) view.findViewById(R.id.search);
+        search.setIconifiedByDefault(true);
+        //显示搜索按钮
+        search.setSubmitButtonEnabled(true);
+        channel_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Intent intent=new Intent();
+                intent.setClass(getActivity(),Channel.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //单击搜索按钮的监听
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
+
+                Intent intent1=new Intent(getActivity(), SearchResult.class);
+                startActivity(intent1);
+
+                return true;
+            }
+            //输入字符的监听
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)){
+
+                }
+                else {
+
+                }
+
+                return true;
+            }
+        });
         qa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,5 +255,14 @@ public class BlankFragment1 extends Fragment {
         }
 
         return true;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1&&requestCode==0){
+            //Toast.makeText(getContext(), "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+            Intent i=new Intent(getActivity(),MainActivity.class);
+            startActivity(i);
+        }
     }
 }
