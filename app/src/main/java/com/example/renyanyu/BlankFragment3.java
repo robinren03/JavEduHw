@@ -1,6 +1,7 @@
 package com.example.renyanyu;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,8 +10,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.renyanyu.ui.login.*;
+
+//import com.example.renyanyu.data.Result;
 
 import com.google.android.material.navigation.NavigationView;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class BlankFragment3 extends Fragment {
 
@@ -21,34 +29,51 @@ public class BlankFragment3 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank_fragment3, container, false);
-        NavigationView navigationView=(NavigationView)view.findViewById(R.id.view_my_info);
-//        navigationView.setCheckedItem(R.id.nav_call);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //mDrawerLa
-                int id=item.getItemId();
-                switch (id)
-                {
-                    case R.id.item_favorite:
-                        Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
-                        startActivity(goToCollectionPage);
-                        break;
-                    case R.id.item_history:
-                        Intent goToHistoryPage = new Intent(getActivity(),History.class);
-                        startActivity(goToHistoryPage);
-                        break;
-                    case R.id.item_logout:
-                        break;
-                    default:
-                        break;
+
+
+        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
+        String userName = userInfo.getString("name","");					//获取用户名
+        //先看看有没有登录，如果已经登录则显示个人信息界面，否则显示登录界面
+        if(userName.equals(""))
+        {
+            Intent goToLoginPage = new Intent(getActivity(),LoginActivity.class);
+            startActivity(goToLoginPage);
+        }
+        else
+        {
+            NavigationView navigationView=(NavigationView)view.findViewById(R.id.view_my_info);
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    //mDrawerLa
+                    int id=item.getItemId();
+                    switch (id)
+                    {
+                        case R.id.item_favorite:
+                            Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
+                            startActivity(goToCollectionPage);
+                            break;
+                        case R.id.item_history:
+                            Intent goToHistoryPage = new Intent(getActivity(),History.class);
+                            startActivity(goToHistoryPage);
+                            break;
+                        case R.id.item_logout:
+                            break;
+                        default:
+                            break;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
+
+
+
+
         return view;
     }
 }
