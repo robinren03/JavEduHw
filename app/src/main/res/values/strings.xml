@@ -1,4 +1,5 @@
 <resources>
+    <string name="backend_ip">http://183.173.161.93:9090</string>
     <string name="app_name">JavEduHw</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -10,12 +11,22 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Username</string>
+    <string name="prompt_email">"Phone number"</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_passwd_check">Password again</string>
     <string name="action_sign_in">Sign in!</string>
+    <string name="action_sign_up">Sign up!</string>
     <string name="action_sign_in_short">Login</string>
+    <string name="action_sign_up_short">Register</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">"请输入您注册时使用的手机号"</string>
-    <string name="invalid_password">密码长度应不小于5位</string>
+    <string name="invalid_password">密码长度应在6~15位</string>
     <string name="login_failed">"登录失败"</string>
+    <string name="invalid_register_username">"请输入您的手机号"</string>
+    <string name="invalid_register_displayname">"请输入您的用户名"</string>
+    <string name="invalid_register_password">"密码长度应不短于6位"</string>
+    <string name="invalid_register_check_passwd">"请两次输入一样的密码"</string>
+    <string name="register_success">"注册成功"</string>
+    <string name="register_failed">"注册失败"</string>
+    <string name="register_failed_reason">"手机号已经被注册"</string>
 </resources>

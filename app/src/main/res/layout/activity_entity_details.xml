@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EntityDetails"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="实体详情"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/black"/>
+
+    <ListView
+        android:id="@+id/ListView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ctype">
+
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分享"
+            app:icon="@drawable/ic_share"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            />
+        <Button
+            android:id="@+id/addToCollectionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加到收藏"
+            app:icon="@drawable/ic_favorite"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            />
+        <Button
+            android:id="@+id/hadAddedToCollectionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已添加到收藏"
+            app:icon="@drawable/ic_had_added_to_collection"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
