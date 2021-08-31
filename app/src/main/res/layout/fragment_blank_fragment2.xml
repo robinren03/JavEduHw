@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BlankFragment1">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <Button
+                android:id="@+id/IVButton_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="跳转到ImageView"
+                android:textSize="20dp"
+                android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/LVButton_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="跳转到ListView"
+                android:textSize="20dp"
+                android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/GVButton_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="跳转到GridView"
+                android:textSize="20dp"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="按钮1"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="100dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="按钮2"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="100dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="按钮3"
+                android:textSize="20dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="300dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
