@@ -30,7 +30,7 @@ public class SearchResult extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("111111111111111");
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.search_result);
