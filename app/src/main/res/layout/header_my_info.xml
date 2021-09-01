@@ -11,23 +11,30 @@
         android:gravity="center"
         android:src="@drawable/ic_head_picture"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/user_name_text"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:gravity="center"
             android:text="userName"/>
         <TextView
+            android:id="@+id/displayNameText"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:gravity="center"
             android:text="displayName"/>
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="登录/注册"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
 

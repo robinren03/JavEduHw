@@ -141,7 +141,8 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         //一行代码和ViewPager联动起来，简单粗暴。
         tabLayout.setupWithViewPager(viewPager);
         Drawable d = null;
-        try {
+        try
+        {
             for (int i = 0; i < tabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = tabLayout.getTabAt(i);
                 switch (i) {

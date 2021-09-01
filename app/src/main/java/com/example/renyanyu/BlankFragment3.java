@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.renyanyu.ui.login.*;
 
 //import com.example.renyanyu.data.Result;
@@ -19,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class BlankFragment3 extends Fragment {
 
@@ -33,47 +38,67 @@ public class BlankFragment3 extends Fragment {
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank_fragment3, container, false);
-
+        NavigationView navigationView=(NavigationView)view.findViewById(R.id.view_my_info);
+        //navigationView的header部分
+        View headerView = navigationView.getHeaderView(0);
+        TextView userNameText=(TextView) headerView .findViewById(R.id.user_name_text);
+        TextView displayNameText=(TextView) headerView .findViewById(R.id.displayNameText);
+        Button loginButton = headerView.findViewById(R.id.loginButton);
 
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         String userName = userInfo.getString("name","");					//获取用户名
-        //先看看有没有登录，如果已经登录则显示个人信息界面，否则显示登录界面
         if(userName.equals(""))
         {
-            Intent goToLoginPage = new Intent(getActivity(),LoginActivity.class);
-            startActivity(goToLoginPage);
+            userNameText.setVisibility(View.GONE);
+            displayNameText.setVisibility(View.GONE);
+            loginButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view) {
+                    Intent goToLoginPage = new Intent(getActivity(),LoginActivity.class);
+                    startActivity(goToLoginPage);
+                }
+            }) ;
         }
         else
         {
-            NavigationView navigationView=(NavigationView)view.findViewById(R.id.view_my_info);
-            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    //mDrawerLa
-                    int id=item.getItemId();
-                    switch (id)
-                    {
-                        case R.id.item_favorite:
-                            Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
-                            startActivity(goToCollectionPage);
-                            break;
-                        case R.id.item_history:
-                            Intent goToHistoryPage = new Intent(getActivity(),History.class);
-                            startActivity(goToHistoryPage);
-                            break;
-                        case R.id.item_logout:
-                            break;
-                        default:
-                            break;
-                    }
-                    return false;
-                }
-            });
+            loginButton.setVisibility(View.GONE);
         }
 
-
-
+        //navigationView的itemList部分
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id=item.getItemId();
+                switch (id)
+                {
+                    case R.id.loginButton:
+                        Intent goToLoginPage = new Intent(getActivity(),LoginActivity.class);
+                        startActivity(goToLoginPage);
+                        break;
+                    case R.id.item_favorite:
+                        Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
+                        startActivity(goToCollectionPage);
+                        break;
+                    case R.id.item_history:
+                        Intent goToHistoryPage = new Intent(getActivity(),History.class);
+                        startActivity(goToHistoryPage);
+                        break;
+                    case R.id.item_logout:
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }
