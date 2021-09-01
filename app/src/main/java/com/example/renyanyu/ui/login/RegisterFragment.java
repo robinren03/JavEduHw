@@ -50,7 +50,7 @@ public class RegisterFragment extends Fragment{
         final EditText displaynameEditText = binding.displayname;
         final EditText passwordEditText = binding.regPassword;
         final EditText passwdCheckEditText = binding.passwdCheck;
-        final Button loginButton = binding.login;
+        final Button registerButton = binding.register;
         final ProgressBar loadingProgressBar = binding.loading;
 
         usernameEditText.setFocusable(true);
@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment{
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     if (loginFormState.getUsernameError() == R.string.invalid_register_username) {
                         usernameEditText.setError(getString(loginFormState.getUsernameError()));
@@ -120,31 +120,21 @@ public class RegisterFragment extends Fragment{
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         displaynameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        passwdCheckEditText.addTextChangedListener(afterTextChangedListener);
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
-                            displaynameEditText.getText().toString(),
-                            passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
-                }
-                return false;
-            }
-        });
         passwdCheckEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    registerViewModel.registerDataChanged(usernameEditText.getText().toString(),
+                if (actionId == EditorInfo.IME_ACTION_DONE && registerButton.isEnabled()) {
+                    registerViewModel.register(v.getContext(), usernameEditText.getText().toString(),
                             displaynameEditText.getText().toString(),
-                            passwordEditText.getText().toString(), passwdCheckEditText.getText().toString());
+                            passwordEditText.getText().toString());
                 }
                 return false;
             }
         });
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);

@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (actionId == EditorInfo.IME_ACTION_DONE && loginButton.isEnabled()) {
                     loginViewModel.login(v.getContext(), usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
