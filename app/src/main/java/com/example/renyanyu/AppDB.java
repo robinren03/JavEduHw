@@ -13,32 +13,32 @@ import androidx.room.RoomDatabase;
 import androidx.room.Update;
 
 @Dao
-interface EntityDao {
+interface KEntityDao {
 
-    @Query("SELECT * FROM News")
-    News[] getAllNews();
+    @Query("SELECT * FROM KEntity")
+    News[] getAllKEntity();
 
-    @Query("DELETE FROM News")
+    @Query("DELETE FROM KEntity")
     void clear();
 
-    @Query("SELECT title FROM News")
-    String[] getAllNewsTitle();
+    @Query("SELECT label FROM KEntity")
+    String[] getAllKEntityLabel();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(News... news);
+    void insert(KEntity... kEntities);
 
     @Update
-    void update(News... news);
+    void update(KEntity... kEntities);
 
     @Delete
-    void delete(News... news);
+    void delete(KEntity... kEntities);
 
 }
 
-@Database(entities = {News.class}, version = 1)
+@Database(entities = {KEntity.class}, version = 1)
 public abstract class AppDB extends RoomDatabase {
 
-    public abstract EntityDao entityDao();
+    public abstract KEntityDao kEntityDao();
 
     public static AppDB getAppDB(Context context, String name){
         return  Room.databaseBuilder(context.getApplicationContext(), AppDB.class,

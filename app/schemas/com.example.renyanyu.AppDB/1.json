@@ -2,17 +2,35 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0a3999906cecb9f88d2a395c75a00235",
+    "identityHash": "49d095c23c89ca80632730f66145b88d",
     "entities": [
       {
-        "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL, `content` TEXT, PRIMARY KEY(`title`))",
+        "tableName": "KEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`kEntityUri` TEXT NOT NULL, `label` TEXT, `course` TEXT, `property` TEXT, `content` TEXT, PRIMARY KEY(`kEntityUri`))",
         "fields": [
           {
-            "fieldPath": "title",
-            "columnName": "title",
+            "fieldPath": "kEntityUri",
+            "columnName": "kEntityUri",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "course",
+            "columnName": "course",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "property",
+            "columnName": "property",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "content",
@@ -23,7 +41,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "title"
+            "kEntityUri"
           ],
           "autoGenerate": false
         },
@@ -34,7 +52,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0a3999906cecb9f88d2a395c75a00235')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '49d095c23c89ca80632730f66145b88d')"
     ]
   }
 }
