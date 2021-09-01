@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
         editor.putString("displayName", model.getDisplayName());
         editor.putString("token", model.getToken());
         editor.putString("username", usernameEditText.getText().toString());
-        editor.commit();
+        editor.apply();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 

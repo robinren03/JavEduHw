@@ -2,19 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
         android:id="@+id/group1"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/item_favorite"
             android:title="收藏"
             android:icon="@drawable/ic_favorite"
-            android:checked="true" />
+            android:checked="true"/>
         <item
             android:id="@+id/item_history"
             android:title="历史记录"
-            android:icon="@drawable/ic_history" />
+            android:icon="@drawable/ic_history"
+            android:checked="true"/>
         <item
             android:id="@+id/item_logout"
             android:title="退出登录"
-            android:icon="@drawable/ic_logout"/>
+            android:icon="@drawable/ic_logout"
+            android:checked="true"/>
     </group>
 </menu>

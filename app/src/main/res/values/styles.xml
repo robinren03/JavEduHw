@@ -6,7 +6,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.*">-->
+<!--        &lt;!&ndash; Add attributes here &ndash;&gt;-->
+<!--    </style>-->
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">?attr/colorAccent</item>
         <item name="tabIndicatorHeight">1dp</item>
