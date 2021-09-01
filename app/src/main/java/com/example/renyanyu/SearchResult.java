@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +29,15 @@ public class SearchResult extends AppCompatActivity {
     MyAdapter mMyAdapter ;
     List<News> mNewsList = new ArrayList<>();
     LinearLayoutManager layoutManager;
+    public SearchView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("111111111111111");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.search_result);
         mRecyclerView = findViewById(R.id.recyclerview);
+        search=(SearchView) findViewById(R.id.search2);
         // 构造一些数据
         for (int i = 0; i < 10; i++) {
             News news = new News("标题xxx" + i,"内容xxx" + i);
@@ -47,9 +50,34 @@ public class SearchResult extends AppCompatActivity {
         mRecyclerView.setAdapter(mMyAdapter);
         layoutManager = new LinearLayoutManager(SearchResult.this);
         mRecyclerView.setLayoutManager(layoutManager);
-
-
         RefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
+        search.setIconifiedByDefault(false);
+        //显示搜索按钮
+        search.setSubmitButtonEnabled(true);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //单击搜索按钮的监听
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
+
+                Intent intent1=new Intent(SearchResult.this, SearchResult.class);
+                startActivity(intent1);
+
+                return true;
+            }
+            //输入字符的监听
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)){
+
+                }
+                else {
+
+                }
+
+                return true;
+            }
+        });
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

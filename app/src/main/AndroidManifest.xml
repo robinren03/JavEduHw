@@ -37,6 +37,9 @@
             android:name="com.example.renyanyu.Detail"
             />
         <activity
+            android:name="com.example.renyanyu.SearchPage"
+            />
+        <activity
             android:name="com.example.renyanyu.SearchResult"
             />
         <activity
