@@ -125,9 +125,6 @@ public class BlankFragment3 extends Fragment {
                                         .replace(R.id.my_info_fragment, new BlankFragment3(), null)
                                         .addToBackStack(null)
                                         .commit();
-//                                Intent goToHistoryPage = new Intent(getActivity(),getActivity().getClass());
-//                                startActivity(goToHistoryPage);
-
                             }
                         });
                         dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -250,12 +247,9 @@ public class BlankFragment3 extends Fragment {
                                 editor.apply();
                                 getActivity().getSupportFragmentManager()
                                         .beginTransaction()
-                                        .replace(R.id.my_info_fragment, new BlankFragment3(), null)
+                                        .replace(R.id.my_info_fragment, new BlankFragment2(), null)
                                         .addToBackStack(null)
                                         .commit();
-//                                Intent goToHistoryPage = new Intent(getActivity(),getActivity().getClass());
-//                                startActivity(goToHistoryPage);
-
                             }
                         });
                         dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

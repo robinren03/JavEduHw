@@ -70,8 +70,8 @@ public class ServerHttpResponse {
             URLConnection connection = (URLConnection)url.openConnection();
             connection.setRequestProperty("Charset", "UTF-8");
             connection.setDoInput(true);
-            connection.setReadTimeout(2000);
-            connection.setConnectTimeout(2000);
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
             connection.connect();
 
 
