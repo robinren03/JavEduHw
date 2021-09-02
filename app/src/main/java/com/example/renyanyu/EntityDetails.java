@@ -4,12 +4,14 @@ package com.example.renyanyu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -28,13 +30,24 @@ public class EntityDetails extends AppCompatActivity {
     public String title1,title2,title3; // 标题
     public String content1,content2,content3; //内容
     public String[] str=new String[3];
+    public TextView text1;
+    Intent t1;
+    public String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
         ListView listView=(ListView)findViewById(R.id.ListView1);
-        str =new String[]{"属性名\n属性值","属性名\n属性值","属性名\n属性值"};
+        t1=getIntent();
+        result=t1.getStringExtra("content");
+        text1=findViewById(R.id.txt);
+        if(result!=null){
+            //text1.setText();
+        }
+        str =new String[]{"实体\n描述","属性名\n属性值","属性名\n属性值"};
         name="name_type";
+
+        /*
         if(fileIsExists(name))
         {
             getPage();
@@ -44,7 +57,8 @@ public class EntityDetails extends AppCompatActivity {
             str=new String[]{title1+"\n"+content1,title2+"\n"+content2,title3+"\n"+content3};
             setDetail();
             savePackageData();
-        }
+        }*/
+
         //配置ArrayAdapter适配器
         ArrayAdapter<String> adapter=new ArrayAdapter<String>
                 (EntityDetails.this,android.R.layout.simple_expandable_list_item_1,str);
@@ -73,9 +87,9 @@ public class EntityDetails extends AppCompatActivity {
         addToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collected=true;
-                detail.collected=collected;
-                savePackageData();
+                //collected=true;
+                //detail.collected=collected;
+                //savePackageData();
                 Toast.makeText(EntityDetails.this,"已收藏",Toast.LENGTH_LONG).show();
                 addToCollectionButton.setVisibility(View.GONE);
                 hadAddedToCollectionButton.setVisibility(View.VISIBLE);
@@ -86,9 +100,9 @@ public class EntityDetails extends AppCompatActivity {
         hadAddedToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collected=false;
-                detail.collected=collected;
-                savePackageData();
+                //collected=false;
+                //detail.collected=collected;
+                //savePackageData();
                 Toast.makeText(EntityDetails.this,"已取消收藏",Toast.LENGTH_LONG).show();
 //                addToCollectionButton.setPointerIcon(R.id.shareButton);
                 //  shareButton.setIm

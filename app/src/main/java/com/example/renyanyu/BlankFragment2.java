@@ -26,6 +26,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,6 +45,7 @@ public class BlankFragment2 extends Fragment {
     ArrayList<News> mNewsList = new ArrayList<News>();
     LinearLayoutManager layoutManager;
     LinearLayout mylinear;
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
         // Required empty public constructor
     }
@@ -64,7 +68,7 @@ public class BlankFragment2 extends Fragment {
         geography=(Button)view.findViewById(R.id.geography1);
         channel_change=(Button)view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
-        search.setIconifiedByDefault(false);
+        search.setIconifiedByDefault(true);
         //显示搜索按钮
         search.setSubmitButtonEnabled(true);
         channel_change.setOnClickListener(new View.OnClickListener() {
@@ -222,9 +226,25 @@ public class BlankFragment2 extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
+                try{
+                    String url = getActivity().getString(R.string.backend_ip) + "/request/search";
+                    String msg="?course=chinese&searchKey="+query;
+                    url=url+msg;
+                    String res= serverHttpResponse.getResponse(url);
+                    Toast.makeText(getActivity(), "结果为"+res, Toast.LENGTH_SHORT).show();
+                    System.out.println("结果为："+res);
+                    JSONObject answer_json = new JSONObject(res);
+                    JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                    String answer=data.get("uri").toString();
+                    System.out.println("结果为："+answer);
 
-                Intent intent1=new Intent(getActivity(), SearchResult.class);
-                startActivity(intent1);
+                    Intent intent1=new Intent(getActivity(), SearchResult.class);
+                    intent1.putExtra("result",res);
+                    startActivity(intent1);
+                }catch (Exception e){
+
+                }
+
 
                 return true;
             }
@@ -327,9 +347,24 @@ public class BlankFragment2 extends Fragment {
                 holder.mRootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        try{
+                            String url = getActivity().getString(R.string.backend_ip) + "/request/card";
+                            String msg="?course=chinese&name=李白";
+                            url=url+msg;
+                            String res= serverHttpResponse.getResponse(url);
+                            Toast.makeText(getActivity(), "结果为"+res, Toast.LENGTH_SHORT).show();
+                            holder.mTitleContent.setText(res);
+                            System.out.println("结果为："+res);
+                            //JSONObject answer_json = new JSONObject(res);
+                            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                            //String answer=data.get("uri").toString();
+                            //System.out.println("结果为："+answer);
 
-                        Intent intent=new Intent(getActivity(),Detail.class);
-                        startActivity(intent);
+                            Intent intent1=new Intent(getActivity(), EntityDetails.class);
+                            startActivity(intent1);
+                        }catch (Exception e){
+
+                        }
                     }
                 });
             }catch(NullPointerException e){

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.*;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,15 +24,29 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity /*implements SearchView.OnQueryTextListener*/{
 
-
+    private FragmentManager fmanager;
+    private FragmentTransaction ftransaction;
+    private Fragment f1,f2,f3;
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        f1=new BlankFragment1();
+        f2=new BlankFragment2();
+        f3=new BlankFragment3();
         initView();
+
     }
 
 
+    public void gotosubject() {    //去下载页面
+        fmanager = getSupportFragmentManager();
+        ftransaction = fmanager.beginTransaction();
+        f1 = new BlankFragment2();
+        ftransaction.replace(R.id.fram_con, f1);
+        ftransaction.commit();
+    }
 
     public void initView(){
 
@@ -41,9 +56,9 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         String[] tabTitle = getResources().getStringArray(R.array.tab_titles);
         //将fragment装进列表中
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new BlankFragment1());
-        fragmentList.add(new BlankFragment2());
-        fragmentList.add(new BlankFragment3());
+        fragmentList.add(f1);
+        fragmentList.add(f2);
+        fragmentList.add(f3);
         //声明viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         //viewpager加载adapter
@@ -59,7 +74,7 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
 
             @Override
             public void onPageSelected(int position) {
-                //Toast.makeText(MainActivity.this,"点击了2：",Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this,"点击了：",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -69,11 +84,14 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         });
 
         //定义TabLayout
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+        tabLayout = (TabLayout) findViewById(R.id.tab);
         //TabLayout的事件
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+                //if(tab==)
+                //Toast.makeText(MainActivity.this,"点击了3：",Toast.LENGTH_SHORT).show();
                 //选中了tab的逻辑
             }
 

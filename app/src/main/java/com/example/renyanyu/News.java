@@ -6,6 +6,9 @@ class News {
     public boolean collected;
     public News(String a,String b){
         title=a;
-        title=b;
+        content=b;
+    }
+    public News(String a){
+        title=a;
     }
 }

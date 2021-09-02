@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/fram_con"
     tools:context=".BlankFragment1">
 
-    <Button
-        android:id="@+id/sear"
+    <android.widget.SearchView
+        android:id="@+id/searc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="搜索" />
+        android:queryHint="请输入搜索内容" />
 
     <Button
         android:id="@+id/channel"
@@ -18,4 +19,32 @@
         android:text="频道选择"
         android:layout_marginTop="40dp"
         />
+    <ImageView
+        android:id="@+id/qa"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/qa2"
+        android:clickable="true"
+        android:visibility="gone"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp">
+
+        <ListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listview_MsgList"
+            android:divider="@null"
+            android:background="#ffffff"
+            android:paddingTop="8dp"
+            >
+
+        </ListView>
+    </LinearLayout>
+
 </FrameLayout>

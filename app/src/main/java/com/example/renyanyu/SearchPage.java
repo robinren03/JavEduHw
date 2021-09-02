@@ -78,7 +78,6 @@ public class SearchPage extends AppCompatActivity {
         math.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SearchPage.this, "456" , Toast.LENGTH_SHORT).show();
                 mat=true;
             }
         });
