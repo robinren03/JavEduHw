@@ -163,13 +163,15 @@ public class QA extends AppCompatActivity
                     try
                     {
                         String url = QA.this.getString(R.string.backend_ip) + "/request/question";
+                        //String url = "http://open.edukg.cn/opedukg/api/typeOpen/open/inputQuestion";
+                        //String id="84b8cd42-e823-4e5a-b908-7da345330766";
                         String[] subjects={"chinese","math","english","physics","chemistry","biology","history","geo","politics"};
                         String res;
                         String answer = "";
                         for(int i=0;i<9;i++)
                         {
                             System.out.println("已经查到"+subjects[i]);
-                            String msg = "course="+subjects[i]+"&inputQuestion="+content;
+                            String msg = "course="+subjects[i]+"&inputQuestion="+content;//+"&id="+id;
                             res = serverHttpResponse.postResponse(url, msg);
                             System.out.println(res);
                             JSONObject answer_json = new JSONObject(res);

@@ -48,6 +48,14 @@ public class BlankFragment1 extends Fragment {
         history=(Button)view.findViewById(R.id.politics);
         geography=(Button)view.findViewById(R.id.geography);
         qa=(Button)view.findViewById(R.id.IVButton_Id);
+        Button entityLinkButton=(Button) view.findViewById(R.id.GVButton_Id);
+        entityLinkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToEntityLinkPage=new Intent(getActivity(),EntityLink.class);
+                startActivity(goToEntityLinkPage);
+            }
+        });
         qa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -10,17 +10,115 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="实体链接"
+        android:text="知识链接"
         android:gravity="center"
         android:textSize="30sp"
         android:textColor="@color/black"/>
-
-    <ListView
-        android:id="@+id/ListView1"
+    <EditText
+        android:id="@+id/entity_link_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/ctype">
+        android:background="@drawable/text_field"
+        android:enabled="true"
+        android:lines="10"
+        android:maxLines="10"
+        android:minLines="8"
+        android:scrollbars="vertical"
+        android:gravity="start"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:hint="请输入要查询的文本，我们将自动查询其中包含的实体" />
 
-    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择要查询的学科"
+            android:textSize="20dp"
+            android:height="100px"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+        <RadioGroup
+            android:id="@+id/select_subject_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <RadioButton
+                    android:id="@+id/select_chinese_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="语文"/>
+                <RadioButton
+                    android:id="@+id/select_math_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数学"/>
+                <RadioButton
+                    android:id="@+id/select_english_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="英语"/>
+                <RadioButton
+                    android:id="@+id/select_physics_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="物理"/>
+                <RadioButton
+                    android:id="@+id/select_chemistry_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="化学"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <RadioButton
+                    android:id="@+id/select_politics_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="政治"/>
+                <RadioButton
+                    android:id="@+id/select_history_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="历史"/>
+                <RadioButton
+                    android:id="@+id/select_geo_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地理"/>
+                <RadioButton
+                    android:id="@+id/select_biology_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生物"/>
+            </LinearLayout>
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_entity_link_button"
+        android:text="搜索"
+        android:layout_gravity="center"/>
+
+    <ListView
+        android:id="@+id/entity_link_results_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ctype"/>
 
 </LinearLayout>
