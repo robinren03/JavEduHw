@@ -16,19 +16,19 @@ import androidx.room.Update;
 interface KEntityDao {
 
     @Query("SELECT * FROM KEntity")
-    News[] getAllKEntity();
+    KEntity[] getAllKEntity();
 
     @Query("DELETE FROM KEntity")
     void clear();
 
-    @Query("SELECT label FROM KEntity")
-    String[] getAllKEntityLabel();
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(KEntity... kEntities);
 
-    @Update
-    void update(KEntity... kEntities);
+    @Query("SELECT * FROM KEntity WHERE kEntityUri in (:kEntityUris)")
+    KEntity[] getKEntityByKEntityUri(String... kEntityUris);
+
+    @Query("DELETE FROM KEntity WHERE kEntityUri in (:kEntityUris)")
+    void deleteKEntityByKEntityUri(String... kEntityUris);
 
     @Delete
     void delete(KEntity... kEntities);
