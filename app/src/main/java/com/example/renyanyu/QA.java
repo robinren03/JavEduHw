@@ -174,9 +174,19 @@ public class QA extends AppCompatActivity
                             String msg = "course="+subjects[i]+"&inputQuestion="+content;//+"&id="+id;
                             res = serverHttpResponse.postResponse(url, msg);
                             System.out.println(res);
-                            JSONObject answer_json = new JSONObject(res);
-                            JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                            answer=data.get("value").toString();
+                            try{
+                                JSONObject answer_json = new JSONObject(res);
+                                JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                                answer=data.get("value").toString();
+                            }
+                            catch (Exception e)
+                            {
+
+                                e.printStackTrace();
+                                continue;
+                            }
+
+
                             if(!answer.equals(""))    break;
 //                            try {
 //

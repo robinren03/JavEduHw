@@ -3,21 +3,34 @@ package com.example.renyanyu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+
+
 
 public class EntityLink extends AppCompatActivity {
 
@@ -28,10 +41,106 @@ public class EntityLink extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_link);
 
-
-
         ListView resultsListView=(ListView)findViewById(R.id.entity_link_results_list);
         resultsListView.setVisibility(View.GONE);
+        Button reSearchButton=(Button) findViewById(R.id.reSearch_entity_link_button);
+        reSearchButton.setVisibility(View.GONE);
+        TextView resultsTextView=(TextView)findViewById(R.id.entity_link_page_results_text);
+        resultsTextView.setVisibility(View.GONE);
+
+        // region 通过RadioGroup获取所要查询的subject
+        RadioGroup radioGroup1=(RadioGroup) findViewById(R.id.select_subject_radio_group_1);//获取单选按钮组
+        RadioGroup radioGroup2=(RadioGroup) findViewById(R.id.select_subject_radio_group_2);//获取单选按钮组
+        radioGroup1.check(R.id.select_chinese_radio_button);//默认选中语文按钮
+        //为单选按钮组添加事件监听，获取选择的学科
+        radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                switch (id)
+                {
+                    case R.id.select_chinese_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="chinese";
+                            radioGroup2.clearCheck();
+                        }
+                        break;
+                    case R.id.select_math_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="math";
+                            radioGroup2.clearCheck();
+                        }
+                        break;
+                    case R.id.select_english_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="english";
+                            radioGroup2.clearCheck();
+                        }
+                        break;
+                    case R.id.select_physics_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="physics";
+                            radioGroup2.clearCheck();
+                        }
+                        break;
+                    case R.id.select_chemistry_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="chemistry";
+                            radioGroup2.clearCheck();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                System.out.println("Group1-subject:"+subject);
+            }
+        });
+        radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int id) {
+                switch (id)
+                {
+                    case R.id.select_politics_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="politics";
+                            radioGroup1.clearCheck();
+                        }
+                        break;
+                    case R.id.select_history_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="history";
+                            radioGroup1.clearCheck();
+                        }
+                        break;
+                    case R.id.select_geo_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="geo";
+                            radioGroup1.clearCheck();
+                        }
+                        break;
+                    case R.id.select_biology_radio_button:
+                        if(((RadioButton) findViewById(id)).isChecked())
+                        {
+                            subject ="biology";
+                            radioGroup1.clearCheck();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                System.out.println("Group2-subject:"+subject);
+            }
+        });
+        // endregion
 
         Button searchButton=(Button) findViewById(R.id.search_entity_link_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -41,51 +150,6 @@ public class EntityLink extends AppCompatActivity {
                 String content=editText.getText().toString();
                 if(!content.equals(""))
                 {
-                    // region 通过RadioGroup获取所要查询的subject
-                    final RadioGroup radioGroup=(RadioGroup) findViewById(R.id.select_subject_radio_group);//获取单选按钮组
-                    radioGroup.addView(findViewById(R.id.select_chinese_radio_button));
-                    radioGroup.check(R.id.select_chinese_radio_button);//默认选中语文按钮
-                    //为单选按钮组添加事件监听，获取选择的学科
-                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                        @SuppressLint("NonConstantResourceId")
-                        @Override
-                        public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                            radioGroup.clearCheck();
-                            radioGroup.check(id);
-                            switch (id)
-                            {
-                                case R.id.select_math_radio_button:
-                                    subject ="math";
-                                    break;
-                                case R.id.select_english_radio_button:
-                                    subject ="english";
-                                    break;
-                                case R.id.select_physics_radio_button:
-                                    subject ="physics";
-                                    break;
-                                case R.id.select_chemistry_radio_button:
-                                    subject ="chemistry";
-                                    break;
-                                case R.id.select_politics_radio_button:
-                                    subject ="politics";
-                                    break;
-                                case R.id.select_history_radio_button:
-                                    subject ="history";
-                                    break;
-                                case R.id.select_geo_radio_button:
-                                    subject ="geo";
-                                    break;
-                                case R.id.select_biology_radio_button:
-                                    subject ="biology";
-                                    break;
-                                default:
-                                    subject ="chinese";
-                                    break;
-                            }
-                        }
-                    });
-                    // endregion
-
                     try
                     {
                         // region 获取resultsArray
@@ -134,9 +198,14 @@ public class EntityLink extends AppCompatActivity {
                                     (String) entity_json.get("entity_type"), (String) entity_json.get("entity_url")));
                         }
 
+                        final String[] entityAbstractInfoList =new String[resultsArray.length()];
+                        for(int i=0;i<resultsArray.length();i++)
+                        {
+                            entityAbstractInfoList[i]="实体类型："+entityList.get(i).type+"\n实体名称："+entityList.get(i).name;
+                        }
                         //配置ArrayAdapter适配器
-                        ArrayAdapter<Entity> adapter=new ArrayAdapter<Entity>
-                                (EntityLink.this,android.R.layout.simple_expandable_list_item_1,entityList);
+                        ArrayAdapter<String> adapter=new ArrayAdapter<String>
+                                (EntityLink.this,android.R.layout.simple_expandable_list_item_1,entityAbstractInfoList);
                         resultsListView.setAdapter(adapter);
                         //设置选中选项监听
                         resultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -149,14 +218,83 @@ public class EntityLink extends AppCompatActivity {
                             }
                         });
 
+                        SpannableStringBuilder spannable = new SpannableStringBuilder(content);
+                        for(int i=0;i<startAndEndIndexOfEntities.size();i++)
+                        {
+                            StartAndEndIndexOfEntity indexRange=startAndEndIndexOfEntities.get(i);
+                            spannable.setSpan(new ForegroundColorSpan(Color.RED),indexRange.startIndex,indexRange.endIndex+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                        ((TextView)findViewById(R.id.entity_link_page_results_text)).setText(spannable);
+
+
+                        resultsTextView.setVisibility(View.VISIBLE);
+                        resultsListView.setVisibility(View.VISIBLE);
+                        reSearchButton.setVisibility(View.VISIBLE);
+                        searchButton.setVisibility(View.GONE);
+                        radioGroup1.setVisibility(View.GONE);
+                        radioGroup2.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
+
+
+                        String subjectInChinese="";
+                        switch (subject)
+                        {
+                            case "chinese":
+                                subjectInChinese="语文";
+                                break;
+                            case "math":
+                                subjectInChinese="数学";
+                                break;
+                            case "english":
+                                subjectInChinese="英语";
+                                break;
+                            case "physics":
+                                subjectInChinese="物理";
+                                break;
+                            case "chemistry":
+                                subjectInChinese="化学";
+                                break;
+                            case "politics":
+                                subjectInChinese="政治";
+                                break;
+                            case "history":
+                                subjectInChinese="历史";
+                                break;
+                            case "geo":
+                                subjectInChinese="地理";
+                                break;
+                            case "biology":
+                                subjectInChinese="生物";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        TextView guideInfoText =(TextView)findViewById(R.id.entity_link_page_guide_info);
+                        if(entityList.isEmpty())
+                            guideInfoText.setText("很抱歉，我们在"+subjectInChinese+"这个学科下没有找到这段文本的相关实体。");
+                        else
+                            guideInfoText.setText("这是我们在"+subjectInChinese+"这个学科下找到的文本中包含的实体:");
                     }
                     catch (Exception e)
                     {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
 
-
+        reSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resultsListView.setVisibility(View.GONE);
+                reSearchButton.setVisibility(View.GONE);
+                searchButton.setVisibility(View.VISIBLE);
+                radioGroup1.setVisibility(View.VISIBLE);
+                radioGroup2.setVisibility(View.VISIBLE);
+                ((EditText)findViewById(R.id.entity_link_edit_text)).setVisibility(View.VISIBLE);
+                ((TextView)findViewById(R.id.entity_link_page_guide_info)).setText("请选择要查询的学科:");
+                resultsTextView.setVisibility(View.GONE);
             }
         });
     }
