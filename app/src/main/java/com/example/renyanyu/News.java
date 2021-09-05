@@ -1,13 +1,16 @@
 package com.example.renyanyu;
 
-public class News {
-    public String title; // 标题
-
-    public String content; //内容
+class News {
+    public String title,title1,title2; // 标题
+    public String content,content1,content2; //内容
+    public boolean collected;
     public News(String a,String b){
         super();
         title=a;
-        title=b;
+        content=b;
+    }
+    public News(String a){
+        title=a;
     }
 
     public News(){
