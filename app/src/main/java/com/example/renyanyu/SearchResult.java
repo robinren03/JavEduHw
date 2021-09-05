@@ -141,9 +141,10 @@ public class SearchResult extends AppCompatActivity {
 
 
         RefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
-        search.setIconifiedByDefault(true);
+        search.setIconifiedByDefault(false);
         //显示搜索按钮
         search.setSubmitButtonEnabled(true);
+        search.setQueryHint(query1);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //单击搜索按钮的监听
             @Override
@@ -292,6 +293,8 @@ public class SearchResult extends AppCompatActivity {
                             intent1.putExtra("result",res);
                             intent1.putExtra("card",re);
                             intent1.putExtra("course",news.course);
+                            intent1.putExtra("uri",news.uri);
+                            intent1.putExtra("entity_name",news.title);
                             startActivity(intent1);
                         }catch (Exception e){
 

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.List;
 
 @Entity
-@TypeConverters({Converter.class, ListConverter.class})
+@TypeConverters({Converter.class})
 public class KEntity implements Serializable {
 
     @NonNull
@@ -20,13 +20,13 @@ public class KEntity implements Serializable {
 
     private String label;
     private String course;
-    private List<Map<String, String>> property;
-    private List<Map<String, String>> content;
+    private String property;
+    private String content;
 
     private Date createdate;
 
-    public KEntity(String uri,String label, List<Map<String, String>> property,
-                   List<Map<String, String>> content, Date createdate){
+    public KEntity(String uri,String label, String property,
+                   String content, Date createdate){
         super();
         this.kEntityUri = uri;
         this.label = label;
@@ -40,19 +40,19 @@ public class KEntity implements Serializable {
         this.kEntityUri = "";
     }
 
-    public void setContent(List<Map<String, String>> content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
-    public List<Map<String, String>> getContent() {
+    public String getContent() {
         return content;
     }
 
-    public List<Map<String, String>> getProperty() {
+    public String getProperty() {
         return property;
     }
 
-    public void setProperty(List<Map<String, String>> property) {
+    public void setProperty(String property) {
         this.property = property;
     }
 

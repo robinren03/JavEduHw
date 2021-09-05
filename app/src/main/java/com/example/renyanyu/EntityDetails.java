@@ -49,17 +49,15 @@ public class EntityDetails extends AppCompatActivity {
     RecyclerView mRecyclerView;
     MyAdapter1 mMyAdapter ;
     LinearLayoutManager layoutManager;
-    ListView listView;
     Intent t1;
     public String result,card,course,mcontent;
-    public String user_name,entity_name;
-    SQLiteDatabase db;
+    public String user_name,entity_name,kuri;
+    KEntityRepository kdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
         //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
-        listView=(ListView)findViewById(R.id.ListView1);
         mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
         result=t1.getStringExtra("result");
@@ -67,14 +65,36 @@ public class EntityDetails extends AppCompatActivity {
         course=t1.getStringExtra("course");
         mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
+        kuri=t1.getStringExtra("uri");
+        System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
         text2=findViewById(R.id.txt1);
         SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
+        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,"test"));
         user_name = userInfo.getString("username","");
 
-
         name="name_type";
-
+        if(result!=null){
+            initstr();
+            KEntity tem=new KEntity(kuri,entity_name,card,result,new Date());
+            kdb.insertkEntity(tem);
+        }
+        else{
+            try{
+                KEntity tem=kdb.getKEntityByKEntityUri(kuri);
+                if(tem==null){
+                    Toast.makeText(EntityDetails.this, "没有可用的网络！！！", Toast.LENGTH_SHORT).show();
+                    text1.setText("404");
+                    text2.setVisibility(View.GONE);
+                }
+                else{
+                    course=tem.getCourse();
+                    card=tem.getProperty();
+                    result=tem.getContent();
+                    initstr();
+                }
+            }catch (Exception e){System.out.println("！！！！！！！！！！");}
+        }
         /*
         if(fileIsExists(name))
         {
@@ -92,15 +112,6 @@ public class EntityDetails extends AppCompatActivity {
 
 
         //设置选中选项监听
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-//                Intent goToHistoryPage = new Intent(History.this,History.class);
-//                startActivity(goToHistoryPage);
-            }
-        });
         Button shareButton=findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,56 +152,6 @@ public class EntityDetails extends AppCompatActivity {
 
     }
 
-    //保存应用信息到本地文件
-    private void savePackageData() {
-        try {
-            FileOutputStream fout = openFileOutput(name+".json", MODE_PRIVATE);
-            BufferedOutputStream buffout = new BufferedOutputStream(fout);
-            String jsonArray = gson.toJson(new TypeToken<News>() {
-            }.getType());
-            buffout.write(jsonArray.getBytes());
-            buffout.close();
-        } catch (Exception e) {
-        }
-    }
-
-    public  void getPage() {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(name));
-            Gson gson = new GsonBuilder().create();
-            detail = gson.fromJson(reader, new TypeToken<News>(){}.getType());
-
-        } catch (FileNotFoundException ex) { }
-    }
-
-    public void setDetail(){
-        detail.title=title1;
-        detail.title1=title2;
-        detail.title2=title3;
-        detail.content=content1;
-        detail.content1=content2;
-        detail.content2=content3;
-        detail.collected=collected;
-    }
-
-    public boolean fileIsExists(String strFile)
-    {
-        try
-        {
-            File f=new File(strFile);
-            if(!f.exists())
-            {
-                return false;
-            }
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-
-        return true;
-    }
 
     public void initstr(){
         if(result==null)
@@ -222,10 +183,9 @@ public class EntityDetails extends AppCompatActivity {
                 JSONObject answer_json = new JSONObject(result);
 
                 JSONObject data1 = ((JSONObject) answer_json.opt("data"));
+                //lab=data1.opt("label").toString();
                 text1.setText(data1.opt("label").toString());
                 int j=0;
-                //Toast.makeText(EntityDetails.this,((JSONArray)data1.get("content")).toString(),Toast.LENGTH_LONG).show();
-            System.out.println(((JSONArray)data1.opt("content")).length());
                 while(true){
                     JSONObject data2=((JSONArray)data1.opt("content")).optJSONObject(j);
                     //System.out.println("j= "+j+" "+((JSONArray)data1.opt("content")).optJSONObject(j).toString());
@@ -263,11 +223,7 @@ public class EntityDetails extends AppCompatActivity {
             JSONObject answer_json11 = new JSONObject(mcontent);
 
             JSONObject data11 = ((JSONObject) answer_json11.opt("data"));
-            //text1.setText(data11.opt("label").toString());
             int i=0;
-            //System.out.println(((JSONArray)data11.opt("property")).optJSONObject(24));
-            //if(((JSONArray)data11.opt("property")).optJSONObject(25)==null)
-            //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             while(true){
                 String predicateLabel="",object="";
                 if(((JSONArray)data11.opt("property")).optJSONObject(i)==null) {
@@ -288,6 +244,8 @@ public class EntityDetails extends AppCompatActivity {
                 //}
             }
         }catch (Exception e){}
+
+
         DividerItemDecoration mDivider = new
                 DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDivider);
@@ -326,22 +284,10 @@ public class EntityDetails extends AppCompatActivity {
                             String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
                             String ms="course="+ news.course+"&uri="+news.uri;
                             String re= serverHttpResponse.postResponse(ur,ms);
-                            //String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
-                            //String ms="course="+course+"&uri="+news.uri;
-                            //String re= serverHttpResponse.postResponse(ur,ms);
-                            //System.out.println("!!!!!!!!!!!!!:"+re);
 
                             String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
                             String msg="?course="+course+"&name="+news.content;
                             String res= serverHttpResponse.getResponse(url+msg);
-
-                            //Toast.makeText(EntityDetails.this, "结果为"+res, Toast.LENGTH_SHORT).show();
-                            //holder.mTitleContent.setText(res);
-                            //System.out.println("结果为："+res);
-                            //JSONObject answer_json = new JSONObject(res);
-                            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                            //String answer=data.get("uri").toString();
-                            //System.out.println("结果为："+answer);
 
                             Intent intent1=new Intent(EntityDetails.this, EntityDetails.class);
                             intent1.putExtra("result",res);

@@ -392,8 +392,6 @@ public class BlankFragment2 extends Fragment {
             }
             JSONObject data1 = ((JSONObject) answer_json.opt("data"));
         }catch(Exception e){}
-
-
         channel_view();
     }
 
