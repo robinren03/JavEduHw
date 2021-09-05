@@ -5,10 +5,15 @@ class News {
     public String content,content1,content2; //内容
     public boolean collected;
     public News(String a,String b){
+        super();
         title=a;
         content=b;
     }
     public News(String a){
         title=a;
+    }
+
+    public News(){
+        super();
     }
 }
