@@ -4,6 +4,7 @@ class News {
     public String title,uri; // 标题
     public String content,course; //内容
     public News(String a,String b){
+        super();
         title=a;
         content=b;
     }
