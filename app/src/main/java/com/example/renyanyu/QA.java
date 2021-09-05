@@ -162,9 +162,8 @@ public class QA extends AppCompatActivity
                     inputText.setText("");//清空输入框中的内容
                     try
                     {
+                        //TODO:设置单选框，只在一个学科下进行知识问答，不再轮询
                         String url = QA.this.getString(R.string.backend_ip) + "/request/question";
-                        //String url = "http://open.edukg.cn/opedukg/api/typeOpen/open/inputQuestion";
-                        //String id="84b8cd42-e823-4e5a-b908-7da345330766";
                         String[] subjects={"chinese","math","english","physics","chemistry","biology","history","geo","politics"};
                         String res;
                         String answer = "";
@@ -186,15 +185,7 @@ public class QA extends AppCompatActivity
                                 continue;
                             }
 
-
                             if(!answer.equals(""))    break;
-//                            try {
-//
-//                            }
-//                            catch (Exception e)
-//                            {
-//                                continue;
-//                            }
                         }
                         if(answer.equals(""))
                         {

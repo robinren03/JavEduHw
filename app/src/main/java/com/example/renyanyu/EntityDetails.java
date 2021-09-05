@@ -4,6 +4,8 @@ package com.example.renyanyu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +20,10 @@ public class EntityDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
+
+        Intent intent=getIntent();
+        String uri=intent.getStringExtra("uri");
+
         ListView listView=(ListView)findViewById(R.id.ListView1);
         final String[] str ={"属性名\n属性值","属性名\n属性值","属性名\n属性值"};
         //配置ArrayAdapter适配器
@@ -51,6 +57,17 @@ public class EntityDetails extends AppCompatActivity {
                 Toast.makeText(EntityDetails.this,"已收藏",Toast.LENGTH_LONG).show();
                 addToCollectionButton.setVisibility(View.GONE);
                 hadAddedToCollectionButton.setVisibility(View.VISIBLE);
+
+                String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/star";
+                SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
+                String userToken = userInfo.getString("token","");
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="course=chinese&"+"name="+uri+"&token="+userToken;
+                System.out.println(message);
+//                url=url+"?"+message;
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
+
 
             }
         }) ;

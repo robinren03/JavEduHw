@@ -214,6 +214,7 @@ public class EntityLink extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                             {
                                 Intent goToEntityDetailsPage = new Intent(EntityLink.this,EntityDetails.class);
+                                goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
                                 startActivity(goToEntityDetailsPage);
                             }
                         });

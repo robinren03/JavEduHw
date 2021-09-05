@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/fanxiaoyu/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_expandable_list_item_1.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/ForGit/javeduhw/app/src/main/res/drawable/text_field.xml" value="0.25555555555555554" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/ForGit/javeduhw/app/src/main/res/layout/activity_collection.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/ForGit/javeduhw/app/src/main/res/layout/activity_entity_details.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/ForGit/javeduhw/app/src/main/res/layout/activity_entity_link.xml" value="0.2" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/ForGit/javeduhw/app/src/main/res/layout/activity_my_info.xml" value="0.25364583333333335" />
@@ -21,5 +22,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.25364583333333335" />
+      </ProjectState>
+    </option>
   </component>
 </project>
