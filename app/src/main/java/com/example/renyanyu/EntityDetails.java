@@ -2,11 +2,21 @@ package com.example.renyanyu;
 
 //package com.example.renyanyu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +27,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.*;
@@ -29,22 +42,37 @@ public class EntityDetails extends AppCompatActivity {
     public News detail;
     public String title1,title2,title3; // 标题
     public String content1,content2,content3; //内容
-    public String[] str=new String[3];
-    public TextView text1;
+    public String[] related;
+    public TextView text1,text2;
+    List<News> mNewsList = new ArrayList<>();
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
+    RecyclerView mRecyclerView;
+    MyAdapter1 mMyAdapter ;
+    LinearLayoutManager layoutManager;
+    ListView listView;
     Intent t1;
-    public String result;
+    public String result,card,course,mcontent;
+    public String user_name,entity_name;
+    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
-        ListView listView=(ListView)findViewById(R.id.ListView1);
+        //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
+        listView=(ListView)findViewById(R.id.ListView1);
+        mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
-        result=t1.getStringExtra("content");
+        result=t1.getStringExtra("result");
+        card=t1.getStringExtra("card");
+        course=t1.getStringExtra("course");
+        mcontent=t1.getStringExtra("content");
+        entity_name=t1.getStringExtra("entity_name");
         text1=findViewById(R.id.txt);
-        if(result!=null){
-            //text1.setText();
-        }
-        str =new String[]{"实体\n描述","属性名\n属性值","属性名\n属性值"};
+        text2=findViewById(R.id.txt1);
+        SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
+        user_name = userInfo.getString("username","");
+
+
         name="name_type";
 
         /*
@@ -60,9 +88,9 @@ public class EntityDetails extends AppCompatActivity {
         }*/
 
         //配置ArrayAdapter适配器
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>
-                (EntityDetails.this,android.R.layout.simple_expandable_list_item_1,str);
-        listView.setAdapter(adapter);
+
+
+
         //设置选中选项监听
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -162,5 +190,191 @@ public class EntityDetails extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void initstr(){
+        if(result==null)
+        {
+            //调用本地
+            //if 本地没有
+            //text1.setText(没有可用的网络！);
+        }
+        String ss="";
+        try{
+            JSONObject an1 = new JSONObject(card);
+            JSONObject da1 = ((JSONObject) an1.opt("data"));
+            //text1.setText(card);
+            int i=0;
+            while(true){
+                if(((JSONArray)da1.opt("entity_features")).optJSONObject(i)==null) { break; }
+                JSONObject da2=((JSONArray)da1.opt("entity_features")).optJSONObject(i);
+                i++;
+                String feature_key=da2.opt("feature_key").toString();
+                String feature_value=da2.opt("feature_value").toString();
+                String s=feature_key+": "+feature_value;
+                //str.
+                ss=ss+"\n"+s;
+            }
+            //Toast.makeText(EntityDetails.this,((JSONArray)da2.opt("entity_features")).optJSONObject(0).toString(),Toast.LENGTH_LONG).show();
+        }catch (Exception e){}
+        try{
+
+                JSONObject answer_json = new JSONObject(result);
+
+                JSONObject data1 = ((JSONObject) answer_json.opt("data"));
+                text1.setText(data1.opt("label").toString());
+                int j=0;
+                //Toast.makeText(EntityDetails.this,((JSONArray)data1.get("content")).toString(),Toast.LENGTH_LONG).show();
+            System.out.println(((JSONArray)data1.opt("content")).length());
+                while(true){
+                    JSONObject data2=((JSONArray)data1.opt("content")).optJSONObject(j);
+                    //System.out.println("j= "+j+" "+((JSONArray)data1.opt("content")).optJSONObject(j).toString());
+                    //System.out.println(j);
+                    j++;
+                    //System.out.println(j);
+                    if(data2==null)break;
+                    //System.out.println("?");
+                    String predicate_label="",subject_label="",object_label="",subject="",object="";
+                    predicate_label=data2.opt("predicate_label").toString();
+                    if(data2.opt("subject_label")!=null)
+                        subject_label=data2.opt("subject_label").toString();
+                    if(data2.opt("object_label")!=null)
+                        object_label=data2.opt("object_label").toString();
+                    if(data2.opt("subject")!=null)
+                        subject=data2.opt("subject").toString();
+                    if(data2.opt("object")!=null)
+                        object=data2.opt("object").toString();
+                    if(subject_label.length()!=0){
+                        News n=new News(predicate_label,subject_label,subject,course);
+                        //System.out.println("j="+j+" "+predicate_label+" "+subject_label+" "+subject);
+                        mNewsList.add(n);
+                    }
+                    if(object_label.length()!=0){
+                        News n=new News(predicate_label,object_label,object,course);
+                        //System.out.println("j="+j+" "+predicate_label+" "+object_label+" "+object);
+                        mNewsList.add(n);
+                    }
+                }
+        }catch(Exception e){
+            Toast.makeText(EntityDetails.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
+        }
+        if(ss.length()==0)
+        try{
+            JSONObject answer_json11 = new JSONObject(mcontent);
+
+            JSONObject data11 = ((JSONObject) answer_json11.opt("data"));
+            //text1.setText(data11.opt("label").toString());
+            int i=0;
+            //System.out.println(((JSONArray)data11.opt("property")).optJSONObject(24));
+            //if(((JSONArray)data11.opt("property")).optJSONObject(25)==null)
+            //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            while(true){
+                String predicateLabel="",object="";
+                if(((JSONArray)data11.opt("property")).optJSONObject(i)==null) {
+                    //System.out.println("break");
+                    break;
+                }
+                JSONObject data22=((JSONArray)data11.opt("property")).optJSONObject(i);
+
+                i++;
+                if(data22.opt("predicateLabel")!=null)
+                    predicateLabel=data22.opt("predicateLabel").toString();
+                if(data22.opt("object")!=null)
+                    object=data22.opt("object").toString();
+                //if(predicateLabel.length()!=0){
+                String s=predicateLabel+": "+object;
+                //str.
+                ss=ss+"\n"+s;
+                //}
+            }
+        }catch (Exception e){}
+        DividerItemDecoration mDivider = new
+                DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(mDivider);
+        mMyAdapter = new MyAdapter1();
+        mRecyclerView.setAdapter(mMyAdapter);
+        layoutManager = new LinearLayoutManager(EntityDetails.this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setNestedScrollingEnabled(false);
+        //System.out.println(mNewsList.toString());
+        text2.setText(ss);
+    }
+
+    class MyAdapter1 extends RecyclerView.Adapter<MyViewHoder1> {
+
+        List<News> list;
+
+        @Override
+        public MyViewHoder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = View.inflate(EntityDetails.this, R.layout.item_list, null);
+            MyViewHoder1 myViewHoder1 = new MyViewHoder1(view);
+            return myViewHoder1;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewHoder1 holder, final int position) {
+
+            News news = mNewsList.get(position);
+            holder.mTitleTv.setText(news.title);
+            holder.mTitleContent.setText(news.content);
+            try{
+                holder.mRootView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try{
+                            String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
+                            String ms="course="+ news.course+"&uri="+news.uri;
+                            String re= serverHttpResponse.postResponse(ur,ms);
+                            //String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
+                            //String ms="course="+course+"&uri="+news.uri;
+                            //String re= serverHttpResponse.postResponse(ur,ms);
+                            //System.out.println("!!!!!!!!!!!!!:"+re);
+
+                            String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
+                            String msg="?course="+course+"&name="+news.content;
+                            String res= serverHttpResponse.getResponse(url+msg);
+
+                            //Toast.makeText(EntityDetails.this, "结果为"+res, Toast.LENGTH_SHORT).show();
+                            //holder.mTitleContent.setText(res);
+                            //System.out.println("结果为："+res);
+                            //JSONObject answer_json = new JSONObject(res);
+                            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                            //String answer=data.get("uri").toString();
+                            //System.out.println("结果为："+answer);
+
+                            Intent intent1=new Intent(EntityDetails.this, EntityDetails.class);
+                            intent1.putExtra("result",res);
+                            intent1.putExtra("content",res);
+                            intent1.putExtra("course",news.course);
+                            startActivity(intent1);
+                        }catch (Exception e){
+
+                        }
+                    }
+                });
+            }catch(NullPointerException e){
+                Toast.makeText(EntityDetails.this,"111111111111111",Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mNewsList.size();
+        }
+    }
+
+    class MyViewHoder1 extends RecyclerView.ViewHolder {
+        TextView mTitleTv;
+        TextView mTitleContent;
+        ConstraintLayout mRootView;
+
+        public MyViewHoder1(@NonNull View itemView) {
+            super(itemView);
+            mTitleTv = itemView.findViewById(R.id.search_textView);
+            mTitleContent = itemView.findViewById(R.id.search_textView2);
+            mRootView = itemView.findViewById(R.id.rootview);
+        }
     }
 }

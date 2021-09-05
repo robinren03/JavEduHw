@@ -19,6 +19,9 @@ import java.util.*;
 import java.util.Map;
 import android.widget.*;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 //import com.example.javeduhw.databinding.FragmentFirstBinding;
 
 public class BlankFragment1 extends Fragment {
@@ -33,6 +36,7 @@ public class BlankFragment1 extends Fragment {
     Button channel_change;
     SearchView search;
     ImageView qa;
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     private ListView mLvMsgList;
     private List<Message> mDatas = new ArrayList<>();
     private MessageAdapter mAdapter;
@@ -54,8 +58,22 @@ public class BlankFragment1 extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
 
-                Intent intent1=new Intent(getActivity(), SearchResult.class);
-                startActivity(intent1);
+                try{
+                    String url = getActivity().getString(R.string.backend_ip) + "/request/search";
+                    String msg="?course=chinese&searchKey="+query;
+                    url=url+msg;
+                    String res= serverHttpResponse.getResponse(url);
+
+                    JSONObject answer_json = new JSONObject(res);
+                    JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(0);
+
+                    Intent intent1=new Intent(getActivity(), SearchResult.class);
+                    intent1.putExtra("result",res);
+                    intent1.putExtra("query",query);
+                    startActivity(intent1);
+                }catch (Exception e){
+
+                }
                 return true;
             }
             //输入字符的监听

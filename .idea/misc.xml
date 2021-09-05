@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dell/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_expandable_list_item_1.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/button_nopress.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/button_press.xml" value="0.26979166666666665" />
@@ -13,6 +14,7 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/tab1.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_collection.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_entity_details.xml" value="0.2341485507246377" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_entity_link.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/channel_change.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/detail_page.xml" value="0.23867753623188406" />
@@ -20,6 +22,7 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/fragment_blank_fragment2.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/fragment_first.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/item_card.xml" value="0.23867753623188406" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/item_list.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/search_page.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/search_result.xml" value="0.23867753623188406" />
       </map>

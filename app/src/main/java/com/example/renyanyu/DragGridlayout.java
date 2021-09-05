@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.View;
@@ -31,7 +32,7 @@ public class DragGridlayout extends GridLayout{
         init();
     }
 
-/*  static SparseArray<String> dragEventType = new SparseArray<>();
+  static SparseArray<String> dragEventType = new SparseArray<>();
     static{
         dragEventType.put(DragEvent.ACTION_DRAG_STARTED, "STARTED");
         dragEventType.put(DragEvent.ACTION_DRAG_ENDED, "ENDED");
@@ -43,7 +44,7 @@ public class DragGridlayout extends GridLayout{
 
     public static String getDragEventAction(DragEvent de){
         return dragEventType.get(de.getAction());
-    }*/
+    }
 
     //初始化方法
     private void init() {

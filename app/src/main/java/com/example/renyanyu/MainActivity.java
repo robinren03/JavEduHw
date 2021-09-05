@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
     private FragmentTransaction ftransaction;
     private Fragment f1,f2,f3;
     TabLayout tabLayout;
+    public int ss;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
 
             @Override
             public void onPageSelected(int position) {
-                //Toast.makeText(MainActivity.this,"点击了：",Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this,"点击了："+position,Toast.LENGTH_LONG).show();
+
             }
 
             @Override
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
             public void onTabSelected(TabLayout.Tab tab) {
 
                 //if(tab==)
-                //Toast.makeText(MainActivity.this,"点击了3：",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this,tab.getText(),Toast.LENGTH_SHORT).show();
                 //选中了tab的逻辑
             }
 

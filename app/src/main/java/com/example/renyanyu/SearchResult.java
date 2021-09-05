@@ -42,6 +42,10 @@ public class SearchResult extends AppCompatActivity {
     private List<String> list2 = new ArrayList<String>();
     private Intent get_intnt;
     private String result;
+    public String query1;
+    private boolean[] sub;
+    public String[] subj;
+    private boolean zheng;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
 
     @Override
@@ -51,9 +55,14 @@ public class SearchResult extends AppCompatActivity {
         setContentView(R.layout.search_result);
         get_intnt=getIntent();
         result=get_intnt.getStringExtra("result");
+        query1=get_intnt.getStringExtra("query");
+        sub=new boolean[9];
+        zheng=true;
+        subj=new String[]{"chinese","math","english","physics","chemistry","biology","politics","history","geo"};
+        for(int i=0;i<9;i++){sub[i]=false;}
         mRecyclerView = findViewById(R.id.recyclerview);
         search=(SearchView) findViewById(R.id.search2);
-        list1.add("所有结果");
+        list1.add("筛选");
         list1.add("语文");
         list1.add("数学");
         list1.add("英语");
@@ -81,17 +90,8 @@ public class SearchResult extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 String choose=adapter.getItem(arg2);
-                Toast.makeText(SearchResult.this, "" + adapter.getItem(arg2), Toast.LENGTH_SHORT).show();
-                if(choose.equals("全部结果")){}
-                if(choose.equals("语文")){}
-                if(choose.equals("数学")){}
-                if(choose.equals("英语")){}
-                if(choose.equals("物理")){}
-                if(choose.equals("化学")){}
-                if(choose.equals("生物")){}
-                if(choose.equals("政治")){}
-                if(choose.equals("历史")){}
-                if(choose.equals("地理")){}
+               // Toast.makeText(SearchResult.this, "" + adapter.getItem(arg2), Toast.LENGTH_SHORT).show();
+                classify(choose);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -101,24 +101,45 @@ public class SearchResult extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 String choose=adapter2.getItem(arg2);
-                if(choose.equals("正序")){}
-                if(choose.equals("逆序")){}
+                if(choose.equals("正序")){
+                    if(!zheng){
+                        zheng=true;
+                        List<News> tem = new ArrayList<>();
+                        for(int i=0;i<mNewsList.size();i++){
+                            tem.add(mNewsList.get(i));
+                        }
+                        mNewsList.clear();
+                        mNewsList=tem;
+                    }
+                }
+                if(choose.equals("逆序")){
+                    if(zheng){
+                        zheng=false;
+                        List<News> tem = new ArrayList<>();
+                        for(int i=mNewsList.size()-1;i>0;i--){
+                            tem.add(mNewsList.get(i));
+                        }
+                        mNewsList.clear();
+                        mNewsList=tem;
+                    }
+
+                }
+                DividerItemDecoration mDivider = new
+                        DividerItemDecoration(SearchResult.this,DividerItemDecoration.VERTICAL);
+                mRecyclerView.addItemDecoration(mDivider);
+                mMyAdapter = new MyAdapter();
+                mRecyclerView.setAdapter(mMyAdapter);
+                layoutManager = new LinearLayoutManager(SearchResult.this);
+                mRecyclerView.setLayoutManager(layoutManager);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-
         // 构造一些数据
-        initlist();
+        //initlist();
 
-        DividerItemDecoration mDivider = new
-                DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(mDivider);
-        mMyAdapter = new MyAdapter();
-        mRecyclerView.setAdapter(mMyAdapter);
-        layoutManager = new LinearLayoutManager(SearchResult.this);
-        mRecyclerView.setLayoutManager(layoutManager);
+
         RefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
         search.setIconifiedByDefault(true);
         //显示搜索按钮
@@ -129,8 +150,33 @@ public class SearchResult extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
 
-                Intent intent1=new Intent(SearchResult.this, SearchResult.class);
-                startActivity(intent1);
+                try{
+                    query1=query;
+                    String url = SearchResult.this.getString(R.string.backend_ip) + "/request/search";
+
+                    //Toast.makeText(SearchResult.this, "结果为"+res, Toast.LENGTH_SHORT).show();
+                    //JSONObject answer_json = new JSONObject(res);
+                    //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                    //String answer=data.get("uri").toString();
+                    //System.out.println("结果为："+answer);
+                    for(int i=0;i<9;i++){
+                        if(sub[i])
+                        {
+                            String msg="?course="+subj[i]+"&searchKey="+query;
+                            url=url+msg;
+                            String res= serverHttpResponse.getResponse(url);
+                            result=res;
+                            initlist(subj[i]);
+                            break;
+                        }
+
+                    }
+                    //Intent intent1=new Intent(SearchResult.this, SearchResult.class);
+                    //intent1.putExtra("result",res);
+                    //startActivity(intent1);
+                }catch (Exception e){
+
+                }
 
                 return true;
             }
@@ -174,26 +220,39 @@ public class SearchResult extends AppCompatActivity {
 
     }
 
-    public void initlist(){
+    public void initlist(String course){
         mNewsList.clear();
         try{
             JSONObject answer_json = new JSONObject(result);
-            for(int i=0;i<((JSONArray) answer_json.get("data")).length();i++){
-                JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(i);
-                String label=data.get("label").toString();
-                String category=data.get("category").toString();
-                News n=new News(label,category);
+            System.out.println(((JSONArray) answer_json.opt("data")));
+            if(((JSONArray) answer_json.opt("data")).optJSONObject(0)==null)
+                Toast.makeText(SearchResult.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
+            else
+            for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
+                JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
+                if(data==null)break;
+                System.out.println("i="+i+" "+data);
+                String label=data.opt("label").toString();
+                String category=data.opt("category").toString();
+                String uri=data.opt("uri").toString();
+                News n=new News(label,category,uri,course);
                 mNewsList.add(n);
             }
         }catch(Exception e){
-            Toast.makeText(SearchResult.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
+            //Toast.makeText(SearchResult.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
         }
-
+        DividerItemDecoration mDivider = new
+                DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(mDivider);
+        mMyAdapter = new MyAdapter();
+        mRecyclerView.setAdapter(mMyAdapter);
+        layoutManager = new LinearLayoutManager(SearchResult.this);
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     class MyAdapter extends RecyclerView.Adapter<MyViewHoder> {
 
-        List<News> list;
+       // List<News> list;
 
         @Override
         public MyViewHoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -213,20 +272,26 @@ public class SearchResult extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String url = SearchResult.this.getString(R.string.backend_ip) + "/request/card";
-                            String msg="?course=chinese&name="+news.title;
-                            url=url+msg;
-                            String res= serverHttpResponse.getResponse(url);
-                            Toast.makeText(SearchResult.this, "结果为"+res, Toast.LENGTH_SHORT).show();
-                            holder.mTitleContent.setText(res);
-                            System.out.println("结果为："+res);
+                            String ur=SearchResult.this.getString(R.string.backend_ip) + "/request/card";
+                            String ms="course="+ news.course+"&uri="+news.uri;
+                            String re= serverHttpResponse.postResponse(ur,ms);
+
+
+                            String url = SearchResult.this.getString(R.string.backend_ip) + "/request/instance";
+                            String msg="?course="+news.course+"&name="+news.title;
+
+                            String res= serverHttpResponse.getResponse(url+msg);
+                            //Toast.makeText(SearchResult.this,res,Toast.LENGTH_LONG).show();
+                            //System.out.println("结果为1111："+res);
                             //JSONObject answer_json = new JSONObject(res);
-                            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                            //String answer=data.get("uri").toString();
-                            //System.out.println("结果为："+answer);
+                            //JSONObject data1 = ((JSONObject) answer_json.opt("data"));
+                            //JSONObject data2=((JSONArray)data1.get("content"));
+                            //holder.mTitleContent.setText(((JSONArray)data1.opt("content")).toString());
 
                             Intent intent1=new Intent(SearchResult.this, EntityDetails.class);
-                            intent1.putExtra("content",res);
+                            intent1.putExtra("result",res);
+                            intent1.putExtra("card",re);
+                            intent1.putExtra("course",news.course);
                             startActivity(intent1);
                         }catch (Exception e){
 
@@ -234,7 +299,7 @@ public class SearchResult extends AppCompatActivity {
                     }
                 });
             }catch(NullPointerException e){
-                Toast.makeText(SearchResult.this,"111111111111111",Toast.LENGTH_LONG).show();
+                //Toast.makeText(SearchResult.this,"111111111111111",Toast.LENGTH_LONG).show();
             }
 
         }
@@ -255,6 +320,54 @@ public class SearchResult extends AppCompatActivity {
             mTitleTv = itemView.findViewById(R.id.search_textView);
             mTitleContent = itemView.findViewById(R.id.search_textView2);
             mRootView = itemView.findViewById(R.id.rootview);
+        }
+    }
+
+    public void classify(String choose){
+        String course="";
+        if(choose.equals("语文")){course="chinese";}
+        if(choose.equals("数学")){course="math";}
+        if(choose.equals("英语")){course="english";}
+        if(choose.equals("物理")){course="physics";}
+        if(choose.equals("化学")){course="chemistry";}
+        if(choose.equals("生物")){course="biology";}
+        if(choose.equals("政治")){course="politics";}
+        if(choose.equals("历史")){course="history";}
+        if(choose.equals("地理")){course="geo";}
+        for(int i=0;i<9;i++){ sub[i]=false;}
+        if(course.equals("chinese")){sub[0]=true;}
+        if(course.equals("math")){sub[1]=true;}
+        if(course.equals("english")){sub[2]=true;}
+        if(course.equals("physics")){sub[3]=true;}
+        if(course.equals("chemistry")){sub[4]=true;}
+        if(course.equals("biology")){sub[5]=true;}
+        if(course.equals("politics")){sub[6]=true;}
+        if(course.equals("history")){sub[7]=true;}
+        if(course.equals("geo")){sub[8]=true;}
+        if(!course.equals(""))
+        try{
+            String url = SearchResult.this.getString(R.string.backend_ip) + "/request/search";
+            String msg="?course="+course+"&searchKey="+query1;
+            url=url+msg;
+            String res= serverHttpResponse.getResponse(url);
+            //Toast.makeText(SearchResult.this, "结果为"+res, Toast.LENGTH_SHORT).show();
+            System.out.println("结果为："+res);
+            //JSONObject answer_json = new JSONObject(res);
+            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+            //String answer=data.get("uri").toString();
+            //System.out.println("结果为："+answer);
+            result=res;
+            initlist(course);
+            //Intent intent1=new Intent(SearchResult.this, SearchResult.class);
+            //intent1.putExtra("result",res);
+            //startActivity(intent1);
+        }catch (Exception e){
+        }
+    }
+
+    public void sort(boolean dao){
+        if(dao){
+
         }
     }
 }

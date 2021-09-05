@@ -45,6 +45,8 @@ public class BlankFragment2 extends Fragment {
     ArrayList<News> mNewsList = new ArrayList<News>();
     LinearLayoutManager layoutManager;
     LinearLayout mylinear;
+    String user_name;
+    public int[] sub;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
         // Required empty public constructor
@@ -68,6 +70,10 @@ public class BlankFragment2 extends Fragment {
         geography=(Button)view.findViewById(R.id.geography1);
         channel_change=(Button)view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
+        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
+        user_name = userInfo.getString("username","");
+        sub=new int[9];
+        for(int i=0;i<9;i++)sub[i]=0;
         search.setIconifiedByDefault(true);
         //显示搜索按钮
         search.setSubmitButtonEnabled(true);
@@ -86,10 +92,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(0,0);
             }
         });
         math.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +100,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(1,0);
             }
         });
         English.setOnClickListener(new View.OnClickListener() {
@@ -108,10 +108,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(2,0);
             }
         });
         physics.setOnClickListener(new View.OnClickListener() {
@@ -119,10 +116,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(3,0);
             }
         });
         Chemistry.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +124,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(4,0);
             }
         });
         biology.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +132,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(5,0);
             }
         });
         politics.setOnClickListener(new View.OnClickListener() {
@@ -152,10 +140,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(6,0);
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -163,10 +148,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(7,0);
             }
         });
         geography.setOnClickListener(new View.OnClickListener() {
@@ -174,39 +156,22 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
+                initlist(8,0);
             }
         });
         initview();
         mRecyclerView = view.findViewById(R.id.recyclerview);
         // 构造一些数据
-        for (int i = 0; i < 10; i++) {
-            News news = new News("标题xxx" + i,"内容xxx" + i);
-            mNewsList.add(news);
-        }
-        DividerItemDecoration mDivider = new
-                DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(mDivider);
-        mMyAdapter = new MyAdapter1(getActivity(),mNewsList);
-        mRecyclerView.setAdapter(mMyAdapter);
-        layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
+        initlist(0,0);
 
+
+        channel_view();
 
         RefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh(1000);//传入false表示刷新失败
-                mNewsList.clear();
-                for (int i = 0; i < 10; i++) {
-                    News news = new News("标题 新内容" + i,"内容" + i);
-                    mNewsList.add(news);
-                }
-                mMyAdapter.notifyDataSetChanged();
             }
         });
 
@@ -214,11 +179,12 @@ public class BlankFragment2 extends Fragment {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadMore(1000);//传入false表示加载失败
-                for (int i = 0; i < 10; i++) {
-                    News news = new News("标题 新内容" + i,"内容" + i);
-                    mNewsList.add(news);
+                for(int i=0;i<9;i++) {
+                    if(sub[i]>0){
+                        initlist(i,sub[i]);
+                        sub[i]++;
+                    }
                 }
-                mMyAdapter.notifyDataSetChanged();
             }
         });
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -231,15 +197,14 @@ public class BlankFragment2 extends Fragment {
                     String msg="?course=chinese&searchKey="+query;
                     url=url+msg;
                     String res= serverHttpResponse.getResponse(url);
-                    Toast.makeText(getActivity(), "结果为"+res, Toast.LENGTH_SHORT).show();
-                    System.out.println("结果为："+res);
+                    //Toast.makeText(getActivity(), "结果为"+res, Toast.LENGTH_SHORT).show();
+
                     JSONObject answer_json = new JSONObject(res);
-                    JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                    String answer=data.get("uri").toString();
-                    System.out.println("结果为："+answer);
+                    JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(0);
 
                     Intent intent1=new Intent(getActivity(), SearchResult.class);
                     intent1.putExtra("result",res);
+                    intent1.putExtra("query",query);
                     startActivity(intent1);
                 }catch (Exception e){
 
@@ -264,7 +229,7 @@ public class BlankFragment2 extends Fragment {
         return view;
     }
     public void initview(){
-
+        //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml"))return;
         if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
         try{
             String zero="0";
@@ -348,19 +313,22 @@ public class BlankFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String url = getActivity().getString(R.string.backend_ip) + "/request/card";
-                            String msg="?course=chinese&name=李白";
+                            String url = getActivity().getString(R.string.backend_ip) + "/request/search";
+                            String msg="?course=chinese&searchKey=李白";
                             url=url+msg;
                             String res= serverHttpResponse.getResponse(url);
-                            Toast.makeText(getActivity(), "结果为"+res, Toast.LENGTH_SHORT).show();
-                            holder.mTitleContent.setText(res);
+                            //Toast.makeText(getActivity(), "结果1为"+res, Toast.LENGTH_SHORT).show();
+                            //holder.mTitleContent.setText(res);
                             System.out.println("结果为："+res);
-                            //JSONObject answer_json = new JSONObject(res);
-                            //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                            //String answer=data.get("uri").toString();
-                            //System.out.println("结果为："+answer);
-
+                            JSONObject answer_json = new JSONObject(res);
+                            JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
+                            String answer=data.get("uri").toString();
+                            url = getActivity().getString(R.string.backend_ip) + "/request/instance";
+                            msg="?course=chinese&name="+"李白";
+                            url+=msg;
+                            res=serverHttpResponse.getResponse(url);;
                             Intent intent1=new Intent(getActivity(), EntityDetails.class);
+                            intent1.putExtra("result",res.toString());
                             startActivity(intent1);
                         }catch (Exception e){
 
@@ -368,7 +336,7 @@ public class BlankFragment2 extends Fragment {
                     }
                 });
             }catch(NullPointerException e){
-                Toast.makeText(getActivity(),"111111111111111",Toast.LENGTH_LONG).show();
+                //.makeText(getActivity(),"111111111111111",Toast.LENGTH_LONG).show();
             }
 
         }
@@ -392,5 +360,51 @@ public class BlankFragment2 extends Fragment {
         }
     }
 
+    public void initlist(int a,int b){
+        for(int i=0;i<9;i++)sub[i]=0;
+        String course="";
+        sub[a]++;
+        if(a==0){course="chinese";}
+        if(a==1){course="math";}
+        if(a==2){course="english";}
+        if(a==3){course="physics";}
+        if(a==4){course="chemistry";}
+        if(a==5){course="biology";}
+        if(a==6){course="politics";}
+        if(a==7){course="history";}
+        if(a==8){course="geo";}
+        if(b==0)
+            mNewsList.clear();
+        try{
+            String url = getActivity().getString(R.string.backend_ip) + "/request/list";
+            String msg="?course="+course+"&page="+b;
+            String res= serverHttpResponse.getResponse(url+msg);
+
+            JSONObject answer_json = new JSONObject(res);
+            for(int i=0;i<((JSONObject) answer_json.opt("data")).length();i++){
+                JSONObject data2=((JSONArray)answer_json.opt("data")).optJSONObject(i);
+                System.out.println("i="+i+" "+data2);
+                String uri=data2.opt("uri").toString();
+                String type=data2.opt("entity_type").toString();
+                String name=data2.opt("entity_name").toString();
+                News n=new News(name,type,uri,course);
+                mNewsList.add(n);
+            }
+            JSONObject data1 = ((JSONObject) answer_json.opt("data"));
+        }catch(Exception e){}
+
+
+        channel_view();
+    }
+
+    public void channel_view(){
+        DividerItemDecoration mDivider = new
+                DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(mDivider);
+        mMyAdapter = new MyAdapter1(getActivity(),mNewsList);
+        mRecyclerView.setAdapter(mMyAdapter);
+        layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
 
 }
