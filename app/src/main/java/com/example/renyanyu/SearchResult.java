@@ -290,6 +290,7 @@ public class SearchResult extends AppCompatActivity {
                             //holder.mTitleContent.setText(((JSONArray)data1.opt("content")).toString());
 
                             Intent intent1=new Intent(SearchResult.this, EntityDetails.class);
+                            intent1.putExtra("type",news.content);
                             intent1.putExtra("result",res);
                             intent1.putExtra("card",re);
                             intent1.putExtra("course",news.course);

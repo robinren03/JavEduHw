@@ -270,15 +270,15 @@ public class BlankFragment2 extends Fragment {
         return view;
     }
     public void initview(){
-        //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml"))return;
-        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
+        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml")){begin_num=0;return;}
+        //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
         try{
             String zero="0";
             for(int i=0;i<9;i++){
                 Button bt=(Button)mylinear.getChildAt(i);
                 String tx=bt.getText().toString();
                 //if()
-                if(!getSettingNote(this.getActivity(),"subinfo",tx).equals(zero)){
+                if(!getSettingNote(this.getActivity(),user_name+"subinfo",tx).equals(zero)){
                     System.out.println(tx+" "+begin_num);
                     if(tx.equals("语文")&&begin_num==-1)begin_num=0;
                     if(tx.equals("数学")&&begin_num==-1)begin_num=1;

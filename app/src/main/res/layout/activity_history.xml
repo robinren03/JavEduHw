@@ -16,11 +16,22 @@
         android:textSize="30sp"
         android:textColor="@color/black"/>
 
-    <ListView
-        android:id="@+id/ListView1"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/ctype">
+        android:text="您还没有浏览过任何实体哦"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/history_page_guide_info"/>
+
+    <ListView
+        android:id="@+id/history_page_entity_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ctype"
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
     </ListView>
 

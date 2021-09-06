@@ -41,8 +41,8 @@ public class Channel extends AppCompatActivity{
         mUnSelectedChannel.setAllowDrag(true);
     }
     private void initData() {
-        //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml"))
-        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml")){
+        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml")){
+        //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml")){
             System.out.println("sssssssssssssssss");
             for(int i=0;i<9;i++){
                 if(i<3){
@@ -54,15 +54,15 @@ public class Channel extends AppCompatActivity{
                     sub.put(subs[i],"0");
                 }
             }
-            saveSettingNote(Channel.this, "subinfo", sub);
-            //saveSettingNote(Channel.this, user_name+"subinfo", sub);
+            //saveSettingNote(Channel.this, "subinfo", sub);
+            saveSettingNote(Channel.this, user_name+"subinfo", sub);
         }
         else{
             try{
                 String zero="0";
                 for(int i=0;i<9;i++){
-                    //if(getSettingNote(Channel.this,user_name+"subinfo",subs[i].toString()).equals(zero))
-                    if(getSettingNote(Channel.this,"subinfo",subs[i].toString()).equals(zero)){
+                    if(getSettingNote(Channel.this,user_name+"subinfo",subs[i].toString()).equals(zero)){
+                    //if(getSettingNote(Channel.this,"subinfo",subs[i].toString()).equals(zero)){
                         unSelectedChannel.add(subs[i].toString());
                         sub.put(subs[i],"0");
                     }
@@ -87,8 +87,8 @@ public class Channel extends AppCompatActivity{
                 mSelectedChannel.removeView(tv);//移除是需要时间,不能直接添加
                 mUnSelectedChannel.addItem(tv.getText().toString(),0);
                 sub.put(tv.getText().toString(),"0");
-                saveSettingNote(Channel.this, "subinfo", sub);
-                //saveSettingNote(Channel.this, uesr_name+"subinfo", sub);
+                //saveSettingNote(Channel.this, "subinfo", sub);
+                saveSettingNote(Channel.this, user_name+"subinfo", sub);
             }
         });
 
@@ -99,8 +99,8 @@ public class Channel extends AppCompatActivity{
                 mUnSelectedChannel.removeView(tv);//移除是需要时间,不能直接添加
                 mSelectedChannel.addItem(tv.getText().toString());
                 sub.put(tv.getText().toString(),"1");
-                saveSettingNote(Channel.this, "subinfo", sub);
-                //saveSettingNote(Channel.this, uesr_name+"subinfo", sub);
+                //saveSettingNote(Channel.this, "subinfo", sub);
+                saveSettingNote(Channel.this, user_name+"subinfo", sub);
             }
         });
     }

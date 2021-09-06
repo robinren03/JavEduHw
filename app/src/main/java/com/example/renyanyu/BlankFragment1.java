@@ -211,7 +211,8 @@ public class BlankFragment1 extends Fragment {
                         startActivity(intent);
                     }
                     if(position==1){
-
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
                     }
                     if(position==2){
                         getActivity().getSupportFragmentManager().
@@ -228,7 +229,8 @@ public class BlankFragment1 extends Fragment {
                         startActivity(intent);
                     }
                     if(position==1){
-
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
                     }
                     if(position==2){
                         MainActivity  mainActivity = (MainActivity) getActivity();
@@ -244,7 +246,8 @@ public class BlankFragment1 extends Fragment {
                         startActivity(intent);
                     }
                     if(position==1){
-
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
                     }
                     if(position==2){
                         MainActivity  mainActivity = (MainActivity) getActivity();

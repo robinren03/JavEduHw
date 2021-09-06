@@ -38,7 +38,6 @@ import java.util.*;
 
 public class EntityDetails extends AppCompatActivity {
     private Gson gson=new Gson();
-    public String name;
     public boolean collected;
     public News detail;
     public String ss; // 标题
@@ -82,8 +81,59 @@ public class EntityDetails extends AppCompatActivity {
         text1=findViewById(R.id.txt);
         text2=findViewById(R.id.txt1);
         SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
-        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,"test"));
         user_name = userInfo.getString("username","");
+
+        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,user_name));
+
+
+
+
+        // region 收藏和历史记录
+        Button shareButton=findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        }) ;
+        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
+        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
+        hadAddedToCollectionButton.setVisibility(View.GONE);
+        String severIP=EntityDetails.this.getString(R.string.backend_ip);
+        String userToken = userInfo.getString("token","");
+        String type=t1.getStringExtra("type");
+        String haveStarredUrl =  severIP+ "/request/haveStarred";
+        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        System.out.println(message);
+        String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
+        System.out.println(responseString);
+        if(responseString.equals("true"))
+        {
+            addToCollectionButton.setVisibility(View.GONE);
+            hadAddedToCollectionButton.setVisibility(View.VISIBLE);
+        }
+        else if(responseString.equals("false"))
+        {
+            addToCollectionButton.setVisibility(View.VISIBLE);
+            hadAddedToCollectionButton.setVisibility(View.GONE);
+        }
+        else
+        {
+            Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
+        }
+
+        String addToHistoryUrl =  severIP+ "/request/addToHistory";
+        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        System.out.println(message);
+        responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
+        System.out.println(responseString);
+
+        // endregion
+
+
+
+
         thread=new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +146,6 @@ public class EntityDetails extends AppCompatActivity {
                 setqa();
             }
         });
-        name="name_type";
         if(result!=null){
             thread.run();
             setview(ss);
@@ -153,43 +202,44 @@ public class EntityDetails extends AppCompatActivity {
 
 
         //设置选中选项监听
-        Button shareButton=findViewById(R.id.shareButton);
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        }) ;
-        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
-        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
-        hadAddedToCollectionButton.setVisibility(View.GONE);
 
         addToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //collected=true;
-                //detail.collected=collected;
-                //savePackageData();
                 Toast.makeText(EntityDetails.this,"已收藏",Toast.LENGTH_LONG).show();
                 addToCollectionButton.setVisibility(View.GONE);
                 hadAddedToCollectionButton.setVisibility(View.VISIBLE);
 
+                String url = severIP + "/request/star";
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                System.out.println(message);
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
             }
         }) ;
 
         hadAddedToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //collected=false;
-                //detail.collected=collected;
-                //savePackageData();
                 Toast.makeText(EntityDetails.this,"已取消收藏",Toast.LENGTH_LONG).show();
-//                addToCollectionButton.setPointerIcon(R.id.shareButton);
-                //  shareButton.setIm
                 addToCollectionButton.setVisibility(View.VISIBLE);
                 hadAddedToCollectionButton.setVisibility(View.GONE);
+
+                String url = severIP + "/request/star";
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                System.out.println(message);
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
             }
         }) ;
+
+
+
+
+
 
     }
 
