@@ -46,7 +46,10 @@ public class BlankFragment2 extends Fragment {
     LinearLayoutManager layoutManager;
     LinearLayout mylinear;
     String user_name;
+    int begin_num;
+    private Thread thread;
     public int[] sub;
+    boolean beg;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
         // Required empty public constructor
@@ -66,17 +69,25 @@ public class BlankFragment2 extends Fragment {
         Chemistry=(Button)view.findViewById(R.id.Chemistry1);
         biology=(Button)view.findViewById(R.id.biology1);
         politics=(Button)view.findViewById(R.id.politics1);
-        history=(Button)view.findViewById(R.id.politics1);
+        history=(Button)view.findViewById(R.id.history1);
         geography=(Button)view.findViewById(R.id.geography1);
         channel_change=(Button)view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
+        beg=true;
         sub=new int[9];
         for(int i=0;i<9;i++)sub[i]=0;
         search.setIconifiedByDefault(true);
         //显示搜索按钮
         search.setSubmitButtonEnabled(true);
+        thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("begin一下？？？？？"+begin_num);
+                initlist(begin_num,0);
+            }
+        });
         channel_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +103,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(0,0);
+                channel_view();
             }
         });
         math.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +113,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(1,0);
+                channel_view();
             }
         });
         English.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +123,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(2,0);
+                channel_view();
             }
         });
         physics.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +133,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(3,0);
+                channel_view();
             }
         });
         Chemistry.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +143,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(4,0);
+                channel_view();
             }
         });
         biology.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +153,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(5,0);
+                channel_view();
             }
         });
         politics.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +163,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(6,0);
+                channel_view();
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +173,9 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(7,0);
+                channel_view();
             }
         });
         geography.setOnClickListener(new View.OnClickListener() {
@@ -156,15 +183,18 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                beg=true;
                 initlist(8,0);
+                channel_view();
             }
         });
+        begin_num=-1;
         initview();
         mRecyclerView = view.findViewById(R.id.recyclerview);
         // 构造一些数据
-        initlist(0,0);
-
-
+        System.out.println("begin:"+begin_num);
+        //thread.start();
+        thread.run();
         channel_view();
 
         RefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
@@ -179,12 +209,23 @@ public class BlankFragment2 extends Fragment {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadMore(1000);//传入false表示加载失败
+                beg=false;
+                int page=-1,subje=-1;
+                for(int i=0;i<9;i++){
+                    if(sub[i]!=0){
+                        subje=i;
+                        page=sub[i];
+                        break;
+                    }
+                }
+                initlist(subje,page);
+                channel_view();
+                /*
                 for(int i=0;i<9;i++) {
                     if(sub[i]>0){
                         initlist(i,sub[i]);
-                        sub[i]++;
                     }
-                }
+                }*/
             }
         });
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -238,6 +279,16 @@ public class BlankFragment2 extends Fragment {
                 String tx=bt.getText().toString();
                 //if()
                 if(!getSettingNote(this.getActivity(),"subinfo",tx).equals(zero)){
+                    System.out.println(tx+" "+begin_num);
+                    if(tx.equals("语文")&&begin_num==-1)begin_num=0;
+                    if(tx.equals("数学")&&begin_num==-1)begin_num=1;
+                    if(tx.equals("英语")&&begin_num==-1)begin_num=2;
+                    if(tx.equals("物理")&&begin_num==-1)begin_num=3;
+                    if(tx.equals("化学")&&begin_num==-1)begin_num=4;
+                    if(tx.equals("生物")&&begin_num==-1)begin_num=5;
+                    if(tx.equals("政治")&&begin_num==-1)begin_num=6;
+                    if(tx.equals("历史")&&begin_num==-1)begin_num=7;
+                    if(tx.equals("地理")&&begin_num==-1)begin_num=8;
                     bt.setVisibility(View.VISIBLE);
                 }
                 else
@@ -313,22 +364,23 @@ public class BlankFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String url = getActivity().getString(R.string.backend_ip) + "/request/search";
-                            String msg="?course=chinese&searchKey=李白";
-                            url=url+msg;
-                            String res= serverHttpResponse.getResponse(url);
-                            //Toast.makeText(getActivity(), "结果1为"+res, Toast.LENGTH_SHORT).show();
-                            //holder.mTitleContent.setText(res);
-                            System.out.println("结果为："+res);
-                            JSONObject answer_json = new JSONObject(res);
-                            JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                            String answer=data.get("uri").toString();
-                            url = getActivity().getString(R.string.backend_ip) + "/request/instance";
-                            msg="?course=chinese&name="+"李白";
-                            url+=msg;
-                            res=serverHttpResponse.getResponse(url);;
+                            String ur=getActivity().getString(R.string.backend_ip) + "/request/card";
+                            String ms="course="+ news.course+"&uri="+news.uri;
+                            //System.out.println("card:"+news.uri);
+                            String re= serverHttpResponse.postResponse(ur,ms);
+                            //System.out.println("card:"+re);
+
+                            String url = getActivity().getString(R.string.backend_ip) + "/request/instance";
+                            String msg="?course="+news.course+"&name="+news.title;
+                            //System.out.println("instance:"+news.title);
+                            String res= serverHttpResponse.getResponse(url+msg);
+                            //System.out.println("instance:"+res);
                             Intent intent1=new Intent(getActivity(), EntityDetails.class);
-                            intent1.putExtra("result",res.toString());
+                            intent1.putExtra("result",res);
+                            intent1.putExtra("card",re);
+                            intent1.putExtra("course",news.course);
+                            intent1.putExtra("uri",news.uri);
+                            intent1.putExtra("entity_name",news.title);
                             startActivity(intent1);
                         }catch (Exception e){
 
@@ -362,6 +414,7 @@ public class BlankFragment2 extends Fragment {
 
     public void initlist(int a,int b){
         for(int i=0;i<9;i++)sub[i]=0;
+        sub[a]=b;
         String course="";
         sub[a]++;
         if(a==0){course="chinese";}
@@ -380,22 +433,26 @@ public class BlankFragment2 extends Fragment {
             String msg="?course="+course+"&page="+b;
             String res= serverHttpResponse.getResponse(url+msg);
 
-            JSONObject answer_json = new JSONObject(res);
-            for(int i=0;i<((JSONObject) answer_json.opt("data")).length();i++){
-                JSONObject data2=((JSONArray)answer_json.opt("data")).optJSONObject(i);
-                System.out.println("i="+i+" "+data2);
-                String uri=data2.opt("uri").toString();
+            JSONArray ddd=new JSONArray(res);
+            //System.out.println(answer_json);
+            //System.out.println(("!!!!!!!!!!:"+(JSONObject) answer_json.opt("data")));
+            //System.out.println(ddd.length());
+            for(int i=0;i<ddd.length();i++){
+                JSONObject data2=ddd.optJSONObject(i);
+                //System.out.println("i="+i+" "+data2);
+                String uri=data2.opt("entity_url").toString();
                 String type=data2.opt("entity_type").toString();
                 String name=data2.opt("entity_name").toString();
+                //System.out.println("结果"+i+"= "+uri+" "+type+" "+name+" "+course);
                 News n=new News(name,type,uri,course);
                 mNewsList.add(n);
             }
-            JSONObject data1 = ((JSONObject) answer_json.opt("data"));
         }catch(Exception e){}
-        channel_view();
+        //System.out.println("@@@@@@@@@@@@@@@@");
     }
 
     public void channel_view(){
+        //System.out.println("enter!!!!!!!!!!!!!!");
         DividerItemDecoration mDivider = new
                 DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDivider);

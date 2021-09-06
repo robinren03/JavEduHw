@@ -225,14 +225,14 @@ public class SearchResult extends AppCompatActivity {
         mNewsList.clear();
         try{
             JSONObject answer_json = new JSONObject(result);
-            System.out.println(((JSONArray) answer_json.opt("data")));
+            //System.out.println(((JSONArray) answer_json.opt("data")));
             if(((JSONArray) answer_json.opt("data")).optJSONObject(0)==null)
                 Toast.makeText(SearchResult.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
             else
             for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
                 JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
                 if(data==null)break;
-                System.out.println("i="+i+" "+data);
+                //System.out.println("i="+i+" "+data);
                 String label=data.opt("label").toString();
                 String category=data.opt("category").toString();
                 String uri=data.opt("uri").toString();
@@ -354,7 +354,7 @@ public class SearchResult extends AppCompatActivity {
             url=url+msg;
             String res= serverHttpResponse.getResponse(url);
             //Toast.makeText(SearchResult.this, "结果为"+res, Toast.LENGTH_SHORT).show();
-            System.out.println("结果为："+res);
+            //System.out.println("结果为："+res);
             //JSONObject answer_json = new JSONObject(res);
             //JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
             //String answer=data.get("uri").toString();

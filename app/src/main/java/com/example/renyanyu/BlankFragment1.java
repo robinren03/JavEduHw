@@ -63,7 +63,6 @@ public class BlankFragment1 extends Fragment {
                     String msg="?course=chinese&searchKey="+query;
                     url=url+msg;
                     String res= serverHttpResponse.getResponse(url);
-
                     JSONObject answer_json = new JSONObject(res);
                     JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(0);
 

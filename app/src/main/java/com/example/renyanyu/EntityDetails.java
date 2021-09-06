@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -40,11 +41,12 @@ public class EntityDetails extends AppCompatActivity {
     public String name;
     public boolean collected;
     public News detail;
-    public String title1,title2,title3; // 标题
+    public String ss; // 标题
     public String content1,content2,content3; //内容
     public String[] related;
     public TextView text1,text2;
     List<News> mNewsList = new ArrayList<>();
+    List<Exercise> mex = new ArrayList<>();
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     RecyclerView mRecyclerView;
     MyAdapter1 mMyAdapter ;
@@ -53,10 +55,20 @@ public class EntityDetails extends AppCompatActivity {
     public String result,card,course,mcontent;
     public String user_name,entity_name,kuri;
     KEntityRepository kdb;
+    private Thread thread,thread1;
+    private ViewPager mViewPager;
+
+    private CardPagerAdapter mCardAdapter;
+    private ShadowTransformer mCardShadowTransformer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
+
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        mCardAdapter = new CardPagerAdapter();
+
         //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
         mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
@@ -66,16 +78,29 @@ public class EntityDetails extends AppCompatActivity {
         mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
-        System.out.println("uri="+kuri);
+        //System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
         text2=findViewById(R.id.txt1);
         SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
         kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,"test"));
         user_name = userInfo.getString("username","");
-
+        thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initstr();
+            }
+        });
+        thread1=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                setqa();
+            }
+        });
         name="name_type";
         if(result!=null){
-            initstr();
+            thread.run();
+            setview(ss);
+            thread1.run();
             KEntity tem=new KEntity(kuri,entity_name,card,result,new Date());
             kdb.insertkEntity(tem);
         }
@@ -91,9 +116,25 @@ public class EntityDetails extends AppCompatActivity {
                     course=tem.getCourse();
                     card=tem.getProperty();
                     result=tem.getContent();
-                    initstr();
+                    thread.run();
+                    setview(ss);
                 }
-            }catch (Exception e){System.out.println("！！！！！！！！！！");}
+            }catch (Exception e){}
+        }
+        for(int i=0;i<mex.size();i++)
+        {
+            //System.out.println("i="+i+" "+mex.get(i).stem);
+            mCardAdapter.addCardItem(mex.get(i));
+        }
+        if(mex.size()!=0){
+            mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
+            mCardShadowTransformer.enableScaling(true);
+
+            mViewPager.setAdapter(mCardAdapter);
+            mViewPager.setPageTransformer(false, mCardShadowTransformer);
+            mViewPager.setOffscreenPageLimit(3);
+        }else{
+            mViewPager.setVisibility(View.GONE);
         }
         /*
         if(fileIsExists(name))
@@ -154,13 +195,8 @@ public class EntityDetails extends AppCompatActivity {
 
 
     public void initstr(){
-        if(result==null)
-        {
-            //调用本地
-            //if 本地没有
-            //text1.setText(没有可用的网络！);
-        }
-        String ss="";
+        //System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+        ss="";
         try{
             JSONObject an1 = new JSONObject(card);
             JSONObject da1 = ((JSONObject) an1.opt("data"));
@@ -244,8 +280,9 @@ public class EntityDetails extends AppCompatActivity {
                 //}
             }
         }catch (Exception e){}
+    }
 
-
+    void setview(String ss){
         DividerItemDecoration mDivider = new
                 DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDivider);
@@ -261,7 +298,7 @@ public class EntityDetails extends AppCompatActivity {
 
     class MyAdapter1 extends RecyclerView.Adapter<MyViewHoder1> {
 
-        List<News> list;
+       // List<News> list;
 
         @Override
         public MyViewHoder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -322,5 +359,38 @@ public class EntityDetails extends AppCompatActivity {
             mTitleContent = itemView.findViewById(R.id.search_textView2);
             mRootView = itemView.findViewById(R.id.rootview);
         }
+    }
+
+    void setqa(){
+        String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/exercise";
+        String msg="?uriName="+entity_name;
+        //System.out.println("msg:"+msg);
+        String res= serverHttpResponse.getResponse(url+msg);
+        try{
+            JSONObject answer_json = new JSONObject(res);
+            //System.out.println(((JSONArray) answer_json.opt("data")).length());
+            for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
+                JSONObject data1 = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
+                String stemall=data1.opt("qBody").toString();
+                String answer=data1.opt("qAnswer").toString();
+                int index_a=stemall.indexOf("A.");
+                int index_b=stemall.indexOf("B.");
+                int index_c=stemall.indexOf("C.");
+                int index_d=stemall.indexOf("D.");
+                if(index_a==-1&&index_b==-1&&index_c==-1&&index_d==-1){
+                    Exercise e=new Exercise(stemall,answer);
+                    mex.add(e);
+                }
+                else{
+                    String stem=stemall.substring(0,index_a);
+                    String text_a=stemall.substring(index_a+2,index_b);
+                    String text_b=stemall.substring(index_b+2,index_c);
+                    String text_c=stemall.substring(index_c+2,index_d);
+                    String text_d=stemall.substring(index_d+2);
+                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer);
+                    mex.add(e);
+                }
+            }
+        }catch(Exception e){}
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="backend_ip">http://183.172.211.239:9090</string>
+    <string name="backend_ip">http://183.172.143.156:9090</string>
     <string name="app_name">JavEduHw</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->

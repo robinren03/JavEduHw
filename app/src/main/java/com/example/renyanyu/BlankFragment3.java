@@ -18,7 +18,7 @@ public class BlankFragment3 extends Fragment {
         // Required empty public constructor
     }
 
-
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
