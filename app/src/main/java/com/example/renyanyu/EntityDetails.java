@@ -21,9 +21,41 @@ public class EntityDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
 
+        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
+        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
+        hadAddedToCollectionButton.setVisibility(View.GONE);
+
         Intent intent=getIntent();
+        String name=intent.getStringExtra("name");
+        String type=intent.getStringExtra("type");
         String uri=intent.getStringExtra("uri");
 
+        String severIP=EntityDetails.this.getString(R.string.backend_ip);
+        SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
+        String userToken = userInfo.getString("token","");
+
+        String haveStarredUrl =  severIP+ "/request/haveStarred";
+        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+        String message="token="+userToken+"&name="+name+"&type="+type+"&uri="+uri;
+        System.out.println(message);
+        String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
+        System.out.println(responseString);
+        if(responseString.equals("true"))
+        {
+            addToCollectionButton.setVisibility(View.GONE);
+            hadAddedToCollectionButton.setVisibility(View.VISIBLE);
+        }
+        else if(responseString.equals("false"))
+        {
+            addToCollectionButton.setVisibility(View.VISIBLE);
+            hadAddedToCollectionButton.setVisibility(View.GONE);
+        }
+        else
+        {
+            Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
+        }
+
+        // region 实体详情
         ListView listView=(ListView)findViewById(R.id.ListView1);
         final String[] str ={"属性名\n属性值","属性名\n属性值","属性名\n属性值"};
         //配置ArrayAdapter适配器
@@ -36,10 +68,10 @@ public class EntityDetails extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-//                Intent goToHistoryPage = new Intent(History.this,History.class);
-//                startActivity(goToHistoryPage);
             }
         });
+        // endregion
+
         Button shareButton=findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +79,8 @@ public class EntityDetails extends AppCompatActivity {
 
             }
         }) ;
-        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
-        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
-        hadAddedToCollectionButton.setVisibility(View.GONE);
+
+
 
         addToCollectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,17 +89,12 @@ public class EntityDetails extends AppCompatActivity {
                 addToCollectionButton.setVisibility(View.GONE);
                 hadAddedToCollectionButton.setVisibility(View.VISIBLE);
 
-                String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/star";
-                SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
-                String userToken = userInfo.getString("token","");
+                String url = severIP + "/request/star";
                 ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                String message="course=chinese&"+"name="+uri+"&token="+userToken;
+                String message="token="+userToken+"&name="+name+"&type="+type+"&uri="+uri;
                 System.out.println(message);
-//                url=url+"?"+message;
                 String responseString = serverHttpResponse.postResponse(url,message);
                 System.out.println(responseString);
-
-
             }
         }) ;
 
@@ -76,10 +102,15 @@ public class EntityDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(EntityDetails.this,"已取消收藏",Toast.LENGTH_LONG).show();
-//                addToCollectionButton.setPointerIcon(R.id.shareButton);
-                //  shareButton.setIm
                 addToCollectionButton.setVisibility(View.VISIBLE);
                 hadAddedToCollectionButton.setVisibility(View.GONE);
+
+                String url = severIP + "/request/star";
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="token="+userToken+"&name="+name+"&type="+type+"&uri="+uri;
+                System.out.println(message);
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
             }
         }) ;
 
