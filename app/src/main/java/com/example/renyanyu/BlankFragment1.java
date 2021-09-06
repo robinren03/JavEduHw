@@ -1,11 +1,13 @@
 package com.example.renyanyu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,13 @@ import android.widget.SearchView;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.*;
 import java.util.Map;
 import android.widget.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 //import com.example.javeduhw.databinding.FragmentFirstBinding;
 
 public class BlankFragment1 extends Fragment {
@@ -23,48 +30,76 @@ public class BlankFragment1 extends Fragment {
         // Required empty public constructor
     }
 
-    LinearLayout mylinear;
     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT);
-    Button Chinese,math,English,physics,Chemistry,biology,politics,history,geography,qa;
-    private SearchView search;
-    private Button channel_change;
+    Button channel_change;
+    SearchView search;
+    ImageView qa;
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
+    private ListView mLvMsgList;
+    private List<Message> mDatas = new ArrayList<>();
+    private MessageAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //Toast.makeText(getContext(),"点击了：",Toast.LENGTH_LONG).show();
+
         View view = inflater.inflate(R.layout.fragment_blank_fragment1, container, false);
-        mylinear = (LinearLayout) view.findViewById(R.id.Mylinear);
-
-        Chinese=(Button)view.findViewById(R.id.Chinese);
-        math=(Button)view.findViewById(R.id.math);
-        English=(Button)view.findViewById(R.id.English);
-        physics=(Button)view.findViewById(R.id.physics);
-        Chemistry=(Button)view.findViewById(R.id.Chemistry);
-        biology=(Button)view.findViewById(R.id.biology);
-        politics=(Button)view.findViewById(R.id.politics);
-        history=(Button)view.findViewById(R.id.politics);
-        geography=(Button)view.findViewById(R.id.geography);
-        qa=(Button)view.findViewById(R.id.IVButton_Id);
-        Button entityLinkButton=(Button) view.findViewById(R.id.GVButton_Id);
-
-        entityLinkButton.setOnClickListener(new View.OnClickListener() {
+        qa=(ImageView)view.findViewById(R.id.qa);
+        search=view.findViewById(R.id.searc);
+        search.setIconifiedByDefault(true);
+        //显示搜索按钮
+        search.setSubmitButtonEnabled(true);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //单击搜索按钮的监听
             @Override
-            public void onClick(View view) {
-                Intent goToEntityLinkPage=new Intent(getActivity(),EntityLink.class);
-                startActivity(goToEntityLinkPage);
+            public boolean onQueryTextSubmit(String query) {
+                //Toast.makeText(MainActivity.this, "您输入的文本为" + query, Toast.LENGTH_SHORT).show();
+
+                try{
+                    String url = getActivity().getString(R.string.backend_ip) + "/request/search";
+                    String msg="?course=chinese&searchKey="+query;
+                    url=url+msg;
+                    String res= serverHttpResponse.getResponse(url);
+                    JSONObject answer_json = new JSONObject(res);
+                    JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(0);
+
+                    Intent intent1=new Intent(getActivity(), SearchResult.class);
+                    intent1.putExtra("result",res);
+                    intent1.putExtra("query",query);
+                    startActivity(intent1);
+                }catch (Exception e){
+
+                }
+                return true;
+            }
+            //输入字符的监听
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)){
+
+                }
+                else {
+
+                }
+
+                return true;
             }
         });
-        Button testHistoryPageButton=(Button) view.findViewById(R.id.LVButton_Id);
-        testHistoryPageButton.setOnClickListener(new View.OnClickListener() {
+        channel_change=(Button)view.findViewById(R.id.channel);
+        channel_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToTestHistoryPage=new Intent(getActivity(),MyInfo.class);
-                startActivity(goToTestHistoryPage);
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //        .setAction("Action", null).show();
+                Intent intent=new Intent();
+                intent.setClass(getActivity(),Channel.class);
+                startActivityForResult(intent,0);
             }
         });
+
         qa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,159 +111,163 @@ public class BlankFragment1 extends Fragment {
                 startActivity(intent);
             }
         });
-        Chinese.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        math.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        English.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        physics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        Chemistry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        biology.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        politics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
-        geography.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),SearchResult.class);
-                //传输消息 todo
-                startActivity(intent);
-            }
-        });
+        mLvMsgList = view.findViewById(R.id.listview_MsgList);
 
+        /**
+         * 多调用两次，数据会更多
+         */
+        if(mDatas.size()==0)
+            mDatas.addAll(MessageLab.generateMockList());
 
-        initview();
+        mAdapter=new MessageAdapter(getActivity(),getContext(),mDatas);
+
+        mLvMsgList.setAdapter(mAdapter);
         return view;
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1&&requestCode==0){
+            //Toast.makeText(getContext(), "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+            Intent i=new Intent(getActivity(),MainActivity.class);
+            startActivity(i);
+        }
+    }
 
-    public void initview(){
-        if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
-        try{
-            String zero="0";
-            for(int i=0;i<9;i++){
-                Button bt=(Button)mylinear.getChildAt(i);
-                String tx=bt.getText().toString();
-                //if()
-                if(!getSettingNote(this.getActivity(),"subinfo",tx).equals(zero)){
-                    bt.setVisibility(View.VISIBLE);
+    public class MessageAdapter extends BaseAdapter {
+
+        private Context mContext;//上下文环境
+        private Activity activity;
+        /**
+         * 主要用于加载item_msg的布局
+         */
+        private LayoutInflater mInflater;
+        private List<Message> mDatas;
+
+        /**
+         * 构造方法
+         */
+        public MessageAdapter(Activity ac,Context context, List<Message> datas) {
+
+            /**
+             * 赋值
+             */
+            activity=ac;
+            mContext = context;
+            mInflater = LayoutInflater.from(context);
+            mDatas = datas;
+        }
+
+
+        @Override
+        public int getCount() {
+            return mDatas.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mDatas.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder viewHolder = null;
+
+            if (convertView == null){
+
+                convertView=mInflater.inflate(R.layout.item_card,parent,false);
+
+                viewHolder=new ViewHolder();
+
+                /**
+                 * 获取子布局中三个控件：ImageView TextView TextView
+                 */
+                viewHolder.mIvImg=convertView.findViewById(R.id.imageview_Image);
+                viewHolder.mTvTitle=convertView.findViewById(R.id.textview_title);
+                viewHolder.mTvContent=convertView.findViewById(R.id.textview_content);
+
+                convertView.setTag(viewHolder);
+            }
+
+            else {
+
+                viewHolder= (ViewHolder) convertView.getTag();
+            }
+
+            Message message=mDatas.get(position);
+            viewHolder.mIvImg.setImageResource(message.getImgResId());
+            viewHolder.mTvTitle.setText(message.getTitle());
+            viewHolder.mTvContent.setText(message.getContent());
+            viewHolder.mIvImg.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(position==0){
+                        Intent intent=new Intent(activity,QA.class);
+                        startActivity(intent);
+                    }
+                    if(position==1){
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
+                    }
+                    if(position==2){
+                        getActivity().getSupportFragmentManager().
+                                beginTransaction().replace(R.id.fram_con,new BlankFragment2(),null).
+                                addToBackStack(null).commit();
+                    }
                 }
-                else
-                    bt.setVisibility(View.GONE);
-            }
-        }catch(NullPointerException e){}
-    }
+            });
+            viewHolder.mTvTitle.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(position==0){
+                        Intent intent=new Intent(activity,QA.class);
+                        startActivity(intent);
+                    }
+                    if(position==1){
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
+                    }
+                    if(position==2){
+                        MainActivity  mainActivity = (MainActivity) getActivity();
+                        mainActivity. gotosubject ();
+                    }
+                }
+            });
+            viewHolder.mTvContent.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(position==0){
+                        Intent intent=new Intent(activity,QA.class);
+                        startActivity(intent);
+                    }
+                    if(position==1){
+                        Intent intent= new Intent(activity,EntityLink.class);
+                        startActivity(intent);
+                    }
+                    if(position==2){
+                        MainActivity  mainActivity = (MainActivity) getActivity();
+                        mainActivity. gotosubject ();
+                    }
+                }
+            });
 
-    public static void saveSettingNote(Context context, String filename , Map<String, String> map) {
-        SharedPreferences.Editor note = context.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();
-        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
-            note.putString(entry.getKey(), entry.getValue());
-            note.commit();
+            return convertView;
         }
 
-    }
+        /**
+         * 内部类：可省去findViewById的时间
+         */
+        public  class ViewHolder {
 
-    public static String getSettingNote(Context context,String filename ,String dataname) {
-        SharedPreferences read = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
-        return read.getString(dataname,null);
-    }
-    //判断文件是否存在
-    public boolean fileIsExists(String strFile)
-    {
-        try
-        {
-            File f=new File(strFile);
-            if(!f.exists())
-            {
-                return false;
-            }
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
+            ImageView mIvImg;
+            TextView mTvTitle;
+            TextView mTvContent;
 
-        return true;
+        }
     }
 }
