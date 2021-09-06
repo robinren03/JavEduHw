@@ -55,6 +55,13 @@ public class EntityDetails extends AppCompatActivity {
             Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
         }
 
+        String addToHistoryUrl =  severIP+ "/request/addToHistory";
+        message="token="+userToken+"&name="+name+"&type="+type+"&uri="+uri;
+        System.out.println(message);
+        responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
+        System.out.println(responseString);
+
+
         // region 实体详情
         ListView listView=(ListView)findViewById(R.id.ListView1);
         final String[] str ={"属性名\n属性值","属性名\n属性值","属性名\n属性值"};

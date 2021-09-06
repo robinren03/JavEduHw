@@ -1,198 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MyInfo">
-
-<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
-    <!--标题：个人信息-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    tools:context=".MyInfo">
 
-        <TextView
+    <ListView
+        android:padding="20dp"
+        android:scrollbars="none"
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rll_view"
+        android:background="#22000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="个人信息"
-            android:textSize="25dp"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_delete"
+            android:tooltipText="1312312"/>
 
-    </LinearLayout>
-
-    <!--TODO：头像-->
-
-    <!--账号-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="账        号："/>
+            android:orientation="vertical"
+            android:layout_toStartOf="@+id/btn_delete">
 
-        <!--账号应该直接展示出来，不能修改-->
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tooltipText="1234"
+                android:src="@drawable/ic_cancel"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="取消"
+                android:layout_gravity="center"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <!--昵称-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="昵        称："/>
-
-        <EditText
+        <ImageView
+            android:id="@+id/btn_check_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="11"
-            android:hint="昵称可以是3~12位的数字、字母、下划线的组合"/>
+            android:layout_toRightOf="@+id/btn_delete"
+            android:src="@drawable/ic_check_all"/>
 
-    </LinearLayout>
-
-    <!--性别-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="性        别："/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="11"
-            android:hint="请输入您的性别"/>
-
-    </LinearLayout>
-
-    <!--出生年月-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="出生年月："/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:maxLength="11"
-            android:hint="请输入您的出生年月"/>
-
-    </LinearLayout>
-
-    <!--学校-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="学        校："/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="11"
-            android:hint="请输入您的学校"/>
-
-    </LinearLayout>
-
-    <!--年级-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="年        级："/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLength="11"
-            android:hint="请输入您的年级"/>
-
-    </LinearLayout>
-
-    <!--邮箱-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="邮        箱："/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:maxLength="11"
-            android:hint="请输入您的邮箱"/>
-
-    </LinearLayout>
-
-    <!--TODO：二维码名片-->
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:text="确定修改"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <TextView
-
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="返回个人中心"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
-</LinearLayout>
+

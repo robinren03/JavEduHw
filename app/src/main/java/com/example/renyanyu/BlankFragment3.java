@@ -103,6 +103,7 @@ public class BlankFragment3 extends Fragment {
                         startActivity(goToCollectionPage);
                         break;
                     case R.id.item_history:
+                        System.out.println("goToHistoryPage");
                         Intent goToHistoryPage = new Intent(getActivity(),History.class);
                         startActivity(goToHistoryPage);
                         break;
@@ -228,6 +229,7 @@ public class BlankFragment3 extends Fragment {
                         startActivity(goToCollectionPage);
                         break;
                     case R.id.item_history:
+                        System.out.println("goToHistoryPage");
                         Intent goToHistoryPage = new Intent(getActivity(),History.class);
                         startActivity(goToHistoryPage);
                         break;

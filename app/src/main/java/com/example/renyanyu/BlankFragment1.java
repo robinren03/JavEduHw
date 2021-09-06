@@ -49,11 +49,20 @@ public class BlankFragment1 extends Fragment {
         geography=(Button)view.findViewById(R.id.geography);
         qa=(Button)view.findViewById(R.id.IVButton_Id);
         Button entityLinkButton=(Button) view.findViewById(R.id.GVButton_Id);
+
         entityLinkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent goToEntityLinkPage=new Intent(getActivity(),EntityLink.class);
                 startActivity(goToEntityLinkPage);
+            }
+        });
+        Button testHistoryPageButton=(Button) view.findViewById(R.id.LVButton_Id);
+        testHistoryPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToTestHistoryPage=new Intent(getActivity(),MyInfo.class);
+                startActivity(goToTestHistoryPage);
             }
         });
         qa.setOnClickListener(new View.OnClickListener() {
