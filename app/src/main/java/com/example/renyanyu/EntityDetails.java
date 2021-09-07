@@ -56,7 +56,7 @@ public class EntityDetails extends AppCompatActivity {
     KEntityRepository kdb;
     private Thread thread,thread1;
     private ViewPager mViewPager;
-
+    Map<String,String> his_ent=new HashMap<String,String>();
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
     @Override
@@ -66,17 +66,18 @@ public class EntityDetails extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        mCardAdapter = new CardPagerAdapter();
+        mCardAdapter = new CardPagerAdapter(EntityDetails.this);
 
         //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
         mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
-        result=t1.getStringExtra("result");
-        card=t1.getStringExtra("card");
+        //result=t1.getStringExtra("result");
+        //card=t1.getStringExtra("card");
         course=t1.getStringExtra("course");
         mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
+        getinfo();
         //System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
         text2=findViewById(R.id.txt1);
@@ -146,7 +147,7 @@ public class EntityDetails extends AppCompatActivity {
                 setqa();
             }
         });
-        if(result!=null){
+        if(kuri!=null){
             thread.run();
             setview(ss);
             thread1.run();
@@ -368,18 +369,21 @@ public class EntityDetails extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
-                            String ms="course="+ news.course+"&uri="+news.uri;
-                            String re= serverHttpResponse.postResponse(ur,ms);
-
-                            String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
-                            String msg="?course="+course+"&name="+news.content;
-                            String res= serverHttpResponse.getResponse(url+msg);
+//                            String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
+//                            String ms="course="+ news.course+"&uri="+news.uri;
+//                            String re= serverHttpResponse.postResponse(ur,ms);
+//
+//                            String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
+//                            String msg="?course="+course+"&name="+news.content;
+//                            String res= serverHttpResponse.getResponse(url+msg);
 
                             Intent intent1=new Intent(EntityDetails.this, EntityDetails.class);
-                            intent1.putExtra("result",res);
-                            intent1.putExtra("content",res);
+                            //intent1.putExtra("result",res);
+                            //intent1.putExtra("content",res);
+                            intent1.putExtra("entity_name",news.title);
+                            intent1.putExtra("uri",news.uri);
                             intent1.putExtra("course",news.course);
+                            intent1.putExtra("type",news.content);
                             startActivity(intent1);
                         }catch (Exception e){
 
@@ -423,12 +427,14 @@ public class EntityDetails extends AppCompatActivity {
                 JSONObject data1 = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
                 String stemall=data1.opt("qBody").toString();
                 String answer=data1.opt("qAnswer").toString();
+                if(answer.contains("A")&&answer.length()>0)continue;
+                String id=data1.opt("id").toString();
                 int index_a=stemall.indexOf("A.");
                 int index_b=stemall.indexOf("B.");
                 int index_c=stemall.indexOf("C.");
                 int index_d=stemall.indexOf("D.");
                 if(index_a==-1&&index_b==-1&&index_c==-1&&index_d==-1){
-                    Exercise e=new Exercise(stemall,answer);
+                    Exercise e=new Exercise(stemall,answer,id,entity_name);
                     mex.add(e);
                 }
                 else{
@@ -437,10 +443,22 @@ public class EntityDetails extends AppCompatActivity {
                     String text_b=stemall.substring(index_b+2,index_c);
                     String text_c=stemall.substring(index_c+2,index_d);
                     String text_d=stemall.substring(index_d+2);
-                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer);
+                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer,id,entity_name);
                     mex.add(e);
                 }
             }
         }catch(Exception e){}
+    }
+
+    public void getinfo(){
+        String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
+        String ms="course="+ course+"&uri="+kuri;
+        card= serverHttpResponse.postResponse(ur,ms);
+
+
+        String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
+        String msg="?course="+course+"&name="+entity_name;
+
+        result= serverHttpResponse.getResponse(url+msg);
     }
 }

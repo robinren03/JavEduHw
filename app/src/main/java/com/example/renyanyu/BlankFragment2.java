@@ -3,6 +3,7 @@ package com.example.renyanyu;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -42,6 +44,8 @@ public class BlankFragment2 extends Fragment {
     private SearchView search;
     RecyclerView mRecyclerView;
     MyAdapter1 mMyAdapter ;
+    ImageView img;
+    TextView hot;
     ArrayList<News> mNewsList = new ArrayList<News>();
     LinearLayoutManager layoutManager;
     LinearLayout mylinear;
@@ -50,6 +54,7 @@ public class BlankFragment2 extends Fragment {
     private Thread thread;
     public int[] sub;
     boolean beg;
+    News hot_news;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
         // Required empty public constructor
@@ -75,6 +80,8 @@ public class BlankFragment2 extends Fragment {
         search=(SearchView) view.findViewById(R.id.search1);
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
+        img=view.findViewById(R.id.hot_img);
+        hot=view.findViewById(R.id.hot);
         beg=true;
         sub=new int[9];
         for(int i=0;i<9;i++)sub[i]=0;
@@ -106,6 +113,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(0,0);
                 channel_view();
+                sethot();
             }
         });
         math.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +124,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(1,0);
                 channel_view();
+                sethot();
             }
         });
         English.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +135,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(2,0);
                 channel_view();
+                sethot();
             }
         });
         physics.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +146,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(3,0);
                 channel_view();
+                sethot();
             }
         });
         Chemistry.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +157,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(4,0);
                 channel_view();
+                sethot();
             }
         });
         biology.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +168,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(5,0);
                 channel_view();
+                sethot();
             }
         });
         politics.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +179,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(6,0);
                 channel_view();
+                sethot();
             }
         });
         history.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +190,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(7,0);
                 channel_view();
+                sethot();
             }
         });
         geography.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +201,7 @@ public class BlankFragment2 extends Fragment {
                 beg=true;
                 initlist(8,0);
                 channel_view();
+                sethot();
             }
         });
         begin_num=-1;
@@ -196,6 +212,7 @@ public class BlankFragment2 extends Fragment {
         //thread.start();
         thread.run();
         channel_view();
+        sethot();
 
         RefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -265,6 +282,33 @@ public class BlankFragment2 extends Fragment {
                 }
 
                 return true;
+            }
+        });
+
+        hot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1=new Intent(getActivity(), EntityDetails.class);
+                //intent1.putExtra("result",res);
+                //intent1.putExtra("card",re);
+                intent1.putExtra("course",hot_news.course);
+                intent1.putExtra("uri",hot_news.uri);
+                intent1.putExtra("entity_name",hot_news.title);
+                intent1.putExtra("type",hot_news.content);
+                startActivity(intent1);
+            }
+        });
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1=new Intent(getActivity(), EntityDetails.class);
+                //intent1.putExtra("result",res);
+                //intent1.putExtra("card",re);
+                intent1.putExtra("course",hot_news.course);
+                intent1.putExtra("uri",hot_news.uri);
+                intent1.putExtra("entity_name",hot_news.title);
+                intent1.putExtra("type",hot_news.content);
+                startActivity(intent1);
             }
         });
         return view;
@@ -364,23 +408,23 @@ public class BlankFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String ur=getActivity().getString(R.string.backend_ip) + "/request/card";
-                            String ms="course="+ news.course+"&uri="+news.uri;
-                            //System.out.println("card:"+news.uri);
-                            String re= serverHttpResponse.postResponse(ur,ms);
-                            //System.out.println("card:"+re);
-
-                            String url = getActivity().getString(R.string.backend_ip) + "/request/instance";
-                            String msg="?course="+news.course+"&name="+news.title;
-                            //System.out.println("instance:"+news.title);
-                            String res= serverHttpResponse.getResponse(url+msg);
-                            //System.out.println("instance:"+res);
+//                            String ur=getActivity().getString(R.string.backend_ip) + "/request/card";
+//                            String ms="course="+ news.course+"&uri="+news.uri;
+//                            String re= serverHttpResponse.postResponse(ur,ms);
+//
+//
+//                            String url = getActivity().getString(R.string.backend_ip) + "/request/instance";
+//                            String msg="?course="+news.course+"&name="+news.title;
+//
+//                            String res= serverHttpResponse.getResponse(url+msg);
+//
                             Intent intent1=new Intent(getActivity(), EntityDetails.class);
-                            intent1.putExtra("result",res);
-                            intent1.putExtra("card",re);
+                            //intent1.putExtra("result",res);
+                            //intent1.putExtra("card",re);
                             intent1.putExtra("course",news.course);
                             intent1.putExtra("uri",news.uri);
                             intent1.putExtra("entity_name",news.title);
+                            intent1.putExtra("type",news.content);
                             startActivity(intent1);
                         }catch (Exception e){
 
@@ -437,7 +481,9 @@ public class BlankFragment2 extends Fragment {
             //System.out.println(answer_json);
             //System.out.println(("!!!!!!!!!!:"+(JSONObject) answer_json.opt("data")));
             //System.out.println(ddd.length());
-            for(int i=0;i<ddd.length();i++){
+            JSONObject one=ddd.optJSONObject(0);
+            hot_news=new News(ddd.optJSONObject(0).opt("entity_name").toString(),ddd.optJSONObject(0).opt("entity_type").toString(),ddd.optJSONObject(0).opt("entity_url").toString(),course);
+            for(int i=1;i<ddd.length();i++){
                 JSONObject data2=ddd.optJSONObject(i);
                 //System.out.println("i="+i+" "+data2);
                 String uri=data2.opt("entity_url").toString();
@@ -462,4 +508,13 @@ public class BlankFragment2 extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
+    void sethot(){
+        try{
+            hot.setText("  名称："+hot_news.title+"\n\n  类型："+hot_news.content);
+            hot.setTextColor(Color.rgb(255, 0, 0));
+            hot.setVisibility(View.VISIBLE);
+            img.setVisibility(View.VISIBLE);
+        }catch (Exception e){}
+
+    }
 }

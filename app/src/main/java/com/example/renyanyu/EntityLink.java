@@ -215,17 +215,17 @@ public class EntityLink extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                             {
 
-                                String url = EntityLink.this.getString(R.string.backend_ip) + "/request/instance";
-                                String msg="?course="+subject+"&name="+entityList.get(position).name;
-                                String res= serverHttpResponse.getResponse(url+msg);
-
-                                String ur=EntityLink.this.getString(R.string.backend_ip) + "/request/card";
-                                String ms="course="+ subject+"&uri="+entityList.get(position).uri;
-                                String re= serverHttpResponse.postResponse(ur,ms);
+//                                String url = EntityLink.this.getString(R.string.backend_ip) + "/request/instance";
+//                                String msg="?course="+subject+"&name="+entityList.get(position).name;
+//                                String res= serverHttpResponse.getResponse(url+msg);
+//
+//                                String ur=EntityLink.this.getString(R.string.backend_ip) + "/request/card";
+//                                String ms="course="+ subject+"&uri="+entityList.get(position).uri;
+//                                String re= serverHttpResponse.postResponse(ur,ms);
 
                                 Intent goToEntityDetailsPage = new Intent(EntityLink.this,EntityDetails.class);
-                                goToEntityDetailsPage.putExtra("result",res);
-                                goToEntityDetailsPage.putExtra("card",re);
+                                //goToEntityDetailsPage.putExtra("result",res);
+                                //goToEntityDetailsPage.putExtra("card",re);
                                 goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                                 Toast.makeText(EntityLink.this, "name:"+entityList.get(position).name, Toast.LENGTH_SHORT).show();
                                 goToEntityDetailsPage.putExtra("type",entityList.get(position).type);

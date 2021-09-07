@@ -26,28 +26,30 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
 
     private FragmentManager fmanager;
     private FragmentTransaction ftransaction;
-    private Fragment f1,f2,f3;
+    //private Fragment f1,f2,f3;
+    public MyFragmentPagerAdapter mf;
     TabLayout tabLayout;
     public int ss;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        f1=new BlankFragment1();
-        f2=new BlankFragment2();
-        f3=new BlankFragment3();
+        GlobalParms.setFragmentSelected(new ChangeFragment() {
+            @Override
+            public void changge(int position) {
+                //调用BottomNavigationBar的setlecTab方法来改变Tab
+                tabLayout.selectTab(tabLayout.getTabAt(1));
+            }
+        });
+        //GlobalParms.f1=new BlankFragment1();
+        //GlobalParms.f2=new BlankFragment2();
+        //GlobalParms.f3=new BlankFragment3();
         initView();
 
     }
 
 
-    public void gotosubject() {    //去下载页面
-        fmanager = getSupportFragmentManager();
-        ftransaction = fmanager.beginTransaction();
-        f1 = new BlankFragment2();
-        ftransaction.replace(R.id.fram_con, f1);
-        ftransaction.commit();
-    }
+
 
     public void initView(){
 
@@ -57,13 +59,14 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
         String[] tabTitle = getResources().getStringArray(R.array.tab_titles);
         //将fragment装进列表中
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(f1);
-        fragmentList.add(f2);
-        fragmentList.add(f3);
+        fragmentList.add(GlobalParms.getHomeFragment());
+        fragmentList.add(GlobalParms.getChartsFragment());
+        fragmentList.add(GlobalParms.getZiXunFragment());
         //声明viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         //viewpager加载adapter
-        viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitle));
+        mf=new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitle);
+        viewPager.setAdapter(mf);
         //viewPager事件
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity /*implements SearchView.OnQu
 
         }
     }
+
 
 
 }

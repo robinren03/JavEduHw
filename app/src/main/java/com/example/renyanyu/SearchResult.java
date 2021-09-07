@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,8 +29,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class SearchResult extends AppCompatActivity {
@@ -41,8 +48,9 @@ public class SearchResult extends AppCompatActivity {
     private List<String> list1 = new ArrayList<String>();
     private List<String> list2 = new ArrayList<String>();
     private Intent get_intnt;
-    private String result;
+    private String result,user_name;
     public String query1;
+    Map<String,String> his_ent=new HashMap<String,String>();
     private boolean[] sub;
     public String[] subj;
     private boolean zheng;
@@ -54,13 +62,15 @@ public class SearchResult extends AppCompatActivity {
 
         setContentView(R.layout.search_result);
         get_intnt=getIntent();
-        result=get_intnt.getStringExtra("result");
+        //result=get_intnt.getStringExtra("result");
         query1=get_intnt.getStringExtra("query");
         sub=new boolean[9];
         zheng=true;
         subj=new String[]{"chinese","math","english","physics","chemistry","biology","politics","history","geo"};
         for(int i=0;i<9;i++){sub[i]=false;}
         mRecyclerView = findViewById(R.id.recyclerview);
+        SharedPreferences userInfo= SearchResult.this.getSharedPreferences("user", 0);
+        user_name = userInfo.getString("username","");
         search=(SearchView) findViewById(R.id.search2);
         list1.add("筛选");
         list1.add("语文");
@@ -198,11 +208,7 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshlayout.finishRefresh(1000);//传入false表示刷新失败
-                mNewsList.clear();
-                for (int i = 0; i < 10; i++) {
-                    News news = new News("标题 新内容" + i,"内容" + i);
-                    mNewsList.add(news);
-                }
+
                 mMyAdapter.notifyDataSetChanged();
             }
         });
@@ -211,10 +217,7 @@ public class SearchResult extends AppCompatActivity {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadMore(1000);//传入false表示加载失败
-                for (int i = 0; i < 10; i++) {
-                    News news = new News("标题 新内容" + i,"内容" + i);
-                    mNewsList.add(news);
-                }
+
                 mMyAdapter.notifyDataSetChanged();
             }
         });
@@ -232,10 +235,11 @@ public class SearchResult extends AppCompatActivity {
             for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
                 JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
                 if(data==null)break;
-                //System.out.println("i="+i+" "+data);
+                System.out.println("i="+i+" "+data);
                 String label=data.opt("label").toString();
                 String category=data.opt("category").toString();
                 String uri=data.opt("uri").toString();
+                System.out.println("uri?"+uri);
                 News n=new News(label,category,uri,course);
                 mNewsList.add(n);
             }
@@ -266,33 +270,47 @@ public class SearchResult extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MyViewHoder holder, final int position) {
 
             News news = mNewsList.get(position);
+            StringBuffer tem=new StringBuffer(news.title);
+            for(int i=0;i<news.title.length()/17;i++){
+                tem.insert(17*(i+1),"\n");
+            }
+            news.title=new String(tem);
+            System.out.println("名字叫什么："+news.title);
             holder.mTitleTv.setText(news.title);
             holder.mTitleContent.setText(news.content);
+            if(fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"his_ent.xml"))
+            {
+                try{
+                    if(getSettingNote(SearchResult.this,user_name+"his_ent",news.uri).equals("1")){
+                        holder.mTitleContent.setTextColor(Color.GRAY);
+                        holder.mTitleTv.setTextColor(Color.GRAY);
+                    }
+                }catch (Exception e){}
+
+            }
             try{
                 holder.mRootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         try{
-                            String ur=SearchResult.this.getString(R.string.backend_ip) + "/request/card";
-                            String ms="course="+ news.course+"&uri="+news.uri;
-                            String re= serverHttpResponse.postResponse(ur,ms);
-
-
-                            String url = SearchResult.this.getString(R.string.backend_ip) + "/request/instance";
-                            String msg="?course="+news.course+"&name="+news.title;
-
-                            String res= serverHttpResponse.getResponse(url+msg);
-                            //Toast.makeText(SearchResult.this,res,Toast.LENGTH_LONG).show();
-                            //System.out.println("结果为1111："+res);
-                            //JSONObject answer_json = new JSONObject(res);
-                            //JSONObject data1 = ((JSONObject) answer_json.opt("data"));
-                            //JSONObject data2=((JSONArray)data1.get("content"));
-                            //holder.mTitleContent.setText(((JSONArray)data1.opt("content")).toString());
-
+                            his_ent.put(news.uri,"1");
+//                            saveSettingNote(SearchResult.this, user_name+"his_ent", his_ent);
+//
+//
+//                            String ur=SearchResult.this.getString(R.string.backend_ip) + "/request/card";
+//                            String ms="course="+ news.course+"&uri="+news.uri;
+//                            String re= serverHttpResponse.postResponse(ur,ms);
+//
+//
+//                            String url = SearchResult.this.getString(R.string.backend_ip) + "/request/instance";
+//                            String msg="?course="+news.course+"&name="+news.title;
+//
+//                            String res= serverHttpResponse.getResponse(url+msg);
+//
                             Intent intent1=new Intent(SearchResult.this, EntityDetails.class);
                             intent1.putExtra("type",news.content);
-                            intent1.putExtra("result",res);
-                            intent1.putExtra("card",re);
+                            //intent1.putExtra("result",res);
+                            //intent1.putExtra("card",re);
                             intent1.putExtra("course",news.course);
                             intent1.putExtra("uri",news.uri);
                             intent1.putExtra("entity_name",news.title);
@@ -373,5 +391,40 @@ public class SearchResult extends AppCompatActivity {
         if(dao){
 
         }
+    }
+
+
+
+    public static void saveSettingNote(Context context, String filename , Map<String, String> map) {
+        SharedPreferences.Editor note = context.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry<String, String>) it.next();
+            note.putString(entry.getKey(), entry.getValue());
+            note.commit();
+        }
+
+    }
+    public static String getSettingNote(Context context,String filename ,String dataname) {
+        SharedPreferences read = context.getSharedPreferences(filename, Context.MODE_PRIVATE);
+        return read.getString(dataname,null);
+    }
+    //判断文件是否存在
+    public boolean fileIsExists(String strFile)
+    {
+        try
+        {
+            File f=new File(strFile);
+            if(!f.exists())
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

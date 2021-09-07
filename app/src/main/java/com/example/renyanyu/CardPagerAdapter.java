@@ -2,6 +2,8 @@ package com.example.renyanyu;
 
 
 
+import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,10 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     private List<CardView> mViews;
     private List<Exercise> mData;
     private float mBaseElevation;
-
-    public CardPagerAdapter() {
+    private Activity activity;
+    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
+    public CardPagerAdapter(Activity activ) {
+        activity=activ;
         mData = new ArrayList<>();
         mViews = new ArrayList<>();
     }
@@ -97,11 +101,168 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             C.setVisibility(View.GONE);
             D.setVisibility(View.GONE);
         }
+        Button A_bt=(Button)view.findViewById(R.id.A);
+        Button B_bt=(Button)view.findViewById(R.id.B);
+        Button C_bt=(Button)view.findViewById(R.id.C);
+        Button D_bt=(Button)view.findViewById(R.id.D);
         Button daan=(Button) view.findViewById(R.id.Daan);
         daan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 answer.setVisibility(View.VISIBLE);
+            }
+        });
+        A_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!item.answer.equals("A")){
+                    A_t.setTextColor(Color.rgb(255, 0, 0));
+                    if(item.answer.equals("B")){
+                        B_t.setTextColor(Color.rgb(0, 255, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("C")){
+                        C_t.setTextColor(Color.rgb(0, 255, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("D")){
+                        D_t.setTextColor(Color.rgb(0, 255, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                }
+                else{
+                    A_t.setTextColor(Color.rgb(0, 255, 0));
+                    B_t.setTextColor(Color.rgb(255, 0, 0));
+                    C_t.setTextColor(Color.rgb(255, 0, 0));
+                    D_t.setTextColor(Color.rgb(255, 0, 0));
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                }
+            }
+        });
+        B_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!item.answer.equals("B")){
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    System.out.println("answer 错误:"+answer);
+                    B_t.setTextColor(Color.rgb(255, 0, 0));
+                    if(item.answer.equals("A")){
+                        A_t.setTextColor(Color.rgb(0, 255, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("C")){
+                        C_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("D")){
+                        D_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                }
+                else{
+                    B_t.setTextColor(Color.rgb(0, 255, 0));
+                    A_t.setTextColor(Color.rgb(255, 0, 0));
+                    C_t.setTextColor(Color.rgb(255, 0, 0));
+                    D_t.setTextColor(Color.rgb(255, 0, 0));
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    System.out.println("answer 正确:"+answer);
+                    B_t.setTextColor(Color.rgb(0, 255, 0));
+                }
+            }
+        });
+        C_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!item.answer.equals("C")){
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    C_t.setTextColor(Color.rgb(255, 0, 0));
+                }
+                else{
+                    C_t.setTextColor(Color.rgb(0, 255, 0));
+                    B_t.setTextColor(Color.rgb(255, 0, 0));
+                    A_t.setTextColor(Color.rgb(255, 0, 0));
+                    D_t.setTextColor(Color.rgb(255, 0, 0));
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    C_t.setTextColor(Color.rgb(0, 255, 0));
+                    if(item.answer.equals("A")){
+                        A_t.setTextColor(Color.rgb(0, 255, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("B")){
+                        B_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("D")){
+                        D_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                }
+            }
+        });
+        D_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!item.answer.equals("D")){
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    D_t.setTextColor(Color.rgb(255, 0, 0));
+                }
+                else{
+                    D_t.setTextColor(Color.rgb(0, 255, 0));
+                    B_t.setTextColor(Color.rgb(255, 0, 0));
+                    C_t.setTextColor(Color.rgb(255, 0, 0));
+                    A_t.setTextColor(Color.rgb(255, 0, 0));
+                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
+                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    //System.out.println("msg:"+msg);
+                    String res= serverHttpResponse.postResponse(url,msg);
+                    D_t.setTextColor(Color.rgb(0, 255, 0));
+                    if(item.answer.equals("A")){
+                        A_t.setTextColor(Color.rgb(0, 255, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("C")){
+                        C_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("B")){
+                        B_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                }
             }
         });
     }

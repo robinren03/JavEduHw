@@ -11,5 +11,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="tab_background">#ff9</color>
+    <color name="tab_background">#FF6200EE</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#76EE00</color>
+    <color name="gray">#808080</color>
 </resources>
