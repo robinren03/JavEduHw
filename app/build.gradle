@@ -35,6 +35,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -79,6 +81,5 @@ dependencies {
     //implementation files('libs/gson-2.7.jar')
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.cardview:cardview:1.0.0'
-
 
 }
