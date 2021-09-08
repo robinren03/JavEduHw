@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +64,11 @@ public class EntityDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
-
+        Toast.makeText(EntityDetails.this,"Please come in!",Toast.LENGTH_LONG).show();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
         mCardAdapter = new CardPagerAdapter(EntityDetails.this);
@@ -74,7 +79,7 @@ public class EntityDetails extends AppCompatActivity {
         //result=t1.getStringExtra("result");
         //card=t1.getStringExtra("card");
         course=t1.getStringExtra("course");
-        mcontent=t1.getStringExtra("content");
+        //mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
         getinfo();
@@ -84,6 +89,14 @@ public class EntityDetails extends AppCompatActivity {
         SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
 
+
+        LinearLayout lin=findViewById(R.id.detail);
+        lin.post(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,user_name));
 
 
@@ -377,7 +390,7 @@ public class EntityDetails extends AppCompatActivity {
 //                            String msg="?course="+course+"&name="+news.content;
 //                            String res= serverHttpResponse.getResponse(url+msg);
 
-                            Intent intent1=new Intent(EntityDetails.this, EntityDetails.class);
+                            Intent intent1=new Intent(EntityDetails.this, Blank.class);
                             //intent1.putExtra("result",res);
                             //intent1.putExtra("content",res);
                             intent1.putExtra("entity_name",news.title);
@@ -460,5 +473,6 @@ public class EntityDetails extends AppCompatActivity {
         String msg="?course="+course+"&name="+entity_name;
 
         result= serverHttpResponse.getResponse(url+msg);
+        mcontent=result;
     }
 }

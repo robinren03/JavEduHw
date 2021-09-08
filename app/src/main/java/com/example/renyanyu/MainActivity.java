@@ -22,7 +22,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 
-public class MainActivity extends AppCompatActivity /*implements SearchView.OnQueryTextListener*/{
+public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fmanager;
     private FragmentTransaction ftransaction;

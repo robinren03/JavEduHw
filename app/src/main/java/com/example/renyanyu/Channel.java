@@ -11,6 +11,7 @@ import java.util.*;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 public class Channel extends AppCompatActivity{
     private DragGridlayout mSelectedChannel;
@@ -21,6 +22,7 @@ public class Channel extends AppCompatActivity{
     Map<String,String> sub=new HashMap<String,String>();
     String user_name;
     String[] subs={"语文","数学","英语","生物","地理","化学","物理","政治","历史"};
+    boolean[] have_sub=new boolean[]{false,false,false,false,false,false,false,false,false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class Channel extends AppCompatActivity{
                     else{
                         selectedChannel.add(subs[i].toString());
                         sub.put(subs[i],"1");
+                        have_sub[i]=true;
                     }
 
                 }
@@ -87,10 +90,11 @@ public class Channel extends AppCompatActivity{
                 mSelectedChannel.removeView(tv);//移除是需要时间,不能直接添加
                 mUnSelectedChannel.addItem(tv.getText().toString(),0);
                 sub.put(tv.getText().toString(),"0");
-                //saveSettingNote(Channel.this, "subinfo", sub);
+
                 saveSettingNote(Channel.this, user_name+"subinfo", sub);
             }
         });
+
 
         mUnSelectedChannel.setOnDragItemClickListener(new DragGridlayout.OnDragItemClickListener() {
             @Override
@@ -108,7 +112,7 @@ public class Channel extends AppCompatActivity{
     private int index = 0;
 
     public void addItem(View view) {
-        mSelectedChannel.addItem("频道" + index++,0);
+
     }
 
 

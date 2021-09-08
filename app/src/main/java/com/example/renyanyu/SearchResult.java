@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,9 +44,10 @@ public class SearchResult extends AppCompatActivity {
     RecyclerView mRecyclerView;
     MyAdapter mMyAdapter ;
     List<News> mNewsList = new ArrayList<>();
+    List<News> tem = new ArrayList<>();
     LinearLayoutManager layoutManager;
-    public SearchView search;
-    private Spinner mySpinner,mySpinner2;
+    public SearchView search,high_search;
+    private Spinner mySpinner;
     private ArrayAdapter<String> adapter,adapter2;
     private List<String> list1 = new ArrayList<String>();
     private List<String> list2 = new ArrayList<String>();
@@ -55,7 +59,7 @@ public class SearchResult extends AppCompatActivity {
     public String[] subj;
     private boolean zheng;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
-
+    private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,12 @@ public class SearchResult extends AppCompatActivity {
         get_intnt=getIntent();
         //result=get_intnt.getStringExtra("result");
         query1=get_intnt.getStringExtra("query");
+        high_search=findViewById(R.id.searchView1);
+
+        bt=findViewById(R.id.fanhui);
+        int magId = getResources().getIdentifier("android:id/search_mag_icon",null, null);
+        ImageView magImage = (ImageView) high_search.findViewById(magId);
+        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         sub=new boolean[9];
         zheng=true;
         subj=new String[]{"chinese","math","english","physics","chemistry","biology","politics","history","geo"};
@@ -86,7 +96,7 @@ public class SearchResult extends AppCompatActivity {
         list2.add("倒序");
 
         mySpinner = (Spinner) findViewById(R.id.spinner1);
-        mySpinner2 = (Spinner) findViewById(R.id.spinner2);
+
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list1);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, list2);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
@@ -94,7 +104,6 @@ public class SearchResult extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
         mySpinner.setAdapter(adapter);
-        mySpinner2.setAdapter(adapter2);
         //4.为下拉列表设置各种点击事件，以响应菜单中的文本item被选中了，用setOnItemSelectedListener
         mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {//选择item的选择点击监听事件
             public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -107,33 +116,13 @@ public class SearchResult extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        mySpinner2.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {//选择item的选择点击监听事件
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                String choose=adapter2.getItem(arg2);
-                if(choose.equals("正序")){
-                    if(!zheng){
-                        zheng=true;
-                        List<News> tem = new ArrayList<>();
-                        for(int i=0;i<mNewsList.size();i++){
-                            tem.add(mNewsList.get(i));
-                        }
-                        mNewsList.clear();
-                        mNewsList=tem;
-                    }
-                }
-                if(choose.equals("逆序")){
-                    if(zheng){
-                        zheng=false;
-                        List<News> tem = new ArrayList<>();
-                        for(int i=mNewsList.size()-1;i>0;i--){
-                            tem.add(mNewsList.get(i));
-                        }
-                        mNewsList.clear();
-                        mNewsList=tem;
-                    }
-
-                }
+        // 构造一些数据
+        //initlist();
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mNewsList=new ArrayList<News>(tem);
+                tem.clear();
                 DividerItemDecoration mDivider = new
                         DividerItemDecoration(SearchResult.this,DividerItemDecoration.VERTICAL);
                 mRecyclerView.addItemDecoration(mDivider);
@@ -142,13 +131,7 @@ public class SearchResult extends AppCompatActivity {
                 layoutManager = new LinearLayoutManager(SearchResult.this);
                 mRecyclerView.setLayoutManager(layoutManager);
             }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
         });
-        // 构造一些数据
-        //initlist();
-
 
         RefreshLayout refreshLayout = findViewById(R.id.refreshLayout);
         search.setIconifiedByDefault(false);
@@ -180,11 +163,47 @@ public class SearchResult extends AppCompatActivity {
                             initlist(subj[i]);
                             break;
                         }
-
                     }
-                    //Intent intent1=new Intent(SearchResult.this, SearchResult.class);
-                    //intent1.putExtra("result",res);
-                    //startActivity(intent1);
+                }catch (Exception e){}
+                return true;
+            }
+            //输入字符的监听
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (TextUtils.isEmpty(newText)){
+                }
+                else {
+                }
+                return true;
+            }
+        });
+        high_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //单击搜索按钮的监听
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                try{
+                    if(mNewsList.size()==0){
+                        Toast.makeText(SearchResult.this, "该分类中没有您要的结果\n或者您还未选择分类" + query, Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        if(tem.size()==0)
+                            tem= new ArrayList<News>(mNewsList);
+                        mNewsList.clear();
+                        for(int i=0;i<tem.size();i++){
+                            System.out.println("i "+i+" "+tem.get(i).title);
+                            if(tem.get(i).title.contains(query)){
+                                mNewsList.add(tem.get(i));
+                            }
+
+                        }
+                        DividerItemDecoration mDivider = new
+                                DividerItemDecoration(SearchResult.this,DividerItemDecoration.VERTICAL);
+                        mRecyclerView.addItemDecoration(mDivider);
+                        mMyAdapter = new MyAdapter();
+                        mRecyclerView.setAdapter(mMyAdapter);
+                        layoutManager = new LinearLayoutManager(SearchResult.this);
+                        mRecyclerView.setLayoutManager(layoutManager);
+                    }
                 }catch (Exception e){
 
                 }
@@ -235,17 +254,29 @@ public class SearchResult extends AppCompatActivity {
             for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
                 JSONObject data = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
                 if(data==null)break;
-                System.out.println("i="+i+" "+data);
+                //System.out.println("i="+i+" "+data);
                 String label=data.opt("label").toString();
                 String category=data.opt("category").toString();
                 String uri=data.opt("uri").toString();
-                System.out.println("uri?"+uri);
+                //System.out.println("uri?"+uri);
                 News n=new News(label,category,uri,course);
                 mNewsList.add(n);
             }
         }catch(Exception e){
             //Toast.makeText(SearchResult.this,"对不起，未能找到相应的实体！",Toast.LENGTH_LONG).show();
         }
+        DividerItemDecoration mDivider = new
+                DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(mDivider);
+        mMyAdapter = new MyAdapter();
+        mRecyclerView.setAdapter(mMyAdapter);
+        layoutManager = new LinearLayoutManager(SearchResult.this);
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
         DividerItemDecoration mDivider = new
                 DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDivider);
@@ -271,11 +302,13 @@ public class SearchResult extends AppCompatActivity {
 
             News news = mNewsList.get(position);
             StringBuffer tem=new StringBuffer(news.title);
+            /*
             for(int i=0;i<news.title.length()/17;i++){
                 tem.insert(17*(i+1),"\n");
             }
+             */
             news.title=new String(tem);
-            System.out.println("名字叫什么："+news.title);
+            //System.out.println("名字叫什么："+news.title);
             holder.mTitleTv.setText(news.title);
             holder.mTitleContent.setText(news.content);
             if(fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"his_ent.xml"))
@@ -293,8 +326,7 @@ public class SearchResult extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         try{
-                            his_ent.put(news.uri,"1");
-//                            saveSettingNote(SearchResult.this, user_name+"his_ent", his_ent);
+
 //
 //
 //                            String ur=SearchResult.this.getString(R.string.backend_ip) + "/request/card";
@@ -307,7 +339,7 @@ public class SearchResult extends AppCompatActivity {
 //
 //                            String res= serverHttpResponse.getResponse(url+msg);
 //
-                            Intent intent1=new Intent(SearchResult.this, EntityDetails.class);
+                            Intent intent1=new Intent(SearchResult.this, Blank.class);
                             intent1.putExtra("type",news.content);
                             //intent1.putExtra("result",res);
                             //intent1.putExtra("card",re);
@@ -315,6 +347,11 @@ public class SearchResult extends AppCompatActivity {
                             intent1.putExtra("uri",news.uri);
                             intent1.putExtra("entity_name",news.title);
                             startActivity(intent1);
+
+                            his_ent.put(news.uri,"1");
+                            saveSettingNote(SearchResult.this, user_name+"his_ent", his_ent);
+
+
                         }catch (Exception e){
 
                         }

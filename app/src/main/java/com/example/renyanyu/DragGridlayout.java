@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class DragGridlayout extends GridLayout{
         if (isAllowDrag) {
             //给条目设置长按点击事件
             tv.setOnLongClickListener(mLongClickListener);
+
         } else {
             tv.setOnLongClickListener(null);
         }

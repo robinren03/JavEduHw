@@ -10,21 +10,38 @@
         android:id="@+id/search1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edge"
         android:queryHint="请输入搜索内容" />
-
-    <Button
-        android:id="@+id/channel1"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="频道选择"
-
         android:layout_marginTop="40dp"
-        />
+        android:background="@drawable/edge"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/channel1"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="频道选择"
+
+            />
+        <Button
+            android:id="@+id/channel2"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="频道排序"
+            />
+
+    </LinearLayout>
+
     <!-- TODO: Update blank fragment layout -->
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="86dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +116,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="146dp"
         android:background="@drawable/edge">
         <TextView
             android:id="@+id/hot"
@@ -130,7 +147,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="230dp">
+        android:layout_marginTop="236dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"

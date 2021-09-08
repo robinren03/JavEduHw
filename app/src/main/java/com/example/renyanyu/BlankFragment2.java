@@ -39,7 +39,7 @@ import java.util.Map;
 //import com.example.javeduhw.databinding.FragmentFirstBinding;
 
 public class BlankFragment2 extends Fragment {
-    Button Chinese,math,English,physics,Chemistry,biology,politics,history,geography;
+    Button Chinese,math,English,physics,Chemistry,biology,politics,history,geography,sort;
     private Button channel_change;
     private SearchView search;
     RecyclerView mRecyclerView;
@@ -53,6 +53,7 @@ public class BlankFragment2 extends Fragment {
     int begin_num;
     private Thread thread;
     public int[] sub;
+    String subject;
     boolean beg;
     News hot_news;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
@@ -78,10 +79,12 @@ public class BlankFragment2 extends Fragment {
         geography=(Button)view.findViewById(R.id.geography1);
         channel_change=(Button)view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
+        sort=(Button)view.findViewById(R.id.channel2);
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
         img=view.findViewById(R.id.hot_img);
         hot=view.findViewById(R.id.hot);
+        subject="";
         beg=true;
         sub=new int[9];
         for(int i=0;i<9;i++)sub[i]=0;
@@ -91,7 +94,6 @@ public class BlankFragment2 extends Fragment {
         thread=new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("begin一下？？？？？"+begin_num);
                 initlist(begin_num,0);
             }
         });
@@ -204,6 +206,7 @@ public class BlankFragment2 extends Fragment {
                 sethot();
             }
         });
+
         begin_num=-1;
         initview();
         mRecyclerView = view.findViewById(R.id.recyclerview);
@@ -311,6 +314,14 @@ public class BlankFragment2 extends Fragment {
                 startActivity(intent1);
             }
         });
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent t=new Intent(getActivity(),SearchPage.class);
+                t.putExtra("subject",subject);
+                startActivity(t);
+            }
+        });
         return view;
     }
     public void initview(){
@@ -324,15 +335,15 @@ public class BlankFragment2 extends Fragment {
                 //if()
                 if(!getSettingNote(this.getActivity(),user_name+"subinfo",tx).equals(zero)){
                     System.out.println(tx+" "+begin_num);
-                    if(tx.equals("语文")&&begin_num==-1)begin_num=0;
-                    if(tx.equals("数学")&&begin_num==-1)begin_num=1;
-                    if(tx.equals("英语")&&begin_num==-1)begin_num=2;
-                    if(tx.equals("物理")&&begin_num==-1)begin_num=3;
-                    if(tx.equals("化学")&&begin_num==-1)begin_num=4;
-                    if(tx.equals("生物")&&begin_num==-1)begin_num=5;
-                    if(tx.equals("政治")&&begin_num==-1)begin_num=6;
-                    if(tx.equals("历史")&&begin_num==-1)begin_num=7;
-                    if(tx.equals("地理")&&begin_num==-1)begin_num=8;
+                    if(tx.equals("语文")){subject=subject+"0";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("数学")){subject=subject+"1";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("英语")){subject=subject+"2";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("物理")){subject=subject+"3";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("化学")){subject=subject+"4";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("生物")){subject=subject+"5";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("政治")){subject=subject+"6";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("历史")){subject=subject+"7";if(begin_num==-1)begin_num=0;}
+                    if(tx.equals("地理")){subject=subject+"8";if(begin_num==-1)begin_num=0;}
                     bt.setVisibility(View.VISIBLE);
                 }
                 else

@@ -13,4 +13,12 @@
         <item name="tabTextColor">#6b7984</item>
         <item name="tabSelectedTextColor">#f7554a</item>
     </style>
+    <style name="Transparent" parent="android:Theme.Light">
+        <!--将Activity的Theme设置成透明-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
+
+
 </resources>

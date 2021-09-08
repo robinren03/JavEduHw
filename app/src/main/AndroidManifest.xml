@@ -37,6 +37,9 @@
             android:name="com.example.renyanyu.Detail"
             />
         <activity
+            android:name="com.example.renyanyu.Blank"
+            />
+        <activity
             android:name="com.example.renyanyu.SearchPage"
             />
         <activity
@@ -50,6 +53,7 @@
             android:exported="true" />
         <activity
             android:name="com.example.renyanyu.EntityDetails"
+
             android:exported="true" />
         <activity
             android:name="com.example.renyanyu.History"

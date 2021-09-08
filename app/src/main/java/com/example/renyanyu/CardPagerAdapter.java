@@ -198,6 +198,21 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     C_t.setTextColor(Color.rgb(255, 0, 0));
+                    if(item.answer.equals("A")){
+                        A_t.setTextColor(Color.rgb(0, 255, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("B")){
+                        B_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        D_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("D")){
+                        D_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
                 }
                 else{
                     C_t.setTextColor(Color.rgb(0, 255, 0));
@@ -236,6 +251,21 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     D_t.setTextColor(Color.rgb(255, 0, 0));
+                    if(item.answer.equals("A")){
+                        A_t.setTextColor(Color.rgb(0, 255, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("C")){
+                        C_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        B_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
+                    if(item.answer.equals("B")){
+                        B_t.setTextColor(Color.rgb(0, 255, 0));
+                        A_t.setTextColor(Color.rgb(255, 0, 0));
+                        C_t.setTextColor(Color.rgb(255, 0, 0));
+                    }
                 }
                 else{
                     D_t.setTextColor(Color.rgb(0, 255, 0));
