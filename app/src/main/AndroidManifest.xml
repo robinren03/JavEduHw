@@ -16,6 +16,9 @@
         android:theme="@style/Theme.JavEduHw"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".WrongExerciseSet"
+            android:exported="true" />
+        <activity
             android:name=".ShareToWeibo"
             android:exported="true" />
         <activity
@@ -58,6 +61,12 @@
             android:exported="true" />
         <activity
             android:name=".Collection"
+            android:exported="true" />
+        <activity
+            android:name=".Quiz"
+            android:exported="true" />
+        <activity
+            android:name=".ResultReportActivity"
             android:exported="true" />
     </application>
 

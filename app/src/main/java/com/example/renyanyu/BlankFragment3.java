@@ -16,18 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.renyanyu.ui.login.*;
 
 //import com.example.renyanyu.data.Result;
 
 import com.google.android.material.navigation.NavigationView;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class BlankFragment3 extends Fragment {
 
@@ -106,6 +100,29 @@ public class BlankFragment3 extends Fragment {
                         System.out.println("goToHistoryPage");
                         Intent goToHistoryPage = new Intent(getActivity(),History.class);
                         startActivity(goToHistoryPage);
+                        break;
+                    case R.id.item_wrong_exercise_set:
+
+                        // region 获取responseString
+                        System.out.println("sgdfdsjfgsdjgfsdjf");
+                        String url = getActivity().getString(R.string.backend_ip) + "/user/quiz";
+                        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
+                        String userToken = userInfo.getString("token","");
+                        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                        String message="token="+userToken;
+                        url=url+"?"+message;
+                        //com.alibaba.fastjson.JSONArray questionJsonArray=(com.alibaba.fastjson.JSONArray)serverHttpResponse.getResponse(url);
+                        String responseString = serverHttpResponse.getResponse(url);
+                        System.out.println("responseString:"+responseString);
+                        System.out.println("ENDDD!");
+                        // endregion
+
+                        Intent goToWrongExerciseSetPage = new Intent(getActivity(),WrongExerciseSet.class);
+                        startActivity(goToWrongExerciseSetPage);
+                        break;
+                    case R.id.item_do_exam:
+                        Intent goToDoExamPage = new Intent(getActivity(), Quiz.class);
+                        startActivity(goToDoExamPage);
                         break;
                     case R.id.item_logout:
                         AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());
