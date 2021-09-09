@@ -339,6 +339,8 @@ public class SearchResult extends AppCompatActivity {
 //
 //                            String res= serverHttpResponse.getResponse(url+msg);
 //
+                            TextView textView = (TextView) v.findViewById(R.id.search_textView);
+                            textView.setTextColor(Color.GRAY);
                             Intent intent1=new Intent(SearchResult.this, Blank.class);
                             intent1.putExtra("type",news.content);
                             //intent1.putExtra("result",res);

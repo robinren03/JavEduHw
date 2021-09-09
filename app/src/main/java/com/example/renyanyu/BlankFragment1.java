@@ -45,7 +45,6 @@ public class BlankFragment1 extends Fragment {
     LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT);
-    Button channel_change;
     Button Chinese,math,English,physics,Chemistry,biology,politics,history,geography;
     SearchView search;
     RecyclerView mRecyclerView;
@@ -165,17 +164,7 @@ public class BlankFragment1 extends Fragment {
                 Toast.makeText(getContext(),"这已经是今日的所有推荐了",Toast.LENGTH_LONG).show();
             }
         });
-        channel_change=(Button)view.findViewById(R.id.channel);
-        channel_change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),Channel.class);
-                startActivityForResult(intent,0);
-            }
-        });
+
         Chinese.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -272,9 +261,15 @@ public class BlankFragment1 extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("code:"+requestCode+" "+resultCode);
         if(resultCode==1&&requestCode==0){
             Intent i=new Intent(getActivity(),MainActivity.class);
             startActivity(i);
+        }
+        if(requestCode==101&&requestCode==101){
+            Bundle bundle =data.getExtras();
+            String result =bundle.getString("json");
+            System.out.println("学科排序的结果为："+result);
         }
     }
 

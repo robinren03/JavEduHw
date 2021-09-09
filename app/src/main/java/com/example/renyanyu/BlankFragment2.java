@@ -33,23 +33,34 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 //import com.example.javeduhw.databinding.FragmentFirstBinding;
 
 public class BlankFragment2 extends Fragment {
-    Button Chinese,math,English,physics,Chemistry,biology,politics,history,geography,sort;
+    Button bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9;
     private Button channel_change;
     private SearchView search;
     RecyclerView mRecyclerView;
     MyAdapter1 mMyAdapter ;
     ImageView img;
     TextView hot;
+    JSONArray array;
+
     ArrayList<News> mNewsList = new ArrayList<News>();
     LinearLayoutManager layoutManager;
     LinearLayout mylinear;
     String user_name;
+    String[] subs=new String[]{"语文","数学","英语","物理","化学","生物","政治","历史","地理"};
+    boolean[] select=new boolean[]{false,false,false,false,false,false,false,false,false};
+    int[] order=new int[]{-1,-1,-1,-1,-1,-1,-1,-1,-1};
+    String[] showorder=new String[]{"","","","","","","","",""};
+    Map<String,String> sub_towrite=new HashMap<String,String>();
+    String[] message=new String[]{};
+    List<String> mess=new ArrayList<>();
+    int msg_num=0;
     int begin_num;
     private Thread thread;
     public int[] sub;
@@ -68,18 +79,17 @@ public class BlankFragment2 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank_fragment2, container, false);
         mylinear = (LinearLayout) view.findViewById(R.id.Mylinear1);
-        Chinese=(Button)view.findViewById(R.id.Chinese1);
-        math=(Button)view.findViewById(R.id.math1);
-        English=(Button)view.findViewById(R.id.English1);
-        physics=(Button)view.findViewById(R.id.physics1);
-        Chemistry=(Button)view.findViewById(R.id.Chemistry1);
-        biology=(Button)view.findViewById(R.id.biology1);
-        politics=(Button)view.findViewById(R.id.politics1);
-        history=(Button)view.findViewById(R.id.history1);
-        geography=(Button)view.findViewById(R.id.geography1);
+        bt1=(Button)view.findViewById(R.id.Chinese1);
+        bt2=(Button)view.findViewById(R.id.math1);
+        bt3=(Button)view.findViewById(R.id.English1);
+        bt4=(Button)view.findViewById(R.id.physics1);
+        bt5=(Button)view.findViewById(R.id.Chemistry1);
+        bt6=(Button)view.findViewById(R.id.biology1);
+        bt7=(Button)view.findViewById(R.id.politics1);
+        bt8=(Button)view.findViewById(R.id.history1);
+        bt9=(Button)view.findViewById(R.id.geography1);
         channel_change=(Button)view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
-        sort=(Button)view.findViewById(R.id.channel2);
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
         img=view.findViewById(R.id.hot_img);
@@ -94,6 +104,7 @@ public class BlankFragment2 extends Fragment {
         thread=new Thread(new Runnable() {
             @Override
             public void run() {
+                initdata();
                 initlist(begin_num,0);
             }
         });
@@ -103,117 +114,196 @@ public class BlankFragment2 extends Fragment {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 Intent intent=new Intent();
-                intent.setClass(getActivity(),Channel.class);
-                startActivityForResult(intent,0);
+                intent.setClass(getActivity(),ChannelActivity.class);
+                try{intent.putExtra("json",message);}catch(Exception e){}
+                startActivityForResult(intent,101);
             }
         });
-        Chinese.setOnClickListener(new View.OnClickListener() {
+        bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(0,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt1.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        math.setOnClickListener(new View.OnClickListener() {
+        bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(1,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt2.getText().equals(subs[i])){
+                        num=i;
+                        System.out.println("点击了"+subs[i]);
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        English.setOnClickListener(new View.OnClickListener() {
+        bt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(2,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt3.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        physics.setOnClickListener(new View.OnClickListener() {
+        bt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(3,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt4.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        Chemistry.setOnClickListener(new View.OnClickListener() {
+        bt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(4,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt5.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        biology.setOnClickListener(new View.OnClickListener() {
+        bt6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(5,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt6.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        politics.setOnClickListener(new View.OnClickListener() {
+        bt7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(6,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt7.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        history.setOnClickListener(new View.OnClickListener() {
+        bt8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(7,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt8.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
-        geography.setOnClickListener(new View.OnClickListener() {
+        bt9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
                 beg=true;
-                initlist(8,0);
+                int num=0;
+                for(int i=0;i<9;i++)
+                {
+                    if(bt9.getText().equals(subs[i])){
+                        num=i;
+                        break;
+                    }
+                }
+                initlist(num,0);
                 channel_view();
                 sethot();
             }
         });
+        thread.run();
+        if(showorder[0].length()!=0)
+        {
+            begin_num=-1;
+            initdata();
+            initlist(begin_num,0);
+        }
 
-        begin_num=-1;
         initview();
         mRecyclerView = view.findViewById(R.id.recyclerview);
         // 构造一些数据
-        System.out.println("begin:"+begin_num);
+
         //thread.start();
-        thread.run();
         channel_view();
         sethot();
 
@@ -314,43 +404,26 @@ public class BlankFragment2 extends Fragment {
                 startActivity(intent1);
             }
         });
-        sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent t=new Intent(getActivity(),SearchPage.class);
-                t.putExtra("subject",subject);
-                startActivity(t);
-            }
-        });
         return view;
     }
-    public void initview(){
+    public void initdata(){
         if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml")){begin_num=0;return;}
         //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
         try{
-            String zero="0";
             for(int i=0;i<9;i++){
-                Button bt=(Button)mylinear.getChildAt(i);
-                String tx=bt.getText().toString();
-                //if()
-                if(!getSettingNote(this.getActivity(),user_name+"subinfo",tx).equals(zero)){
-                    System.out.println(tx+" "+begin_num);
-                    if(tx.equals("语文")){subject=subject+"0";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("数学")){subject=subject+"1";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("英语")){subject=subject+"2";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("物理")){subject=subject+"3";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("化学")){subject=subject+"4";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("生物")){subject=subject+"5";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("政治")){subject=subject+"6";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("历史")){subject=subject+"7";if(begin_num==-1)begin_num=0;}
-                    if(tx.equals("地理")){subject=subject+"8";if(begin_num==-1)begin_num=0;}
-                    bt.setVisibility(View.VISIBLE);
+                String tem=getSettingNote(this.getActivity(),user_name+"subinfo",subs[i]);
+                int num=Integer.parseInt(tem);
+                if(num>=0){
+                    if(num==0)
+                    {
+                        begin_num=i;
+                    }
+                    showorder[num]=subs[i];
                 }
-                else
-                    bt.setVisibility(View.GONE);
             }
         }catch(NullPointerException e){}
     }
+
     public static void saveSettingNote(Context context, String filename , Map<String, String> map) {
         SharedPreferences.Editor note = context.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();
         Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
@@ -385,14 +458,6 @@ public class BlankFragment2 extends Fragment {
         return true;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==1&&requestCode==0){
-            //Toast.makeText(getContext(), "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
-            Intent i=new Intent(getActivity(),MainActivity.class);
-            startActivity(i);
-        }
-    }
 
     class MyAdapter1 extends RecyclerView.Adapter<MyAdapter1.MyViewHoder> {
 
@@ -419,16 +484,7 @@ public class BlankFragment2 extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try{
-//                            String ur=getActivity().getString(R.string.backend_ip) + "/request/card";
-//                            String ms="course="+ news.course+"&uri="+news.uri;
-//                            String re= serverHttpResponse.postResponse(ur,ms);
-//
-//
-//                            String url = getActivity().getString(R.string.backend_ip) + "/request/instance";
-//                            String msg="?course="+news.course+"&name="+news.title;
-//
-//                            String res= serverHttpResponse.getResponse(url+msg);
-//
+
                             Intent intent1=new Intent(getActivity(), EntityDetails.class);
                             //intent1.putExtra("result",res);
                             //intent1.putExtra("card",re);
@@ -489,14 +545,12 @@ public class BlankFragment2 extends Fragment {
             String res= serverHttpResponse.getResponse(url+msg);
 
             JSONArray ddd=new JSONArray(res);
-            //System.out.println(answer_json);
-            //System.out.println(("!!!!!!!!!!:"+(JSONObject) answer_json.opt("data")));
-            //System.out.println(ddd.length());
+
             JSONObject one=ddd.optJSONObject(0);
             hot_news=new News(ddd.optJSONObject(0).opt("entity_name").toString(),ddd.optJSONObject(0).opt("entity_type").toString(),ddd.optJSONObject(0).opt("entity_url").toString(),course);
             for(int i=1;i<ddd.length();i++){
                 JSONObject data2=ddd.optJSONObject(i);
-                //System.out.println("i="+i+" "+data2);
+
                 String uri=data2.opt("entity_url").toString();
                 String type=data2.opt("entity_type").toString();
                 String name=data2.opt("entity_name").toString();
@@ -505,11 +559,11 @@ public class BlankFragment2 extends Fragment {
                 mNewsList.add(n);
             }
         }catch(Exception e){}
-        //System.out.println("@@@@@@@@@@@@@@@@");
+
     }
 
     public void channel_view(){
-        //System.out.println("enter!!!!!!!!!!!!!!");
+
         DividerItemDecoration mDivider = new
                 DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL);
         mRecyclerView.addItemDecoration(mDivider);
@@ -517,6 +571,41 @@ public class BlankFragment2 extends Fragment {
         mRecyclerView.setAdapter(mMyAdapter);
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1&&requestCode==0){
+            //Toast.makeText(getContext(), "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+            Intent i=new Intent(getActivity(),MainActivity.class);
+            startActivity(i);
+        }
+
+        if(requestCode==101&&requestCode==101){
+            Bundle bundle =data.getExtras();
+            String result =bundle.getString("json");
+
+            try{
+                System.out.println("!!!!!!!!!"+result);
+                JSONArray answer_json = new JSONArray(result);
+                for(int i=0;i<answer_json.length();i++){
+                    String name=answer_json.optJSONObject(i).opt("name").toString();
+                    String selected=answer_json.optJSONObject(i).opt("isSelect").toString();
+                    for(int j=0;j<9;j++){
+                        if(name.equals(subs[j])){
+                            if(selected.equals("true"))
+                                order[j]=i;
+                            else
+                                order[j]=-1;
+                            break;
+                        }
+                    }
+                }
+
+                saveorder();
+            }catch(Exception e){}
+
+        }
     }
 
     void sethot(){
@@ -527,5 +616,69 @@ public class BlankFragment2 extends Fragment {
             img.setVisibility(View.VISIBLE);
         }catch (Exception e){}
 
+    }
+
+    public void saveorder(){
+        for(int i=0;i<9;i++)showorder[i]="";
+        for(int i=0;i<9;i++){
+            sub_towrite.put(subs[i],order[i]+"");
+            saveSettingNote(getActivity(),user_name+"subinfo",sub_towrite);
+            if(order[i]!=-1){
+                showorder[order[i]]=subs[i];
+            }
+        }
+        initview();
+        for(int i=0;i<9;i++){
+            if(showorder[0]==subs[i]){
+                begin_num=i;
+                System.out.println("重建："+showorder[0]);
+                initlist(i,0);
+                channel_view();
+                sethot();
+                break;
+            }
+
+        }
+    }
+    public void initview(){
+        int i=0;
+        //bt1.setVisibility
+        if(user_name.length()!=0&&fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml")){
+            bt1.setVisibility(View.GONE);
+            bt2.setVisibility(View.GONE);
+            bt3.setVisibility(View.GONE);
+            bt4.setVisibility(View.GONE);
+            bt5.setVisibility(View.GONE);
+            bt6.setVisibility(View.GONE);
+            bt7.setVisibility(View.GONE);
+            bt8.setVisibility(View.GONE);
+            bt9.setVisibility(View.GONE);
+        }
+        mess.clear();
+        while(showorder[i].length()!=0){
+            String msg="";
+            if(i==0){bt1.setText(showorder[i]);bt1.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==1){bt2.setText(showorder[i]);bt2.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==2){bt3.setText(showorder[i]);bt3.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==3){bt4.setText(showorder[i]);bt4.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==4){bt5.setText(showorder[i]);bt5.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==5){bt6.setText(showorder[i]);bt6.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==6){bt7.setText(showorder[i]);bt7.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==7){bt8.setText(showorder[i]);bt8.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            if(i==8){bt9.setText(showorder[i]);bt9.setVisibility(View.VISIBLE);msg=showorder[i]+"1";for(int j=0;j<9;j++)if(subs[j].equals(showorder[i])){select[j]=true;break;}}
+            i++;
+            mess.add(msg);
+            //message[msg_num]=msg;
+            //msg_num++;
+        }
+
+        for(int j=0;j<9;j++){
+            if(!select[j]){
+                String ss=subs[j]+"0";
+                mess.add(ss);
+            }
+        }
+        message=mess.toArray(new String[mess.size()]);
+        System.out.println("最终信息为："+mess.toString());
     }
 }

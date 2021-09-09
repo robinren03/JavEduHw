@@ -46,6 +46,9 @@
             android:name="com.example.renyanyu.SearchResult"
             />
         <activity
+            android:name="com.example.renyanyu.ChannelActivity"
+            />
+        <activity
             android:name="com.example.renyanyu.QA"
             android:exported="true" />
         <activity
