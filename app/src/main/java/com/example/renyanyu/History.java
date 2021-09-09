@@ -189,6 +189,7 @@ public class History extends AppCompatActivity {
                         goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                        System.out.println("真正历史记录："+entityList.get(position).name+" "+entityList.get(position).uri);
                         startActivity(goToEntityDetailsPage);
                     }
                 });
@@ -534,7 +535,7 @@ public class History extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         Intent goToEntityDetailsPage = new Intent(History.this,EntityDetails.class);
-                        goToEntityDetailsPage.putExtra("name",entityList.get(position).name);
+                        goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
                         startActivity(goToEntityDetailsPage);

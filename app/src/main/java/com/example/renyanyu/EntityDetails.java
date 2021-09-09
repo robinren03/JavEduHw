@@ -208,7 +208,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         //mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
-        System.out.println("历史记录：名字："+entity_name+" uri:"+kuri+" course"+course);
+        //System.out.println("历史记录：名字："+entity_name+" uri:"+kuri+" course"+course);
         getinfo();
         //System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
@@ -720,12 +720,14 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
         String ms="course="+ course+"&uri="+kuri;
         card= serverHttpResponse.postResponse(ur,ms);
+        System.out.println("card:   "+ms+" 结果："+card);
         if(card==null){nointernet=true;return;}
 
 
         String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
         String msg="?course="+course+"&name="+entity_name;
         result= serverHttpResponse.getResponse(url+msg);
+        System.out.println("result:   "+msg+" 结果："+result);
         if(result==null){nointernet=true;return;}
         mcontent=result;
     }
