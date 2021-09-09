@@ -3,64 +3,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlankFragment1">
+    android:id="@+id/fram2"
+    tools:context=".BlankFragment2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/purple_500"
+        android:orientation="horizontal">
+
+        <android.widget.SearchView
+            android:id="@+id/search1"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:queryHint="请输入搜索内容" />
+
+
+        <ImageView
+            android:id="@+id/channel1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:src="@drawable/menu" />
+
+    </LinearLayout>
+
+
 
     <!-- TODO: Update blank fragment layout -->
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Mylinear1"
+            android:padding="0dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="语文"
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/Chinese1"
+
+                android:visibility="visible"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数学"
+
+
+                android:id="@+id/math1"
+
+                android:visibility="visible"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="英语"
+
+
+                android:id="@+id/English1"
+
+                android:visibility="visible"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物理"
+
+
+                android:id="@+id/physics1"
+
+                android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="化学"
+
+
+                android:id="@+id/Chemistry1"
+
+                android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="生物"
+
+                android:id="@+id/biology1"
+
+                android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="政治"
+
+                android:id="@+id/politics1"
+                android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="历史"
+
+                android:id="@+id/history1"
+                android:visibility="gone"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地理"
+                android:id="@+id/geography1"
+
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:background="@drawable/edge">
+        <TextView
+            android:id="@+id/hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textColor="#000000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="33dp"
+
+            android:text="实体链接" />
+        <ImageView
+            android:id="@+id/hot_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/hot"
+            android:src="@drawable/hot" />
+
+
+    </RelativeLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
-        <LinearLayout
+        android:layout_marginTop="200dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <Button
-                android:id="@+id/IVButton_Id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="跳转到ImageView"
-                android:textSize="20dp"
-                android:textAllCaps="false"/>
-            <Button
-                android:id="@+id/LVButton_Id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="跳转到ListView"
-                android:textSize="20dp"
-                android:textAllCaps="false"/>
-            <Button
-                android:id="@+id/GVButton_Id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="跳转到GridView"
-                android:textSize="20dp"
-                android:textAllCaps="false"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="按钮1"
-                android:textSize="20dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="100dp"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="按钮2"
-                android:textSize="20dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="100dp"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="按钮3"
-                android:textSize="20dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="300dp"/>
-        </LinearLayout>
-
-    </ScrollView>
-
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </FrameLayout>
