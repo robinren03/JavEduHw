@@ -16,21 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,10 +76,8 @@ class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>
 
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
-    {
-        Msg msg;
-        msg = list.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Msg msg = list.get(position);
         if(msg.getType() == Msg.TYPE_RECEIVED){
             //如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
@@ -120,9 +103,8 @@ class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>
 
 
 
-public class QA extends AppCompatActivity
-{
-    private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
+public class QA extends AppCompatActivity {
+
     private static final String TAG = "QA";
     private List<Msg> msgList = new ArrayList<>();
     private RecyclerView msgRecyclerView;
@@ -151,60 +133,24 @@ public class QA extends AppCompatActivity
             ③调用RecyclerView的scrollToPosition方法，以保证一定可以看的到最后发出的一条消息。*/
         send.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String content = inputText.getText().toString();
-                if(!content.equals(""))
-                {
+                if(!content.equals("")) {
                     msgList.add(new Msg(content,Msg.TYPE_SEND));
                     adapter.notifyItemInserted(msgList.size()-1);
                     msgRecyclerView.scrollToPosition(msgList.size()-1);
                     inputText.setText("");//清空输入框中的内容
-                    try
-                    {
-                        //TODO:设置单选框，只在一个学科下进行知识问答，不再轮询
-                        String url = QA.this.getString(R.string.backend_ip) + "/request/question";
-                        String[] subjects={"chinese","math","english","physics","chemistry","biology","history","geo","politics"};
-                        String res;
-                        String answer = "";
-                        for(int i=0;i<9;i++)
-                        {
-                            System.out.println("已经查到"+subjects[i]);
-                            String msg = "course="+subjects[i]+"&inputQuestion="+content;//+"&id="+id;
-                            res = serverHttpResponse.postResponse(url, msg);
-                            System.out.println(res);
-                            try{
-                                JSONObject answer_json = new JSONObject(res);
-                                JSONObject data = ((JSONArray) answer_json.get("data")).getJSONObject(0);
-                                answer=data.get("value").toString();
-                            }
-                            catch (Exception e)
-                            {
-
-                                e.printStackTrace();
-                                continue;
-                            }
-
-                            if(!answer.equals(""))    break;
-                        }
-                        if(answer.equals(""))
-                        {
-                            msgList.add(new Msg("很抱歉，我也不知道这个问题的答案（︶︿︶）",Msg.TYPE_RECEIVED));
-                        }
-                        else
-                        {
-                            msgList.add(new Msg(answer,Msg.TYPE_RECEIVED));
-                        }
-                        adapter.notifyItemInserted(msgList.size()-1);
-                        msgRecyclerView.scrollToPosition(msgList.size()-1);
-
-                    }
-                    catch (Exception e) {
-                        msgList.add(new Msg("呜呜呜，服务器好像又双叒叕挂掉了，请稍后再来问这个问题吧(￢_￢)",Msg.TYPE_RECEIVED));
-                        adapter.notifyItemInserted(msgList.size()-1);
-                        msgRecyclerView.scrollToPosition(msgList.size()-1);
-                        e.printStackTrace();
-                    }
+                }
+//                自定义一问一答
+                if(msgList.size() == 2){
+                    msgList.add(new Msg("What's your name?",Msg.TYPE_RECEIVED));
+                    adapter.notifyItemInserted(msgList.size()-1);
+                    msgRecyclerView.scrollToPosition(msgList.size()-1);
+                }
+                if(msgList.size() == 4){
+                    msgList.add(new Msg("Nice to meet you,Bye!",Msg.TYPE_RECEIVED));
+                    adapter.notifyItemInserted(msgList.size()-1);
+                    msgRecyclerView.scrollToPosition(msgList.size()-1);
                 }
             }
         });
@@ -212,7 +158,7 @@ public class QA extends AppCompatActivity
 
     private List<Msg> getData(){
         List<Msg> list = new ArrayList<>();
-        list.add(new Msg("Hello，随便问我点什么问题吧，我会尽可能帮你解答的 ^_^ ",Msg.TYPE_RECEIVED));
+        list.add(new Msg("Hello",Msg.TYPE_RECEIVED));
         return list;
     }
 }

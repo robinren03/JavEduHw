@@ -35,6 +35,4 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         return titles[position];
     }
 
-    public Fragment changeto(){return fragmentList.get(1);}
-
 }
