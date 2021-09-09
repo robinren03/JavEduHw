@@ -2,7 +2,7 @@
 <resources>
     <string-array name="tab_titles">
         <item>首页</item>
-        <item>发现</item>
+        <item>学科</item>
         <item>我的</item>
     </string-array>
 </resources>
