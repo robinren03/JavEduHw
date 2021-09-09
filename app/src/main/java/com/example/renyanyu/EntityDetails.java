@@ -3,32 +3,47 @@ package com.example.renyanyu;
 //package com.example.renyanyu;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.common.UiError;
+import com.sina.weibo.sdk.openapi.IWBAPI;
+import com.sina.weibo.sdk.openapi.WBAPIFactory;
+import com.sina.weibo.sdk.share.WbShareCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +52,120 @@ import java.io.*;
 import java.util.*;
 
 
-public class EntityDetails extends AppCompatActivity {
+public class EntityDetails extends AppCompatActivity implements WbShareCallback {
+
+
+    IWBAPI mWBAPI; //分享功能所需全局变量
+    RecyclerView recyclerView;
+    List<EntityDetails.AppBean> list;
+    BottomSheetDialog dialog;
+
+    class Adapter extends RecyclerView.Adapter<EntityDetails.ViewHolde>
+    {
+        Adapter() {
+            list = getShareAppList();
+            if (list == null) {
+                return;
+            }
+        }
+
+        @Override
+        public EntityDetails.ViewHolde onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new EntityDetails.ViewHolde(getLayoutInflater().inflate(R.layout.recycler_item, null));
+        }
+
+        @Override
+        public void onBindViewHolder(EntityDetails.ViewHolde holder, @SuppressLint("RecyclerView") int position) {
+            holder.appTextView.setText(list.get(position).appName);
+            holder.iconImageView.setImageDrawable(list.get(position).icon);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    EntityDetails.AppBean appBean = list.get(position);
+                    shareIntent.setComponent(new ComponentName(appBean.pkgName, appBean.appLauncherClassName));
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, ss);
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(shareIntent);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list == null ? 0 : list.size();
+        }
+    }
+
+    @SuppressLint("WrongConstant")
+    List<ResolveInfo> getShareApps(Context context)
+    {
+        List<ResolveInfo> mApps = new ArrayList<ResolveInfo>();
+        Intent intent = new Intent(Intent.ACTION_SEND, null);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setType("text/plain");
+        PackageManager pManager = context.getPackageManager();
+        mApps = pManager.queryIntentActivities(intent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+        return mApps;
+    }
+
+    List<EntityDetails.AppBean> getShareAppList() {
+        List<EntityDetails.AppBean> shareAppInfos = new ArrayList<EntityDetails.AppBean>();
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> resolveInfos = getShareApps(EntityDetails.this);
+        if (null == resolveInfos) {
+            return null;
+        } else {
+            for (ResolveInfo resolveInfo : resolveInfos) {
+                EntityDetails.AppBean appBean = new EntityDetails.AppBean();
+                appBean.pkgName = (resolveInfo.activityInfo.packageName);
+//              showLog_I(TAG, "pkg>" + resolveInfo.activityInfo.packageName + ";name>" + resolveInfo.activityInfo.name);
+                appBean.appLauncherClassName = (resolveInfo.activityInfo.name);
+                appBean.appName = (resolveInfo.loadLabel(packageManager).toString());
+                appBean.icon = (resolveInfo.loadIcon(packageManager));
+                shareAppInfos.add(appBean);
+            }
+        }
+        return shareAppInfos;
+    }
+
+    class ViewHolde extends RecyclerView.ViewHolder {
+        public ImageView iconImageView;
+        public TextView appTextView;
+
+        public ViewHolde(View itemView) {
+            super(itemView);
+            iconImageView = (ImageView) itemView.findViewById(R.id.app_icon_iv);
+            appTextView = (TextView) itemView.findViewById(R.id.app_tv);
+        }
+    }
+
+    class AppBean {
+        public Drawable icon;
+        public String appName;
+        public String pkgName;
+        public String appLauncherClassName;
+    }
+    //region 实现 WbShareCallback 接口（目的是实现分享功能）
+    @Override
+    public void onComplete() {
+        Toast.makeText(EntityDetails.this, "分享成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(UiError error) {
+        Toast.makeText(EntityDetails.this, "分享失败:" + error.errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancel() {
+        Toast.makeText(EntityDetails.this, "分享取消", Toast.LENGTH_SHORT).show();
+    }
+    //endregion
+
+
     private Gson gson=new Gson();
     public boolean collected;
     public News detail;
@@ -61,6 +189,9 @@ public class EntityDetails extends AppCompatActivity {
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
     public boolean nointernet=false;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,15 +226,49 @@ public class EntityDetails extends AppCompatActivity {
 
         kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this, user_name));
 
+// region 分享功能初始化
+        //在微博开发平台为应用申请的App Key
+        String APP_KY = "771540176";
+        //在微博开放平台设置的授权回调页
+        String REDIRECT_URL = "https://api.weibo.com/oauth2/default.html";
+        //在微博开放平台为应用申请的高级权限
+        String SCOPE = "email,direct_messages_read,direct_messages_write,"
+                + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+                + "follow_app_official_microblog," + "invitation_write";
+
+        AuthInfo authInfo = new AuthInfo(this, APP_KY, REDIRECT_URL, SCOPE);
+        mWBAPI = WBAPIFactory.createWBAPI(this);
+        mWBAPI.registerApp(this, authInfo);
+        mWBAPI.setLoggerEnable(true);
+        //endregion
 
 
 
-        // region 收藏和历史记录
+
+
+        // region 分享、收藏和历史记录初始化
+        //分享按钮的监听函数
         Button shareButton=findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                dialog = new BottomSheetDialog(EntityDetails.this);
+                View bottomDialogView = View.inflate(EntityDetails.this, R.layout.bottom_dialog, null);
+                dialog.setContentView(bottomDialogView);
+                recyclerView = (RecyclerView) dialog.findViewById(R.id.recycler);
+                recyclerView.setLayoutManager(new GridLayoutManager(EntityDetails.this, 3));
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setAdapter(new EntityDetails.Adapter());
+                dialog.show();
+
+//                Intent intent=new Intent(EntityDetails.this,ShareToWeibo.class);
+//                startActivity(intent);
+//                WeiboMultiMessage message = new WeiboMultiMessage();
+//                TextObject textObject = new TextObject();
+//                textObject.text = ss;
+//                message.textObject = textObject;
+//                mWBAPI.shareMessage(message, true);// true 表示是否指定⽤客户端分享
             }
         }) ;
 
@@ -116,10 +281,9 @@ public class EntityDetails extends AppCompatActivity {
         String haveStarredUrl =  severIP+ "/request/haveStarred";
         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
         String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
-        String responseString="0";
-        responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
+        System.out.println(message);
+        String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
         System.out.println(responseString);
-        if(responseString!=null)
         if(responseString.equals("true"))
         {
             addToCollectionButton.setVisibility(View.GONE);
@@ -132,7 +296,7 @@ public class EntityDetails extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(EntityDetails.this,"在线登录以获得更多功能",Toast.LENGTH_LONG).show();
+            Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
         }
 
         String addToHistoryUrl =  severIP+ "/request/addToHistory";
@@ -140,6 +304,77 @@ public class EntityDetails extends AppCompatActivity {
         System.out.println(message);
         responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
         System.out.println(responseString);
+
+        //region 收藏和取消收藏按钮的监听函数
+        addToCollectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(EntityDetails.this,"已收藏",Toast.LENGTH_LONG).show();
+                addToCollectionButton.setVisibility(View.GONE);
+                hadAddedToCollectionButton.setVisibility(View.VISIBLE);
+
+                String url = severIP + "/request/star";
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                System.out.println(message);
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
+            }
+        }) ;
+
+        hadAddedToCollectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(EntityDetails.this,"已取消收藏",Toast.LENGTH_LONG).show();
+                addToCollectionButton.setVisibility(View.VISIBLE);
+                hadAddedToCollectionButton.setVisibility(View.GONE);
+
+                String url = severIP + "/request/star";
+                ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                System.out.println(message);
+                String responseString = serverHttpResponse.postResponse(url,message);
+                System.out.println(responseString);
+            }
+        }) ;
+        //endregion
+
+        // endregion
+
+//        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
+//        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
+//        hadAddedToCollectionButton.setVisibility(View.GONE);
+//        String severIP=EntityDetails.this.getString(R.string.backend_ip);
+//        String userToken = userInfo.getString("token","");
+//        String type=t1.getStringExtra("type");
+//        String haveStarredUrl =  severIP+ "/request/haveStarred";
+//        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+//        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+//        String responseString="0";
+//        responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
+//        System.out.println(responseString);
+//        if(responseString!=null)
+//        if(responseString.equals("true"))
+//        {
+//            addToCollectionButton.setVisibility(View.GONE);
+//            hadAddedToCollectionButton.setVisibility(View.VISIBLE);
+//        }
+//        else if(responseString.equals("false"))
+//        {
+//            addToCollectionButton.setVisibility(View.VISIBLE);
+//            hadAddedToCollectionButton.setVisibility(View.GONE);
+//        }
+//        else
+//        {
+//            Toast.makeText(EntityDetails.this,"在线登录以获得更多功能",Toast.LENGTH_LONG).show();
+//        }
+//
+//        String addToHistoryUrl =  severIP+ "/request/addToHistory";
+//        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+//        System.out.println(message);
+//        responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
+//        System.out.println(responseString);
 
         // endregion
 
@@ -491,4 +726,18 @@ public class EntityDetails extends AppCompatActivity {
         if(result==null){nointernet=true;return;}
         mcontent=result;
     }
+
+
+
+
+
+    //region 分享的结果返回函数
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mWBAPI != null) {
+            mWBAPI.doResultIntent(data, this);
+        }
+    }
+    //endregion
 }
