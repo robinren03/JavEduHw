@@ -7,20 +7,27 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,7 +46,7 @@ import java.util.regex.Pattern;
 public class Quiz extends FragmentActivity implements View.OnClickListener
 {
 
-    class BaseBean {
+    static class BaseBean {
 
         /**
          * 对应{"result":"1", 1:请求成功, 0:请求失败�?
@@ -85,7 +92,7 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
     }
 
-    class QuestionOptionBean extends BaseBean {
+    public static class QuestionOptionBean extends BaseBean {
         // 题目选项
         // 1 选项名称：name
         // 2 选项描述：description
@@ -127,105 +134,28 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
     }
 
-    class QuestionBean extends BaseBean {
-
-        // 1�?题目ID：questionId
-        // 2�?题目描述：description
-        // a) 填空题时：填空位置标记为：�?{1}”�?”{N}”，同时选项的名称为：�?{1}”�?”{N}”，
-        // 对应选项的描述为：正确答案字节数的长度加4
-        // b) 题目包含有图片时：图片的位置标识为：”{image1}”�?”{imageN}”，
-        // 同时增加key”{image1}”�?”{image}”，它们的�?为：图片的二进制内容
-        // 3�?题目类型：questionType�?-单�? 2-多�? 3-填空 4-问答�?
-        // 4�?知识点名称：knowledgePointName
-        // 5�?知识点ID：knowledgePointId
-        // 6�?题目选项集合：questionOptions
-        // a) 选项名称：name
-        // b) 选项描述：description
-
+    static class QuestionBean extends BaseBean
+    {
         String id;// 题目ID
         String stem;// 题目描述
+        String answer;
         String relatedKnowledgePointName; // 相关知识点名称
         List<QuestionOptionBean> options; // 选项集合
-//        private int questionType;// 题目类型
-
-//        private String knowledgePointId; // 知识点id
-
 
         public QuestionBean() {
             super();
         }
 
-        public QuestionBean(String questionId, String description,
-                            int questionType, String knowledgePointName,
-                            String knowledgePointId, List<QuestionOptionBean> questionOptions) {
+        public QuestionBean(String id, String stem, String answer, String relatedKnowledgePointName,
+                            List<QuestionOptionBean> questionOptions)
+        {
             super();
-            this.id = questionId;
-            this.stem = description;
-            this.relatedKnowledgePointName = knowledgePointName;
+            this.id = id;
+            this.stem = stem;
+            this.answer=answer;
+            this.relatedKnowledgePointName = relatedKnowledgePointName;
             this.options = questionOptions;
-//            this.questionType = questionType;
-
-//            this.knowledgePointId = knowledgePointId;
-
         }
-
-//        public String getQuestionId() {
-//            return questionId;
-//        }
-//
-//        public void setQuestionId(String questionId) {
-//            this.questionId = questionId;
-//        }
-//
-//        public String getDescription() {
-//            return description;
-//        }
-//
-//        public void setDescription(String description) {
-//            this.description = description;
-//        }
-//
-//        public int getQuestionType() {
-//            return questionType;
-//        }
-//
-//        public void setQuestionType(int questionType) {
-//            this.questionType = questionType;
-//        }
-//
-//        public String getKnowledgePointName() {
-//            return knowledgePointName;
-//        }
-//
-//        public void setKnowledgePointName(String knowledgePointName) {
-//            this.knowledgePointName = knowledgePointName;
-//        }
-
-//        public String getKnowledgePointId() {
-//            return knowledgePointId;
-//        }
-//
-//        public void setKnowledgePointId(String knowledgePointId) {
-//            this.knowledgePointId = knowledgePointId;
-//        }
-
-//        public List<QuestionOptionBean> getQuestionOptions() {
-//            return questionOptions;
-//        }
-//
-//        public void setQuestionOptions(List<QuestionOptionBean> questionOptions) {
-//            this.questionOptions = questionOptions;
-//        }
-
-//        @Override
-//        public String toString() {
-//            return "QuestionBean [questionId=" + questionId + ", description="
-//                    + description + ", questionType=" + questionType
-//                    + ", knowledgePointName=" + knowledgePointName
-////                    + ", knowledgePointId=" + knowledgePointId
-//                    + ", questionOptions=" + questionOptions + "]";
-//        }
-
     }
 
     class ItemAdapter extends FragmentStatePagerAdapter {
@@ -236,6 +166,9 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
         @Override
         public Fragment getItem(int arg0) {
             if(arg0 == Quiz.questionlist.size()){
+                return new UseLessFragment();
+            }
+            if(arg0 == Quiz.questionlist.size()+1){
                 return new ScantronItemFragment();
             }
             return new QuestionItemFragment(arg0);
@@ -245,7 +178,7 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
         @Override
         public int getCount() {
 
-            return Quiz.questionlist.size()+1;
+            return Quiz.questionlist.size()+2;
         }
 
 
@@ -255,10 +188,10 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
     static class OptionsListAdapter extends BaseAdapter {
         private Context mContext;
         ListView lv ;
-        int index;
+//        int index;,int index
         public List<QuestionOptionBean> options ;
 
-        public OptionsListAdapter(Context context, List<QuestionOptionBean> options,ListView lv,int index) {
+        public OptionsListAdapter(Context context, List<QuestionOptionBean> options,ListView lv) {
             this.mContext = context;
             this.options = options;
             this.lv = lv;
@@ -295,9 +228,8 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            View view = LayoutInflater.from(mContext).inflate(
-                    R.layout.list_item_option, null);
-            CheckedTextView ctv = (CheckedTextView) view.findViewById(R.id.ctv_name);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_option, null);
+            TextView ctv = (TextView) view.findViewById(R.id.ctv_name);
             TextView option = (TextView) view.findViewById(R.id.tv_option);
 
             ctv.setText(options.get(position).getName());
@@ -324,6 +256,10 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
     List<View> list = new ArrayList<View>();
     public static List<QuestionBean> questionlist = new ArrayList<QuestionBean>();
+    public static ArrayList<String> userAnswerList=new ArrayList<>();
+    public static int minute=0;
+    public static int second=0;
+
     public static QuestionBean question;
 
     public static QuestionOptionBean option;
@@ -331,61 +267,49 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
     private ItemAdapter pagerAdapter;
     View pager_item;
     public static int currentIndex = 0;
-    private TextView tv_time;
-    private TextView tv_share;
-    private TextView tv_answercard;
-    private TextView tv_back;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.quiz);
 
-
-//        String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/exercise";
-//        String msg="?uriName="+entity_name;
-//        //System.out.println("msg:"+msg);
-//        String res= serverHttpResponse.getResponse(url+msg);
-//        try{
-//            JSONObject answer_json = new JSONObject(res);
-//            //System.out.println(((JSONArray) answer_json.opt("data")).length());
-//            for(int i = 0; i<((JSONArray) answer_json.opt("data")).length(); i++){
-//                JSONObject data1 = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
-//                String stemall=data1.opt("qBody").toString();
-//                String answer=data1.opt("qAnswer").toString();
-//                int index_a=stemall.indexOf("A.");
-//                int index_b=stemall.indexOf("B.");
-//                int index_c=stemall.indexOf("C.");
-//                int index_d=stemall.indexOf("D.");
-//                if(index_a==-1&&index_b==-1&&index_c==-1&&index_d==-1){
-//                    Exercise e=new Exercise(stemall,answer);
-//                    mex.add(e);
-//                }
-//                else{
-//                    String stem=stemall.substring(0,index_a);
-//                    String text_a=stemall.substring(index_a+2,index_b);
-//                    String text_b=stemall.substring(index_b+2,index_c);
-//                    String text_c=stemall.substring(index_c+2,index_d);
-//                    String text_d=stemall.substring(index_d+2);
-//                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer);
-//                    mex.add(e);
-//                }
-//            }
-//        }catch(Exception e){}
+        questionlist.clear();
+        userAnswerList.clear();
 
 
         // region 获取responseString
-        String url = Quiz.this.getString(R.string.backend_ip) + "/user/quiz";
-        SharedPreferences userInfo= Quiz.this.getSharedPreferences("user", 0);
-        String userToken = userInfo.getString("token","");
-        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-        String message="token="+userToken;
-        url=url+"?"+message;
-        //com.alibaba.fastjson.JSONArray questionJsonArray=(com.alibaba.fastjson.JSONArray)serverHttpResponse.getResponse(url);
-        String responseString = serverHttpResponse.getResponse(url);
-        System.out.println(responseString);
+//        String url = Quiz.this.getString(R.string.backend_ip) + "/user/quiz";
+//        SharedPreferences userInfo= Quiz.this.getSharedPreferences("user", 0);
+//        String userToken = userInfo.getString("token","");
+//        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
+//        String message="token="+userToken;
+//        url=url+"?"+message;
+//        //com.alibaba.fastjson.JSONArray questionJsonArray=(com.alibaba.fastjson.JSONArray)serverHttpResponse.getResponse(url);
+//        String responseString = serverHttpResponse.getResponse(url);
+//        System.out.println(responseString);
+        String responseString="[{\"qAnswer\":\"D\",\"id\":37964,\"qBody\":\"下列哪种现象不是生物对环境的适应()" +
+                "A.河边垂柳的树枝长向了河心B.仙人掌的叶变成刺C.秋天大雁南飞越冬D.蚯蚓在土壤中括动,可使土壤疏松\"}," +
+                "{\"qAnswer\":\"B\",\"id\":38086,\"qBody\":\"松树和苹果树这两种植物最主要的区别在于:()" +
+                "A.松树的种子外面有果皮包被着B.松树没有果实,种子裸露着C.松树比苹果树高大D.松树有果实,苹果树的种子裸露\"}," +
+                "{\"qAnswer\":\"B\",\"id\":38108,\"qBody\":\"下列属于裸子植物的一组是:()" +
+                "A.小麦和水稻B.银杏和松树C.玉米和杉树D.杨树和柳树\"}," +
+                "{\"qAnswer\":\"A\",\"id\":38226,\"qBody\":\"在哺乳动物的骨中,对骨的长粗和骨折修复起着重要作用的结构是()" +
+                "A.骨膜B.骨松质C.骨密质D.骨髓腔\"},{\"qAnswer\":\"B\",\"id\":38256,\"qBody\":\"下列说法中,正确的是" +
+                "A.松的球果和桃子一样都是果实B.裸子植物和被子植物的种子中都有胚C.种子中的胚乳能发育成新植株" +
+                "D.裸子植物的种子比被子植物的种子能得到更好的保护\"}," +
+                "{\"qAnswer\":\"B\",\"id\":38274,\"qBody\":\"蚯蚓在土壤中生活,可以使土壤疏松,排出的粪便可增加土壤肥力。这说明了:" +
+                "A.环境影响生物B.生物影响环境C.生物依赖环境D.生物适应环境\"}," +
+                "{\"qAnswer\":\"D\",\"id\":38354,\"qBody\":\"与桃树相比,松树种子最主要的不同是" +
+                "A.果实内有种子B.球果是由果皮和种子组成C.胚珠外有子房壁D.没果皮包裹,种子裸露在外\"}," +
+                "{\"qAnswer\":\"B\",\"id\":38571,\"qBody\":\"下列农业生产措施中,能提高光合作用效率的是()" +
+                "A.常松士,勤施肥B.合理密植充分利用光照C.温室大棚夜间适当降低室温D.移栽树苗时,剪去树苗的部分叶片\"}," +
+                "{\"qAnswer\":\"A\",\"id\":38576,\"qBody\":\"下列各组植物中,生活环境和繁殖方式最相似的是()" +
+                "A.墙藓、肾蕨B.水绵、水稻C.海带、雪松D.白菜、紫菜\"}," +
+                "{\"qAnswer\":\"A\",\"id\":38640,\"qBody\":\"下列生物防治的方案不可行的是" +
+                "A.鸡防治菜青虫B.灰喜鹊防治松毛虫C.七星瓢虫防治棉蚜虫D.啄木鸟防治林业害虫\"}]";
         // endregion
 
         class Question
@@ -432,6 +356,7 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
                             int positionOfC=body.indexOf("C.");
                             int positionOfD=body.indexOf("D.");
                             String stem=body.substring(0,positionOfA);
+                            if(stem.indexOf("()")==stem.length()-2)    stem=stem.substring(0,stem.length()-2);
                             String a=body.substring(positionOfA+2,positionOfB);
                             String b=body.substring(positionOfB+2,positionOfC);
                             String c=body.substring(positionOfC+2,positionOfD);
@@ -457,57 +382,44 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
                 options.add(new QuestionOptionBean("B", question.b));
                 options.add(new QuestionOptionBean("C", question.c));
                 options.add(new QuestionOptionBean("D", question.d));
-                questionlist.add(new QuestionBean(((Integer)i).toString(), question.stem, 1,
-                        "常识判断", "001", options));
+                questionlist.add(new QuestionBean(((Integer)i).toString(), question.stem, question.answer,
+                        "叶绿体", options));
             }
             System.out.println(questionlist);
 
         }
 
+        for(int i=0;i<questionlist.size();i++)
+        {
+            userAnswerList.add("");
+        }
+
+//        Log.e("测试数据", questionlist.get(0).toString());
+//        Log.e("测试数据", questionlist.get(1).toString());
+
+//        TextView backButton = (TextView) findViewById(R.id.quiz_page_back_button);
+        TextView timerButton= (TextView) findViewById(R.id.quiz_page_timer_button);
+        TextView answerBoardButton = (TextView) findViewById(R.id.quiz_page_answer_board_button);
+//        backButton.setOnClickListener(this);
+        timerButton.setOnClickListener(this);
+        answerBoardButton.setOnClickListener(this);
+
+        handler.sendEmptyMessageDelayed(1, 1000);//startTimer
 
 
 
-        Log.e("测试数据", questionlist.get(0).toString());
-        Log.e("测试数据", questionlist.get(1).toString());
-
-        tv_back = (TextView) findViewById(R.id.tv_back);
-        tv_answercard = (TextView) findViewById(R.id.tv_answercard);
-        tv_time = (TextView) findViewById(R.id.tv_time);
-        tv_share = (TextView) findViewById(R.id.tv_share);
-//        startCounter();
-        tv_back.setOnClickListener(this);
-        tv_answercard.setOnClickListener(this);
-        tv_time.setOnClickListener(this);
-        tv_share.setOnClickListener(this);
 
         vp = (ViewPager) findViewById(R.id.vp);
 
         vp.setCurrentItem(0);
         pagerAdapter = new ItemAdapter(getSupportFragmentManager());
         vp.setAdapter(pagerAdapter);
-//        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//            @Override
-//            public void onPageSelected(int arg0) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrolled(int arg0, float arg1, int arg2) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int position) {
-//                currentIndex = position;
-//            }
-//        });
 
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
         IntentFilter filter = new IntentFilter();
         filter.addAction("goToPrevQuestion");
         filter.addAction("goToNextQuestion");
-        filter.addAction("com.leyikao.jumptopage");
+        filter.addAction("goToPageI");
         lbm.registerReceiver(mMessageReceiver, filter);
 
 
@@ -526,36 +438,42 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         switch (v.getId()) {
-            case R.id.tv_back://点击头部返回
+            case R.id.quiz_page_answer_board_button://点击头部答题卡
+                pagerAdapter.notifyDataSetChanged();
+                vp.setCurrentItem(questionlist.size()+1);
 
                 break;
-            case R.id.tv_answercard://点击头部答题卡
-
-                jumpToPage(questionlist.size());
-//                int index = intent.getIntExtra("index", 0);
-//                vp.setCurrentItem(questionlist.size());
-
-                break;
-            case R.id.tv_time://点击头部计时器
-                //TODO计时器停止计时
-//                stopCounter();
-                final ConfirmDialog confirmDialog = new ConfirmDialog(this, "共4道题，还剩4道题未做");
-                confirmDialog.setCancelable(false);
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
-
+            case R.id.quiz_page_timer_button://点击头部计时器
+                handler.removeCallbacksAndMessages(null);//stop
+                AlertDialog.Builder dialog=new AlertDialog.Builder(Quiz.this);
+                dialog.setTitle("休息一下");//设置标题
+                int answeredCount=0;
+                for(int i=0;i<userAnswerList.size();i++)
+                {
+                    if(userAnswerList.get(i)!="")    answeredCount++;
+                }
+                dialog.setMessage("计时已停止，你可以休息一会儿再继续作答^_^，目前已答完"+answeredCount+"题，" +
+                        "还剩"+(userAnswerList.size()-answeredCount)+"题未答。");//设置信息具体内容
+                dialog.setCancelable(false);//设置是否可取消
+                dialog.setPositiveButton("继续答题", new DialogInterface.OnClickListener()
+                {
                     @Override
-                    public void doProceed() {
-                        //TODO计时器继续计时
-                        confirmDialog.dismiss();
-//                        startCounter();
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        handler.sendEmptyMessageDelayed(1, 1000);
                     }
-
                 });
-                break;
-            case R.id.tv_share://点击头部分享
+                dialog.setNegativeButton("结束答题", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        handler.sendEmptyMessageDelayed(1, 1000);
+                        vp.setCurrentItem(questionlist.size()+1);
+                    }
+                });
+                dialog.show();
 
                 break;
             default:
@@ -576,171 +494,44 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
             {
                 vp.setCurrentItem(vp.getCurrentItem() + 1);
             }
-            else if (intent.getAction().equals("com.leyikao.jumptopage")) {
-                int index = intent.getIntExtra("index", 0);
-                jumpToPage(index);
+            else if (intent.getAction().equals("goToPageI")) {
+                vp.setCurrentItem(intent.getIntExtra("index", 0));
             }
         }
     };
 
-    public void jumpToNext() {
 
 
-    }
-    public void jumpToPage(int index) {
-        vp.setCurrentItem(index);
-    }
+    Handler handler = new Handler()
+    {
+        int time = 0;
+        public void handleMessage(android.os.Message msg)
+        {
+            switch (msg.what)
+            {
+                case 1:
+                    time++;
+                    second = time %60;
+                    minute = time /60;
+                    if(minute>99)
+                    {
+                        //TODO:自动交卷
+                        break;
+                    }
+                    TextView timerButton= (TextView) findViewById(R.id.quiz_page_timer_button);
+                    timerButton.setText(""+minute/10+minute%10+":"+second/10+second%10);
+                    handler.sendEmptyMessageDelayed(1, 1000);
+                    break;
+                default:
+                    break;
+            }
 
-//    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver()
-//    {
-//        @Override
-//        public void onReceive(Context context, Intent intent)
-//        {
-//            if (intent.getAction().equals("com.example.goToPrevQuestion"))
-//            {
-//                System.out.println("intent.getAction().equals(\"goToPrevQuestion\")");
-//                int position = vp.getCurrentItem();
-//                vp.setCurrentItem(position - 1);
-//            }
-//            else if (intent.getAction().equals("goToNextQuestion"))
-//            {
-//                int position = vp.getCurrentItem();
-//                vp.setCurrentItem(position + 1);
-//            }
-//            else if (intent.getAction().equals("com.leyikao.jumptopage"))
-//            {
-//                int index = intent.getIntExtra("index", 0);
-//                vp.setCurrentItem(index);
-//            }
-//        }
-//    };
+        };
+    };
 
-
-//    private void loadData()
-//    {
-//
-//
-//        // 初始化数据
-//        option = new QuestionOptionBean("A", "这个男的头有病");
-//        options1.add(option);
-//        option = new QuestionOptionBean("B", "这个男的头比较大");
-//        options1.add(option);
-//        option = new QuestionOptionBean("C", "这个男的看见的是鬼");
-//        options1.add(option);
-//        option = new QuestionOptionBean("D", "这个女的有点吃醋");
-//        options1.add(option);
-//        option = new QuestionOptionBean("E", "这个男的看见的是鬼");
-//        options1.add(option);
-//        question = new QuestionBean("0001", "男：看那个妹妹，好靓哦！\n女：看你个大头鬼！"
-//                + "\n问：这个女的是什么意思？", 2, "常识判断", "001", options1);
-//        questionlist.add(question);
-//
-//        // 初始化数据
-//        option = new QuestionOptionBean("A", "河北");
-//        options2.add(option);
-//        option = new QuestionOptionBean("B", "通州");
-//        options2.add(option);
-//        option = new QuestionOptionBean("C", "石家庄");
-//        options2.add(option);
-//        option = new QuestionOptionBean("D", "北京");
-//        options2.add(option);
-//        question = new QuestionBean("0002", "中国的首都在哪？", 1, "常识判断", "001",
-//                options2);
-//        questionlist.add(question);
-//
-//        // 初始化数据
-//        option = new QuestionOptionBean("A",
-//                "中台办国台办宣布五项促进两岸交往新举措，大陆13省市居民可赴金门旅游。");
-//        options3.add(option);
-//        option = new QuestionOptionBean("B",
-//                "说起去年发生的那件事，两个人脸上依如往常，目光中带着幽怨和冷漠，相对许久许久。");
-//        options3.add(option);
-//        option = new QuestionOptionBean("C",
-//                "明年，他只打算完成一部电视剧本，其他的事不想做。关于电视剧本的详细情况，他说，不易过早泄密。");
-//        options3.add(option);
-//        option = new QuestionOptionBean("D",
-//                "她把海南的荔枝、芒果，新疆的哈蜜瓜、紫葡萄等珍果和自家产的黄橙橙的菠萝放在一起，装满了一篮子。");
-//        options3.add(option);
-//        question = new QuestionBean("0003", "下列语句中，没有错别字的一项是 ", 1, "常识判断",
-//                "001", options3);
-//        questionlist.add(question);
-//
-//
-//
-//    }
-    //计时器任务
-    int time = 0;
-    int second = 0;
-    int minute = 0;
-    String timeStr  ="00:00";
-    int[] iTime = new int[]{0,0,0,0};
-
-
-
-//    Handler handler = new Handler(){
-//
-//
-//        public void handleMessage(android.os.Message msg) {
-//            switch (msg.what) {
-//                case 1:
-//                    time++;
-//                    second = time %60;
-//                    minute = time /60;
-//                    if(minute>99){
-//                        break;
-//                    }
-//                    //Log.e("秒数", ""+second);
-//                    //Log.e("分钟数", ""+minute);
-//                    if(second < 10 && minute < 10){
-//                        iTime[0]=0;
-//                        iTime[1]=minute;
-//                        iTime[2]=0;
-//                        iTime[3]=second;
-//
-//                    }else if(second >= 10 && minute < 10){
-//                        iTime[0]=0;
-//                        iTime[1]=minute;
-//                        iTime[2]=(second+"").charAt(0)-48;
-//                        iTime[3]=(second+"").charAt(1)-48;
-//
-//                    }else if(second < 10 && minute >= 10){
-//                        iTime[0]=(minute+"").charAt(0)-48;
-//                        iTime[1]=(minute+"").charAt(1)-48;
-//                        iTime[2]=0;
-//                        iTime[3]=second;
-//
-//                    }else if(second >= 10 && minute >= 10){
-//                        iTime[0]=(minute+"").charAt(0)-48;
-//                        iTime[1]=(minute+"").charAt(1)-48;
-//                        iTime[2]=(second+"").charAt(0)-48;
-//                        iTime[3]=(second+"").charAt(1)-48;
-//
-//                    }
-//                    tv_time.setText(""+iTime[0]+iTime[1]+":"+iTime[2]+iTime[3]);
-//                    handler.sendEmptyMessageDelayed(1, 1000);
-//                    break;
-//
-//                default:
-//                    break;
-//            }
-//
-//        };
-//    };
-//
-//
-//    // 开始计时
-//    public void startCounter() {
-//        handler.sendEmptyMessageDelayed(1, 1000);
-//    }
-//
-//    // 暂停计时
-//    public void stopCounter() {
-//        handler.removeCallbacksAndMessages(null);
-//    }
-
-    protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(
-                mMessageReceiver);
+    protected void onDestroy()
+    {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
 

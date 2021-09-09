@@ -1,9 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WrongExerciseSet">
+    tools:context=".WrongExerciseSet"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="#0099fb">
+
+            <TextView
+                android:id="@+id/tv_report_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="错题本"
+                android:textColor="@android:color/white"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textSize="17sp"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+
+        <TextView
+            android:id="@+id/wrong_exercise_set_page_prev_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="上一页"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/wrong_exercise_set_page_page_number_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="第 5/10 页"
+            android:textSize="20sp"
+            android:textColor="#FF03DAC5"/>
+
+        <TextView
+            android:id="@+id/wrong_exercise_set_page_next_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="下一页"
+            android:textSize="20sp"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/result_report_page_back_text"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_margin="@dimen/activity_horizontal_margin"-->
+<!--            android:layout_marginStart="@dimen/activity_horizontal_margin"-->
+
+<!--            android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+<!--            android:layout_marginEnd="@dimen/activity_horizontal_margin"-->
+<!--            android:layout_marginBottom="@dimen/activity_horizontal_margin"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:text="下一页" />-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="#0099fb"-->
+<!--            android:divider="?android:attr/listDivider"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingBottom="15dp"-->
+<!--            android:paddingTop="15dp"-->
+<!--            android:showDividers="middle" >-->
+
+<!--            -->
+<!--        </LinearLayout>-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+
+        <TextView
+            android:id="@+id/wrong_exercise_set_page_guide_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:text="你现在还没有任何错题哦^_^"
+            android:textSize="20sp"
+            android:textColor="#FF03DAC5"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/wrong_exercise_set_page_list"
+        android:divider="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp" />
+
+</LinearLayout>

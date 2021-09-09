@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#D9D7CA"
+            android:background="#0099fb"
             android:orientation="horizontal"
             android:paddingBottom="15dp"
             android:paddingLeft="10dp"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="1"
                     android:layout_gravity="bottom"
-                    android:textColor="#00994D"
+                    android:textColor="#fff"
                     android:textSize="20sp" />
 
                 <TextView
@@ -89,7 +89,7 @@
             android:orientation="vertical"
             android:background="#F5F5F5"
             >
-
+<!--com.example.renyanyu.NoScroll-->
             <com.example.renyanyu.NoScrollListview
                 android:id="@+id/lv_options"
                 style="?android:attr/listViewWhiteStyle"

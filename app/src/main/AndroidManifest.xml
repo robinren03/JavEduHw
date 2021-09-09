@@ -16,6 +16,9 @@
         android:theme="@style/Theme.JavEduHw"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ManageAccount"
+            android:exported="true" />
+        <activity
             android:name=".WrongExerciseSet"
             android:exported="true" />
         <activity

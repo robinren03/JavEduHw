@@ -26,48 +26,51 @@
                 android:id="@+id/tv_paper_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="专项智能练习(言语理解与表达)"
+                android:text="试题完成情况"
                 android:textSize="17sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="#F5F5F5"
-            android:orientation="horizontal"
-            android:paddingBottom="15dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="15dp" >
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="#F5F5F5"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingBottom="15dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:paddingRight="10dp"-->
+<!--            android:paddingTop="15dp" >-->
 
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="8dp"
-                android:text="常识判断"
-                android:textSize="17sp" />
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/tv_description"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:lineSpacingExtra="8dp"-->
+<!--                android:text="答题情况"-->
+<!--                android:textSize="17sp" />-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <com.example.renyanyu.NoScrollGridView
+<!--            com.example.renyanyu.NoScrollGridView-->
+
+            <GridView
                 android:id="@+id/gridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
                 android:gravity="center"
-                android:horizontalSpacing="10dp"
+                android:horizontalSpacing="20dp"
                 android:numColumns="5"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="15dp" >
-            </com.example.renyanyu.NoScrollGridView>
+                android:verticalSpacing="15dp"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+            </GridView>
 
         </LinearLayout>
 

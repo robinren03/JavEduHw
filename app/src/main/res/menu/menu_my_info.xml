@@ -4,6 +4,11 @@
         android:id="@+id/group1"
         android:checkableBehavior="none">
         <item
+            android:id="@+id/item_account"
+            android:title="账户信息"
+            android:icon="@drawable/ic_manage_accounts"
+            android:checked="true"/>
+        <item
             android:id="@+id/item_favorite"
             android:title="收藏"
             android:icon="@drawable/ic_favorite"

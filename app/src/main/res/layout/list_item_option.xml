@@ -14,15 +14,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <CheckedTextView
+        <TextView
             android:id="@+id/ctv_name"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/option_btn_single_normal"
             android:gravity="center"
             android:text="A"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_option"

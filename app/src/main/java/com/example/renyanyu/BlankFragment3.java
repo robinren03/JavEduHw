@@ -92,6 +92,10 @@ public class BlankFragment3 extends Fragment {
                 int id=item.getItemId();
                 switch (id)
                 {
+                    case R.id.item_account:
+                        Intent goToManageAccountPage = new Intent(getActivity(),ManageAccount.class);
+                        startActivity(goToManageAccountPage);
+                        break;
                     case R.id.item_favorite:
                         Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
                         startActivity(goToCollectionPage);
@@ -102,21 +106,6 @@ public class BlankFragment3 extends Fragment {
                         startActivity(goToHistoryPage);
                         break;
                     case R.id.item_wrong_exercise_set:
-
-                        // region 获取responseString
-                        System.out.println("sgdfdsjfgsdjgfsdjf");
-                        String url = getActivity().getString(R.string.backend_ip) + "/user/quiz";
-                        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
-                        String userToken = userInfo.getString("token","");
-                        ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                        String message="token="+userToken;
-                        url=url+"?"+message;
-                        //com.alibaba.fastjson.JSONArray questionJsonArray=(com.alibaba.fastjson.JSONArray)serverHttpResponse.getResponse(url);
-                        String responseString = serverHttpResponse.getResponse(url);
-                        System.out.println("responseString:"+responseString);
-                        System.out.println("ENDDD!");
-                        // endregion
-
                         Intent goToWrongExerciseSetPage = new Intent(getActivity(),WrongExerciseSet.class);
                         startActivity(goToWrongExerciseSetPage);
                         break;
