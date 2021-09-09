@@ -7,99 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".History"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#0099fb"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="浏览历史"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
-    </LinearLayout>
-
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="您还没有浏览过任何实体哦"
+        android:text="浏览历史"
         android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/history_page_guide_info"/>
-
-    <RelativeLayout
-        android:id="@+id/history_list_image_button_group"
-        android:background="#66CCFF"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/history_page_delete_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_delete"/>
-        <ImageView
-            android:id="@+id/history_page_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_toStartOf="@+id/history_page_delete_button"
-            android:src="@drawable/ic_cancel" />
-        <ImageView
-            android:id="@+id/history_page_check_all_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_toEndOf="@+id/history_page_delete_button"
-            android:src="@drawable/ic_check_all" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:background="#66CCFF"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/history_list_image_button_text_group"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除"
-            android:layout_centerInParent="true"
-            android:id="@+id/history_page_delete_button_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
-            android:layout_toStartOf="@+id/history_page_delete_button_text"
-            android:id="@+id/history_page_cancel_button_text"
-            android:text="取消" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_toEndOf="@+id/history_page_delete_button_text"
-            android:id="@+id/history_page_check_all_button_text"
-            android:text="全选" />
-    </RelativeLayout>
+        android:textSize="30sp"
+        android:textColor="@color/black"/>
 
     <ListView
-        android:id="@+id/history_page_entity_list"
+        android:id="@+id/ListView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/ctype">
+
     </ListView>
-
-
 
 
 </LinearLayout>

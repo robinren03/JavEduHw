@@ -4,13 +4,11 @@ import android.animation.LayoutTransition;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class DragGridlayout extends GridLayout{
         init();
     }
 
-  static SparseArray<String> dragEventType = new SparseArray<>();
+/*  static SparseArray<String> dragEventType = new SparseArray<>();
     static{
         dragEventType.put(DragEvent.ACTION_DRAG_STARTED, "STARTED");
         dragEventType.put(DragEvent.ACTION_DRAG_ENDED, "ENDED");
@@ -45,7 +43,7 @@ public class DragGridlayout extends GridLayout{
 
     public static String getDragEventAction(DragEvent de){
         return dragEventType.get(de.getAction());
-    }
+    }*/
 
     //初始化方法
     private void init() {
@@ -87,7 +85,6 @@ public class DragGridlayout extends GridLayout{
         if (isAllowDrag) {
             //给条目设置长按点击事件
             tv.setOnLongClickListener(mLongClickListener);
-
         } else {
             tv.setOnLongClickListener(null);
         }

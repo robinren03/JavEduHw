@@ -37,16 +37,7 @@
             android:name="com.example.renyanyu.Detail"
             />
         <activity
-            android:name="com.example.renyanyu.Blank"
-            />
-        <activity
-            android:name="com.example.renyanyu.SearchPage"
-            />
-        <activity
             android:name="com.example.renyanyu.SearchResult"
-            />
-        <activity
-            android:name="com.example.renyanyu.ChannelActivity"
             />
         <activity
             android:name="com.example.renyanyu.QA"
@@ -56,25 +47,12 @@
             android:exported="true" />
         <activity
             android:name="com.example.renyanyu.EntityDetails"
-
             android:exported="true" />
         <activity
             android:name="com.example.renyanyu.History"
             android:exported="true" />
         <activity
             android:name="com.example.renyanyu.Collection"
-            android:exported="true" />
-        <activity
-            android:name="com.example.renyanyu.WrongExerciseSet"
-            android:exported="true" />
-        <activity
-            android:name="com.example.renyanyu.ManageAccount"
-            android:exported="true" />
-        <activity
-            android:name="com.example.renyanyu.Quiz"
-            android:exported="true" />
-        <activity
-            android:name="com.example.renyanyu.ResultReportActivity"
             android:exported="true" />
 
     </application>

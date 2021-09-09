@@ -18,22 +18,11 @@
         android:textSize="30sp"
         android:textColor="@color/black"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="您还没有收藏任何实体哦"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/collection_page_guide_info"/>
-
     <ListView
-        android:id="@+id/collection_page_entity_list"
+        android:id="@+id/ListView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/ctype"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:entries="@array/ctype">
 
     </ListView>
 
