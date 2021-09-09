@@ -60,15 +60,12 @@ public class EntityDetails extends AppCompatActivity {
     Map<String,String> his_ent=new HashMap<String,String>();
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
+    public boolean nointernet=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entity_details);
-        Toast.makeText(EntityDetails.this,"Please come in!",Toast.LENGTH_LONG).show();
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
+
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
         mCardAdapter = new CardPagerAdapter(EntityDetails.this);
@@ -76,8 +73,6 @@ public class EntityDetails extends AppCompatActivity {
         //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
         mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
-        //result=t1.getStringExtra("result");
-        //card=t1.getStringExtra("card");
         course=t1.getStringExtra("course");
         //mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
@@ -88,7 +83,7 @@ public class EntityDetails extends AppCompatActivity {
         text2=findViewById(R.id.txt1);
         SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
-
+        if(user_name.equals("")) user_name = "localuser";
 
         LinearLayout lin=findViewById(R.id.detail);
         lin.post(new Runnable() {
@@ -97,7 +92,8 @@ public class EntityDetails extends AppCompatActivity {
 
             }
         });
-        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this,user_name));
+
+        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this, user_name));
 
 
 
@@ -110,6 +106,7 @@ public class EntityDetails extends AppCompatActivity {
 
             }
         }) ;
+
         Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
         Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
         hadAddedToCollectionButton.setVisibility(View.GONE);
@@ -119,9 +116,10 @@ public class EntityDetails extends AppCompatActivity {
         String haveStarredUrl =  severIP+ "/request/haveStarred";
         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
         String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
-        System.out.println(message);
-        String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
+        String responseString="0";
+        responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
         System.out.println(responseString);
+        if(responseString!=null)
         if(responseString.equals("true"))
         {
             addToCollectionButton.setVisibility(View.GONE);
@@ -134,7 +132,7 @@ public class EntityDetails extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
+            Toast.makeText(EntityDetails.this,"在线登录以获得更多功能",Toast.LENGTH_LONG).show();
         }
 
         String addToHistoryUrl =  severIP+ "/request/addToHistory";
@@ -145,6 +143,11 @@ public class EntityDetails extends AppCompatActivity {
 
         // endregion
 
+        if(user_name.equals("localuser"))
+        {
+            LinearLayout l=findViewById(R.id.coll);
+            l.setVisibility(View.GONE);
+        }
 
 
 
@@ -160,9 +163,8 @@ public class EntityDetails extends AppCompatActivity {
                 setqa();
             }
         });
-        if(kuri!=null){
+        if(!nointernet){
             thread.run();
-            setview(ss);
             thread1.run();
             KEntity tem=new KEntity(kuri,entity_name,card,result,new Date());
             kdb.insertkEntity(tem);
@@ -174,8 +176,12 @@ public class EntityDetails extends AppCompatActivity {
                     Toast.makeText(EntityDetails.this, "没有可用的网络！！！", Toast.LENGTH_SHORT).show();
                     text1.setText("404");
                     text2.setVisibility(View.GONE);
+                    LinearLayout l=findViewById(R.id.coll);
+                    l.setVisibility(View.GONE);
                 }
                 else{
+                    LinearLayout l=findViewById(R.id.coll);
+                    l.setVisibility(View.GONE);
                     course=tem.getCourse();
                     card=tem.getProperty();
                     result=tem.getContent();
@@ -305,12 +311,12 @@ public class EntityDetails extends AppCompatActivity {
                     if(data2.opt("object")!=null)
                         object=data2.opt("object").toString();
                     if(subject_label.length()!=0){
-                        News n=new News(predicate_label,subject_label,subject,course);
+                        News n=new News(predicate_label,subject_label,subject,course,false);
                         //System.out.println("j="+j+" "+predicate_label+" "+subject_label+" "+subject);
                         mNewsList.add(n);
                     }
                     if(object_label.length()!=0){
-                        News n=new News(predicate_label,object_label,object,course);
+                        News n=new News(predicate_label,object_label,object,course,true);
                         //System.out.println("j="+j+" "+predicate_label+" "+object_label+" "+object);
                         mNewsList.add(n);
                     }
@@ -344,6 +350,7 @@ public class EntityDetails extends AppCompatActivity {
                 //}
             }
         }catch (Exception e){}
+        setview(ss);
     }
 
     void setview(String ss){
@@ -375,8 +382,16 @@ public class EntityDetails extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MyViewHoder1 holder, final int position) {
 
             News news = mNewsList.get(position);
+            if(news.father){
+                String title=news.content+"\n\n(指向"+entity_name+")";
+                holder.mTitleContent.setText(title);
+            }
+            else
+            {
+                String title=news.content+"\n\n(由"+entity_name+"指向)";
+                holder.mTitleContent.setText(title);
+            }
             holder.mTitleTv.setText(news.title);
-            holder.mTitleContent.setText(news.content);
             try{
                 holder.mRootView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -467,12 +482,13 @@ public class EntityDetails extends AppCompatActivity {
         String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
         String ms="course="+ course+"&uri="+kuri;
         card= serverHttpResponse.postResponse(ur,ms);
+        if(card==null){nointernet=true;return;}
 
 
         String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/instance";
         String msg="?course="+course+"&name="+entity_name;
-
         result= serverHttpResponse.getResponse(url+msg);
+        if(result==null){nointernet=true;return;}
         mcontent=result;
     }
 }

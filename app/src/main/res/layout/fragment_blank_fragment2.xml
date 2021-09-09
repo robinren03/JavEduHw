@@ -5,28 +5,35 @@
     android:layout_height="match_parent"
     android:id="@+id/fram2"
     tools:context=".BlankFragment2">
-
-    <android.widget.SearchView
-        android:id="@+id/search1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edge"
-        android:queryHint="请输入搜索内容" />
+        android:layout_height="50dp"
+        android:background="@color/purple_500"
+        android:orientation="horizontal">
+
+        <android.widget.SearchView
+            android:id="@+id/search1"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:queryHint="请输入搜索内容" />
 
 
-    <Button
-        android:id="@+id/channel1"
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="频道选择" />
+        <ImageView
+            android:id="@+id/channel1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:src="@drawable/menu" />
+
+    </LinearLayout>
+
 
 
     <!-- TODO: Update blank fragment layout -->
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="86dp">
+        android:layout_marginTop="60dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +119,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="146dp"
+        android:layout_marginTop="110dp"
         android:background="@drawable/edge">
         <TextView
             android:id="@+id/hot"
@@ -143,7 +150,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="236dp">
+        android:layout_marginTop="200dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"

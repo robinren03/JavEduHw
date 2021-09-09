@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class BlankFragment2 extends Fragment {
     Button bt1,bt2,bt3,bt4,bt5,bt6,bt7,bt8,bt9;
-    private Button channel_change;
+    private ImageView channel_change;
     private SearchView search;
     RecyclerView mRecyclerView;
     MyAdapter1 mMyAdapter ;
@@ -88,7 +88,7 @@ public class BlankFragment2 extends Fragment {
         bt7=(Button)view.findViewById(R.id.politics1);
         bt8=(Button)view.findViewById(R.id.history1);
         bt9=(Button)view.findViewById(R.id.geography1);
-        channel_change=(Button)view.findViewById(R.id.channel1);
+        channel_change=view.findViewById(R.id.channel1);
         search=(SearchView) view.findViewById(R.id.search1);
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
         user_name = userInfo.getString("username","");
@@ -113,10 +113,13 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
-                Intent intent=new Intent();
-                intent.setClass(getActivity(),ChannelActivity.class);
-                try{intent.putExtra("json",message);}catch(Exception e){}
-                startActivityForResult(intent,101);
+                if(user_name.length()==0)Toast.makeText(getActivity(), "对不起，您还没有登录，无法进行频道选择！", Toast.LENGTH_SHORT).show();
+                else{
+                    Intent intent=new Intent();
+                    intent.setClass(getActivity(),ChannelActivity.class);
+                    try{intent.putExtra("json",message);}catch(Exception e){}
+                    startActivityForResult(intent,101);
+                }
             }
         });
         bt1.setOnClickListener(new View.OnClickListener() {
