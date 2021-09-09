@@ -208,6 +208,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         //mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
+        System.out.println("历史记录：名字："+entity_name+" uri:"+kuri+" course"+course);
         getinfo();
         //System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
@@ -683,6 +684,8 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         String msg="?uriName="+entity_name;
         //System.out.println("msg:"+msg);
         String res= serverHttpResponse.getResponse(url+msg);
+        System.out.println("我来看看名字是什么？ "+entity_name);
+        System.out.println("习题内容为："+res);
         try{
             JSONObject answer_json = new JSONObject(res);
             //System.out.println(((JSONArray) answer_json.opt("data")).length());

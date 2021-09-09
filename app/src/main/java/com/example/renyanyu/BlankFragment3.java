@@ -98,6 +98,10 @@ public class BlankFragment3 extends Fragment {
                 int id=item.getItemId();
                 switch (id)
                 {
+                    case R.id.item_account:
+                        Intent goToManageAccountPage = new Intent(getActivity(),ManageAccount.class);
+                        startActivity(goToManageAccountPage);
+                        break;
                     case R.id.item_favorite:
                         Intent goToCollectionPage = new Intent(getActivity(),Collection.class);
                         startActivity(goToCollectionPage);
@@ -106,6 +110,14 @@ public class BlankFragment3 extends Fragment {
                         System.out.println("goToHistoryPage");
                         Intent goToHistoryPage = new Intent(getActivity(),History.class);
                         startActivity(goToHistoryPage);
+                        break;
+                    case R.id.item_wrong_exercise_set:
+                        Intent goToWrongExerciseSetPage = new Intent(getActivity(),WrongExerciseSet.class);
+                        startActivity(goToWrongExerciseSetPage);
+                        break;
+                    case R.id.item_do_exam:
+                        Intent goToDoExamPage = new Intent(getActivity(), Quiz.class);
+                        startActivity(goToDoExamPage);
                         break;
                     case R.id.item_logout:
                         AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());

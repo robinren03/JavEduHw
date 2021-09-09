@@ -13,8 +13,18 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/button_state.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/edge.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_bar_item_answercard.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_bar_item_back.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_bar_item_scratch.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_bar_item_share.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_bar_item_time.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_dialog_common_btn.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_option_name.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/selector_tv_bg.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/shape_dialog_bg_noborder.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/shape_radius.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/shape_tv_focus.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/shape_tv_normal.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/subscribe_item_text_color.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/tab1.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/tab2.xml" value="0.26979166666666665" />
@@ -24,6 +34,9 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_entity_details.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_entity_link.xml" value="0.2341485507246377" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_manage_account.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_result_report.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/activity_wrong_exercise_set.xml" value="0.22509057971014493" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/channel_change.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/channel_choose.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/detail_page.xml" value="0.23867753623188406" />
@@ -31,12 +44,20 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/fragment_blank_fragment1.xml" value="0.1" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/fragment_blank_fragment2.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/fragment_first.xml" value="0.23867753623188406" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/header_manage_account.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/history_list_item.xml" value="0.22509057971014493" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/item_card.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/item_list.xml" value="0.2341485507246377" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/list_item_option.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/pager_item.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/pager_item_scantron.xml" value="0.22509057971014493" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/question_item.xml" value="0.22509057971014493" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/search_page.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/search_result.xml" value="0.23867753623188406" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/subscribe_activity.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/title_bar.xml" value="0.2296195652173913" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/view_report_bar.xml" value="0.1296875" />
+        <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/menu/menu_account.xml" value="0.25364583333333335" />
       </map>
     </option>
   </component>
