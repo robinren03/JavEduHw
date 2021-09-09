@@ -84,18 +84,20 @@ public class History extends AppCompatActivity {
 
                 class Entity
                 {
-                    Entity(String _name,String _type, String _uri,String _time,Long _id)
+                    Entity(String _name,String _type, String _uri,String _time,Long _id, String _course)
                     {
                         name=_name;
                         type=_type;
                         uri=_uri;
                         time=_time;
                         id=_id;
+                        course = _course;
                     }
                     String name;
                     String type;
                     String uri;
                     String time;
+                    String course;
                     Long id;
                 }
 
@@ -107,8 +109,9 @@ public class History extends AppCompatActivity {
                     String type =entity_json.get("type").toString();
                     String uri = entity_json.get("uri").toString();
                     String time = entity_json.get("time").toString();
+                    String course = entity_json.get("course").toString();
                     Long id = Long.parseLong(entity_json.get("id").toString());
-                    entityList.add(new Entity(name,type,uri,time,id));
+                    entityList.add(new Entity(name,type,uri,time,id, course));
                 }
 
                 class HistoryListAdapter extends BaseAdapter
@@ -186,9 +189,11 @@ public class History extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         Intent goToEntityDetailsPage = new Intent(History.this,EntityDetails.class);
+                        System.out.println("Very important" + entityList.get(position).course);
                         goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                        goToEntityDetailsPage.putExtra("course",entityList.get(position).course);
                         System.out.println("真正历史记录："+entityList.get(position).name+" "+entityList.get(position).uri);
                         startActivity(goToEntityDetailsPage);
                     }
@@ -433,18 +438,20 @@ public class History extends AppCompatActivity {
 
                 class Entity
                 {
-                    Entity(String _name,String _type, String _uri,String _time,Long _id)
+                    Entity(String _name,String _type, String _uri,String _time,Long _id , String _course)
                     {
                         name=_name;
                         type=_type;
                         uri=_uri;
                         time=_time;
                         id=_id;
+                        course = _course;
                     }
                     String name;
                     String type;
                     String uri;
                     String time;
+                    String course;
                     Long id;
                 }
 
@@ -456,8 +463,9 @@ public class History extends AppCompatActivity {
                     String type =entity_json.get("type").toString();
                     String uri = entity_json.get("uri").toString();
                     String time = entity_json.get("time").toString();
+                    String course = entity_json.getString("course").toString();
                     Long id = Long.parseLong(entity_json.get("id").toString());
-                    entityList.add(new Entity(name,type,uri,time,id));
+                    entityList.add(new Entity(name,type,uri,time,id, course));
                 }
 
                 class HistoryListAdapter extends BaseAdapter
@@ -538,6 +546,7 @@ public class History extends AppCompatActivity {
                         goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                        goToEntityDetailsPage.putExtra("course", entityList.get(position).course);
                         startActivity(goToEntityDetailsPage);
                     }
                 });

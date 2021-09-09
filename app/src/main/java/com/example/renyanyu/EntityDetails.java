@@ -281,10 +281,11 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         String type=t1.getStringExtra("type");
         String haveStarredUrl =  severIP+ "/request/haveStarred";
         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
         System.out.println(message);
         String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
         System.out.println(responseString);
+        if(responseString!=null)
         if(responseString.equals("true"))
         {
             addToCollectionButton.setVisibility(View.GONE);
@@ -301,7 +302,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         }
 
         String addToHistoryUrl =  severIP+ "/request/addToHistory";
-        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
         System.out.println(message);
         responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
         System.out.println(responseString);

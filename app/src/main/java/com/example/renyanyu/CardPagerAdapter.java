@@ -132,8 +132,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                         B_t.setTextColor(Color.rgb(255, 0, 0));
                         C_t.setTextColor(Color.rgb(255, 0, 0));
                     }
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                 }
@@ -142,8 +142,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     B_t.setTextColor(Color.rgb(255, 0, 0));
                     C_t.setTextColor(Color.rgb(255, 0, 0));
                     D_t.setTextColor(Color.rgb(255, 0, 0));
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                 }
@@ -153,8 +153,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             @Override
             public void onClick(View view) {
                 if(!item.answer.equals("B")){
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     System.out.println("answer 错误:"+answer);
@@ -180,8 +180,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     A_t.setTextColor(Color.rgb(255, 0, 0));
                     C_t.setTextColor(Color.rgb(255, 0, 0));
                     D_t.setTextColor(Color.rgb(255, 0, 0));
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     System.out.println("answer 正确:"+answer);
@@ -193,8 +193,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             @Override
             public void onClick(View view) {
                 if(!item.answer.equals("C")){
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     C_t.setTextColor(Color.rgb(255, 0, 0));
@@ -219,8 +219,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     B_t.setTextColor(Color.rgb(255, 0, 0));
                     A_t.setTextColor(Color.rgb(255, 0, 0));
                     D_t.setTextColor(Color.rgb(255, 0, 0));
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     C_t.setTextColor(Color.rgb(0, 255, 0));
@@ -246,8 +246,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
             @Override
             public void onClick(View view) {
                 if(!item.answer.equals("D")){
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     D_t.setTextColor(Color.rgb(255, 0, 0));
@@ -272,8 +272,8 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
                     B_t.setTextColor(Color.rgb(255, 0, 0));
                     C_t.setTextColor(Color.rgb(255, 0, 0));
                     A_t.setTextColor(Color.rgb(255, 0, 0));
-                    String url = activity.getString(R.string.backend_ip) + "/request/doexercise";
-                    String msg="uriName="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
+                    String url = activity.getString(R.string.backend_ip) + "/request/donexercise";
+                    String msg="uriname="+item.entity_name+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=true"+"&qId="+item.id;
                     //System.out.println("msg:"+msg);
                     String res= serverHttpResponse.postResponse(url,msg);
                     D_t.setTextColor(Color.rgb(0, 255, 0));
