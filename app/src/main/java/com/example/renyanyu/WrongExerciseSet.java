@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 public class WrongExerciseSet extends AppCompatActivity
 {
     ArrayList<Quiz.QuestionBean> questionList = new ArrayList<>();
-    Integer currentPageNumber = 1;
+    Integer currentPageNumber = 0;
     Integer totalPageNumber = 0;
 
 //    class QuestionAdapter extends BaseAdapter
@@ -414,7 +414,7 @@ public class WrongExerciseSet extends AppCompatActivity
         String message="token="+userToken+"&page="+x;
         url=url+"?"+message;
         String responseString = serverHttpResponse.getResponse(url);
-        System.out.println(responseString);
+        System.out.println("错题本接口收到的内容是："+responseString);
 
 //        String responseString="[{\"qAnswer\":\"D\",\"id\":37964,\"qBody\":\"下列哪种现象不是生物对环境的适应()" +
 //                "A.河边垂柳的树枝长向了河心B.仙人掌的叶变成刺C.秋天大雁南飞越冬D.蚯蚓在土壤中括动,可使土壤疏松\"}," +
@@ -442,22 +442,22 @@ public class WrongExerciseSet extends AppCompatActivity
         if(responseString!=null)
         {
             questionList.clear();
-            currentPageNumber = x;
+//            currentPageNumber = x+1;
 
             try
             {
                 JSONObject responseJSONObject = new JSONObject(responseString);
                 totalPageNumber=Integer.valueOf((String) responseJSONObject.get("pages"));
                 System.out.println("hahaha");
-                JSONArray jsonArray=new JSONArray((String) responseJSONObject.get("content"));
+                JSONArray jsonArray= responseJSONObject.getJSONArray("content");
                 System.out.println("xixixi");
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     JSONObject jsonObject=jsonArray.getJSONObject(i);
-                    String answer=jsonObject.get("qAnswer").toString();
+                    String answer=jsonObject.get("qanswer").toString();
                     if(answer.equals("A") || answer.equals("B") || answer.equals("C") || answer.equals("D"))
                     {
-                        String body=jsonObject.get("qBody").toString();
+                        String body=jsonObject.get("qbody").toString();
                         if(numberOfMatch(body,"A.")==1&&numberOfMatch(body,"B.")==1&&
                                 numberOfMatch(body,"C.")==1&&numberOfMatch(body,"D.")==1)
                         {
@@ -478,7 +478,7 @@ public class WrongExerciseSet extends AppCompatActivity
                             options.add(new Quiz.QuestionOptionBean("C", c));
                             options.add(new Quiz.QuestionOptionBean("D", d));
 
-                            Quiz.QuestionBean question = new Quiz.QuestionBean(jsonObject.getString("id"),stem,
+                            Quiz.QuestionBean question = new Quiz.QuestionBean(jsonObject.getString("qid"),stem,
                                     answer,"叶绿体",options);
                             questionList.add(question);
                         }
@@ -521,9 +521,9 @@ public class WrongExerciseSet extends AppCompatActivity
             prevPageTextView.setVisibility(View.VISIBLE);
             nextPageTextView.setVisibility(View.VISIBLE);
             pageNumberTextView.setVisibility(View.VISIBLE);
-            if(currentPageNumber==1)    prevPageTextView.setVisibility(View.GONE);
-            if(currentPageNumber==totalPageNumber)    nextPageTextView.setVisibility(View.GONE);
-            pageNumberTextView.setText("第 "+currentPageNumber +"/"+totalPageNumber +"页");
+            if(currentPageNumber==0)    prevPageTextView.setVisibility(View.GONE);
+            if(currentPageNumber==totalPageNumber-1)    nextPageTextView.setVisibility(View.GONE);
+            pageNumberTextView.setText("第 "+ (currentPageNumber+1) +"/"+totalPageNumber +"页");
         }
     }
 

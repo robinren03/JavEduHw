@@ -133,7 +133,12 @@ public class ResultReportActivity extends FragmentActivity
             }
             else if(!Quiz.userAnswerList.get(position).equals(Quiz.questionlist.get(position).answer))
             {
+//                Quiz.QuestionBean questionBean = Quiz.questionlist.get(position);
                 tv.setBackgroundResource(R.drawable.option_btn_single_wrong);
+//                String url = ResultReportActivity.this.getString(R.string.backend_ip) + "/request/doexercise";
+//                String msg="uriName="+questionBean.+"&qBody="+item.stem+"&qAnswer="+item.answer+"&isWrong=false"+"&qId="+item.id;
+//                //System.out.println("msg:"+msg);
+//                String res= serverHttpResponse.postResponse(url,msg);
             }
             return tv;
         }

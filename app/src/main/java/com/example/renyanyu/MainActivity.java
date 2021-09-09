@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction ftransaction;
     //private Fragment f1,f2,f3;
     public MyFragmentPagerAdapter mf;
+    private static GlobalParms globalParms;
     TabLayout tabLayout;
     public int ss;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         GlobalParms.setFragmentSelected(new ChangeFragment() {
             @Override
             public void changge(int position) {
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         String[] tabTitle = getResources().getStringArray(R.array.tab_titles);
         //将fragment装进列表中
         List<Fragment> fragmentList = new ArrayList<>();
+
         fragmentList.add(GlobalParms.getHomeFragment());
         fragmentList.add(GlobalParms.getChartsFragment());
         fragmentList.add(GlobalParms.getZiXunFragment());
@@ -67,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         //viewpager加载adapter
         mf=new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, tabTitle);
         viewPager.setAdapter(mf);
+
+        viewPager.setOffscreenPageLimit(3);
+
         //viewPager事件
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 

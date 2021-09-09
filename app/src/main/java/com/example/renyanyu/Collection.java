@@ -60,15 +60,17 @@ public class Collection extends AppCompatActivity {
 
                 class Entity
                 {
-                    Entity(String _name,String _type, String _uri)
+                    Entity(String _name,String _type, String _uri,String _course)
                     {
                         name=_name;
                         type=_type;
                         uri=_uri;
+                        course = _course;
                     }
                     String name;
                     String type;
                     String uri;
+                    String course;
                 }
 
                 ArrayList<Entity>entityList=new ArrayList<>();
@@ -78,7 +80,8 @@ public class Collection extends AppCompatActivity {
                     String name =entity_json.get("name").toString();
                     String type =entity_json.get("type").toString();
                     String uri = entity_json.get("uri").toString();
-                    entityList.add(new Entity(name,type,uri));
+                    String course = entity_json.get("course").toString();
+                    entityList.add(new Entity(name,type,uri,course));
                 }
 
                 final String[] entityAbstractInfoList =new String[entityList.size()];
@@ -97,9 +100,10 @@ public class Collection extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         Intent goToEntityDetailsPage = new Intent(Collection.this,EntityDetails.class);
-                        goToEntityDetailsPage.putExtra("name",entityList.get(position).name);
+                        goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                        goToEntityDetailsPage.putExtra("course",entityList.get(position).course);
                         startActivity(goToEntityDetailsPage);
                     }
                 });
@@ -154,15 +158,17 @@ public class Collection extends AppCompatActivity {
 
                 class Entity
                 {
-                    Entity(String _name,String _type, String _uri)
+                    Entity(String _name,String _type, String _uri,String _course)
                     {
                         name=_name;
                         type=_type;
                         uri=_uri;
+                        course = _course;
                     }
                     String name;
                     String type;
                     String uri;
+                    String course;
                 }
 
                 ArrayList<Entity>entityList=new ArrayList<>();
@@ -172,7 +178,8 @@ public class Collection extends AppCompatActivity {
                     String name =entity_json.get("name").toString();
                     String type =entity_json.get("type").toString();
                     String uri = entity_json.get("uri").toString();
-                    entityList.add(new Entity(name,type,uri));
+                    String course = entity_json.get("course").toString();
+                    entityList.add(new Entity(name,type,uri,course));
                 }
 
                 final String[] entityAbstractInfoList =new String[entityList.size()];
@@ -191,9 +198,10 @@ public class Collection extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         Intent goToEntityDetailsPage = new Intent(Collection.this,EntityDetails.class);
-                        goToEntityDetailsPage.putExtra("name",entityList.get(position).name);
+                        goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
                         goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                         goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                        goToEntityDetailsPage.putExtra("course",entityList.get(position).course);
                         startActivity(goToEntityDetailsPage);
                     }
                 });

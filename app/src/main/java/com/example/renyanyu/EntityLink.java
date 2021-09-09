@@ -176,15 +176,17 @@ public class EntityLink extends AppCompatActivity {
                         }
                         class Entity
                         {
-                            Entity(String _name,String _type, String _uri)
+                            Entity(String _name,String _type, String _uri, String _course)
                             {
                                 name=_name;
                                 type=_type;
                                 uri=_uri;
+                                course = _course;
                             }
                             String name;
                             String type;
                             String uri;
+                            String course;
                         }
                         //endregion
 
@@ -196,7 +198,7 @@ public class EntityLink extends AppCompatActivity {
                             startAndEndIndexOfEntities.add(new StartAndEndIndexOfEntity(
                                     (Integer) entity_json.get("start_index"),(Integer) entity_json.get("end_index")));
                             entityList.add(new Entity((String) entity_json.get("entity"),
-                                    (String) entity_json.get("entity_type"), (String) entity_json.get("entity_url")));
+                                    (String) entity_json.get("entity_type"), (String) entity_json.get("entity_url"),subject));
                         }
 
                         final String[] entityAbstractInfoList =new String[resultsArray.length()];
@@ -230,6 +232,7 @@ public class EntityLink extends AppCompatActivity {
                                 Toast.makeText(EntityLink.this, "name:"+entityList.get(position).name, Toast.LENGTH_SHORT).show();
                                 goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
                                 goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                                goToEntityDetailsPage.putExtra("course",subject);
 
                                 startActivity(goToEntityDetailsPage);
                             }

@@ -39,11 +39,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.common.UiError;
-import com.sina.weibo.sdk.openapi.IWBAPI;
-import com.sina.weibo.sdk.openapi.WBAPIFactory;
-import com.sina.weibo.sdk.share.WbShareCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,10 +47,9 @@ import java.io.*;
 import java.util.*;
 
 
-public class EntityDetails extends AppCompatActivity implements WbShareCallback {
+public class EntityDetails extends AppCompatActivity {
 
 
-    IWBAPI mWBAPI; //分享功能所需全局变量
     RecyclerView recyclerView;
     List<EntityDetails.AppBean> list;
     BottomSheetDialog dialog;
@@ -149,20 +143,11 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         public String appLauncherClassName;
     }
     //region 实现 WbShareCallback 接口（目的是实现分享功能）
-    @Override
-    public void onComplete() {
-        Toast.makeText(EntityDetails.this, "分享成功", Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onError(UiError error) {
-        Toast.makeText(EntityDetails.this, "分享失败:" + error.errorMessage, Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onCancel() {
-        Toast.makeText(EntityDetails.this, "分享取消", Toast.LENGTH_SHORT).show();
-    }
+
+
+
     //endregion
 
 
@@ -237,10 +222,6 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
                 + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                 + "follow_app_official_microblog," + "invitation_write";
 
-        AuthInfo authInfo = new AuthInfo(this, APP_KY, REDIRECT_URL, SCOPE);
-        mWBAPI = WBAPIFactory.createWBAPI(this);
-        mWBAPI.registerApp(this, authInfo);
-        mWBAPI.setLoggerEnable(true);
         //endregion
 
 
@@ -281,7 +262,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         String type=t1.getStringExtra("type");
         String haveStarredUrl =  severIP+ "/request/haveStarred";
         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
         System.out.println(message);
         String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
         System.out.println(responseString);
@@ -301,7 +282,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
         }
 
         String addToHistoryUrl =  severIP+ "/request/addToHistory";
-        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+        message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
         System.out.println(message);
         responseString = serverHttpResponse.postResponse(addToHistoryUrl,message);
         System.out.println(responseString);
@@ -317,7 +298,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
 
                 String url = severIP + "/request/star";
                 ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
                 System.out.println(message);
                 String responseString = serverHttpResponse.postResponse(url,message);
                 System.out.println(responseString);
@@ -333,7 +314,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
 
                 String url = severIP + "/request/star";
                 ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
                 System.out.println(message);
                 String responseString = serverHttpResponse.postResponse(url,message);
                 System.out.println(responseString);
@@ -469,7 +450,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
 
                 String url = severIP + "/request/star";
                 ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
                 System.out.println(message);
                 String responseString = serverHttpResponse.postResponse(url,message);
                 System.out.println(responseString);
@@ -485,7 +466,7 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
 
                 String url = severIP + "/request/star";
                 ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
-                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri;
+                String message="token="+userToken+"&name="+entity_name+"&type="+type+"&uri="+kuri+"&course="+course;
                 System.out.println(message);
                 String responseString = serverHttpResponse.postResponse(url,message);
                 System.out.println(responseString);
@@ -709,12 +690,49 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
                     String text_b=stemall.substring(index_b+2,index_c);
                     String text_c=stemall.substring(index_c+2,index_d);
                     String text_d=stemall.substring(index_d+2);
-                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer,id,entity_name);
+                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer,id,entity_name,stemall);
                     mex.add(e);
                 }
             }
         }catch(Exception e){}
     }
+
+//    void setqa(){
+//        String url = EntityDetails.this.getString(R.string.backend_ip) + "/request/exercise";
+//        String msg="?uriName="+entity_name;
+//        //System.out.println("msg:"+msg);
+//        String res= serverHttpResponse.getResponse(url+msg);
+//        System.out.println("我来看看名字是什么？ "+entity_name);
+//        System.out.println("习题内容为："+res);
+//        try{
+//            JSONObject answer_json = new JSONObject(res);
+//            //System.out.println(((JSONArray) answer_json.opt("data")).length());
+//            for(int i=0;i<((JSONArray) answer_json.opt("data")).length();i++){
+//                JSONObject data1 = ((JSONArray) answer_json.opt("data")).optJSONObject(i);
+//                String stemall=data1.opt("qBody").toString();
+//                String answer=data1.opt("qAnswer").toString();
+//                if(answer.contains("A")&&answer.length()>0)continue;
+//                String id=data1.opt("id").toString();
+//                int index_a=stemall.indexOf("A.");
+//                int index_b=stemall.indexOf("B.");
+//                int index_c=stemall.indexOf("C.");
+//                int index_d=stemall.indexOf("D.");
+//                if(index_a==-1&&index_b==-1&&index_c==-1&&index_d==-1){
+//                    Exercise e=new Exercise(stemall,answer,id,entity_name);
+//                    mex.add(e);
+//                }
+//                else{
+//                    String stem=stemall.substring(0,index_a);
+//                    String text_a=stemall.substring(index_a+2,index_b);
+//                    String text_b=stemall.substring(index_b+2,index_c);
+//                    String text_c=stemall.substring(index_c+2,index_d);
+//                    String text_d=stemall.substring(index_d+2);
+//                    Exercise e=new Exercise(stem,text_a,text_b,text_c,text_d,answer,id,entity_name);
+//                    mex.add(e);
+//                }
+//            }
+//        }catch(Exception e){}
+//    }
 
     public void getinfo(){
         String ur=EntityDetails.this.getString(R.string.backend_ip) + "/request/card";
@@ -740,9 +758,6 @@ public class EntityDetails extends AppCompatActivity implements WbShareCallback 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mWBAPI != null) {
-            mWBAPI.doResultIntent(data, this);
-        }
     }
     //endregion
 }

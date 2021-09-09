@@ -4,6 +4,7 @@ package com.example.renyanyu;
 
 
 public class GlobalParms {
+
     public static BlankFragment1 f1; //主页fragemnt
     public static BlankFragment2 f2; //走势图fragemnt
     public static BlankFragment3 f3; //资讯fragemnt
@@ -14,7 +15,7 @@ public class GlobalParms {
      *
      * @return
      */
-    public static BlankFragment1 getHomeFragment() {
+    public  static BlankFragment1 getHomeFragment() {
         if (f1 == null) {
             f1 = new BlankFragment1();
         }
@@ -26,7 +27,7 @@ public class GlobalParms {
      *
      * @return
      */
-    public static BlankFragment2 getChartsFragment() {
+    public  static BlankFragment2 getChartsFragment() {
         if (f2 == null) {
             f2 = new BlankFragment2();
         }
@@ -38,7 +39,7 @@ public class GlobalParms {
      *
      * @return
      */
-    public static BlankFragment3 getZiXunFragment() {
+    public  static BlankFragment3 getZiXunFragment() {
         if (f3 == null) {
             f3 = new BlankFragment3();
         }
@@ -56,7 +57,7 @@ public class GlobalParms {
      * 设置被选中的Fragment
      * @param changeFragment
      */
-    public static void setFragmentSelected(ChangeFragment changeFragment) {
+    public  static void setFragmentSelected(ChangeFragment changeFragment) {
         sChangeFragment = changeFragment;
 
     }
