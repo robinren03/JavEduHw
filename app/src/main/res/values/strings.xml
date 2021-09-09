@@ -1,5 +1,5 @@
 <resources>
-    <string name="backend_ip">http://183.173.161.93:9090</string>
+    <string name="backend_ip">http://183.172.246.235:9090</string>
     <string name="app_name">JavEduHw</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
@@ -29,4 +29,9 @@
     <string name="register_success">"注册成功"</string>
     <string name="register_failed">"注册失败"</string>
     <string name="register_failed_reason">"手机号已经被注册"</string>
+    <string name="drawer_btn_rss">频道管理</string>
+    <string name="subscribe_my_category">我的频道</string>
+    <string name="subscribe_more_category">更多频道</string>
+    <string name="subscribe_manager_category_info">单击增删频道</string>
+    <string name="subscribe_manager_category_info_2">单击增删频道，长按拖拽排序</string>
 </resources>
