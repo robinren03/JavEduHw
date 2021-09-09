@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BlankFragment1"
-    android:id="@+id/my_info_fragment">
+    tools:context=".BlankFragment1">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -23,6 +22,5 @@
             app:menu="@menu/menu_my_info"
             app:headerLayout="@layout/header_my_info"/>
     </RelativeLayout>
-
 
 </FrameLayout>
