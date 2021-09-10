@@ -17,6 +17,7 @@ import com.example.renyanyu.ServerHttpResponse;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -87,11 +88,12 @@ public class LoginDataSource {
                 String ur= c.getString(R.string.backend_ip) + "/request/card";
                 String ms="course="+ course+"&uri="+kuri;
                 String card= serverHttpResponse.postResponse(ur,ms);
-                System.out.println("card:   "+ms+" 结果："+card);
                 String url = c.getString(R.string.backend_ip) + "/request/instance";
                 String msg="?course="+course+"&name="+entity_name;
                 String result= serverHttpResponse.getResponse(url+msg);
-                KEntity tem=new KEntity(kuri,entity_name,card,result,new Date());
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date createdate = simpleDateFormat.parse(his.getString("time"));
+                KEntity tem=new KEntity(kuri,entity_name,card,result,createdate);
                 kdb.insertkEntity(tem);
             }
             note.commit();
