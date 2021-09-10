@@ -62,9 +62,18 @@ public class BlankFragment3 extends Fragment {
             displayNameText.setVisibility(View.GONE);
             loginButton.setVisibility(View.VISIBLE);
             Menu menuItemListView=navigationView.getMenu();
+            MenuItem accountItem=menuItemListView.findItem(R.id.item_account);
             MenuItem favoriteItem=menuItemListView.findItem(R.id.item_favorite);
+            MenuItem historyItem=menuItemListView.findItem(R.id.item_history);
+            MenuItem wrongExerciseSetItem=menuItemListView.findItem(R.id.item_wrong_exercise_set);
+            MenuItem quizItem=menuItemListView.findItem(R.id.item_do_exam);
             MenuItem logoutItem=menuItemListView.findItem(R.id.item_logout);
+
+            accountItem.setVisible(false);
             favoriteItem.setVisible(false);
+            historyItem.setVisible(false);
+            wrongExerciseSetItem.setVisible(false);
+            quizItem.setVisible(false);
             logoutItem.setVisible(false);
             loginButton.setOnClickListener(new View.OnClickListener()
             {

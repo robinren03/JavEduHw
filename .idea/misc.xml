@@ -4,8 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/dell/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_expandable_list_item_1.xml" value="0.2341485507246377" />
-        <entry key="..\:/Users/dell/Desktop/imp/javeduhw/app/src/main/res/layout/fragment_blank_fragment1.xml" value="0.1793478260869565" />
-        <entry key="..\:/Users/dell/Desktop/imp/javeduhw/app/src/main/res/layout/fragment_blank_fragment2.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/bg_titlebar.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/drawable/btn_common.xml" value="0.26979166666666665" />
@@ -62,11 +60,17 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/menu/menu_account.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_collection.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_history.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_qa.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_result_report.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_wrong_exercise_set.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/fragment_register.xml" value="0.2" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/modify_display_name.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/modify_password.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/pager_item.xml" value="0.2" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/question_item.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/quiz.xml" value="0.2509057971014493" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/quiz_exception.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/search_result.xml" value="0.264" />
       </map>
     </option>
   </component>

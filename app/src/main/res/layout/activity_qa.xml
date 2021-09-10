@@ -6,8 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".QA"
     android:orientation="vertical"
-    android:padding="10dp"
     android:background="#d8e0e8">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#0099fb"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="知识问答"
+
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+        <Spinner
+            android:id="@+id/qa_page_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_alignParentRight="true"
+            android:entries="@array/spingarr"
+            android:layout_gravity="right"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+<!--        <Spinner-->
+<!--            android:id="@+id/qa_page_spinner"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:entries="@array/spingarr"-->
+<!--            android:layout_gravity="right"-->
+<!--            />-->
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/msg_recycler_view"
@@ -19,26 +58,93 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/input_text"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Type message here"
-            android:textAllCaps="false"
-            android:maxLines="2"
-            android:gravity="left"/>
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+            <Button
+                android:id="@+id/qa_page_more_details_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:textAllCaps="false"
+                android:background="@drawable/ic_add"
+                />
+            <EditText
+                android:id="@+id/input_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Type message here"
+                android:textAllCaps="false"
+                android:maxLines="2"
+                android:gravity="left"/>
 
-        <Button
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"
+                android:textAllCaps="false"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send"
-            android:textAllCaps="false"
-            android:textSize="20sp"/>
+            android:orientation="horizontal"
+            android:id="@+id/qa_page_more_details_bar"
+            android:background="#0099fb">
+
+            <TextView
+                android:id="@+id/qa_page_entity_related_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="当前答案实体"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="#fff"/>
+
+            <TextView
+                android:id="@+id/qa_page_next_answer_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:text="更多答案"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textColor="#fff"/>
+<!--            android:background="@drawable/ic_add"-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/send"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Send"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textSize="20sp"/>-->
+        </RelativeLayout>
+
+
     </LinearLayout>
+
+
+
 
 </LinearLayout>
 

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.JavEduHw"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".QuizException"
+            android:exported="true" />
+        <activity
             android:name=".ModifyDisplayName"
             android:exported="true" />
         <activity

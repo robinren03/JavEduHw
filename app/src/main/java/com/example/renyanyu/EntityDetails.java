@@ -269,7 +269,10 @@ public class EntityDetails extends AppCompatActivity {
         System.out.println(message);
         String responseString = serverHttpResponse.postResponse(haveStarredUrl,message);
         System.out.println(responseString);
-        if(responseString.equals("true"))
+        if(responseString == null){
+            Toast.makeText(EntityDetails.this,"www,好像断网了，请检查您的网络设置",Toast.LENGTH_LONG).show();
+        }
+        else if(responseString.equals("true"))
         {
             addToCollectionButton.setVisibility(View.GONE);
             hadAddedToCollectionButton.setVisibility(View.VISIBLE);
@@ -325,7 +328,6 @@ public class EntityDetails extends AppCompatActivity {
         }) ;
         //endregion
 
-        // endregion
 
 //        Button addToCollectionButton=findViewById(R.id.addToCollectionButton);
 //        Button hadAddedToCollectionButton=findViewById(R.id.hadAddedToCollectionButton);
@@ -386,7 +388,7 @@ public class EntityDetails extends AppCompatActivity {
         if(!nointernet){
             thread.run();
             thread1.run();
-            KEntity tem=new KEntity(kuri,entity_name,card,result,new Date());
+            KEntity tem=new KEntity(kuri,entity_name,card,result,new Date(),type);
             kdb.insertkEntity(tem);
         }
         else{

@@ -22,17 +22,18 @@ public class KEntity implements Serializable {
     private String course;
     private String property;
     private String content;
-
+    private String type;
     private Date createdate;
 
     public KEntity(String uri,String label, String property,
-                   String content, Date createdate){
+                   String content, Date createdate,String type){
         super();
         this.kEntityUri = uri;
         this.label = label;
         this.property = property;
         this.content = content;
         this.createdate = createdate;
+        this.type = type;
     }
 
     public KEntity(){
@@ -71,6 +72,14 @@ public class KEntity implements Serializable {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCourse() {

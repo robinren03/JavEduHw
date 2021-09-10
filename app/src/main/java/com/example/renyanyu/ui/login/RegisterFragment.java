@@ -120,6 +120,7 @@ public class RegisterFragment extends Fragment{
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         displaynameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+        passwdCheckEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override

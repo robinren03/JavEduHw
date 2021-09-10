@@ -85,6 +85,7 @@ public class LoginDataSource {
                 note.putString(his.getString("uri"),"1");
                 String kuri = his.getString("uri");
                 String entity_name = his.getString("name");
+                String type = his.getString("type");
                 String course = his.getString("course");
                 String ur= c.getString(R.string.backend_ip) + "/request/card";
                 String ms="course="+ course+"&uri="+kuri;
@@ -99,7 +100,7 @@ public class LoginDataSource {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                KEntity tem=new KEntity(kuri,entity_name,card,result,createdate);
+                KEntity tem=new KEntity(kuri,entity_name,card,result,createdate,type);
                 kdb.insertkEntity(tem);
             }
             note.commit();
