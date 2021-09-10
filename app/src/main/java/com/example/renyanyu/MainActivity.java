@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(MainActivity.this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .create();
+        openingStartAnimation.show(MainActivity.this);
 
     }
 
@@ -135,10 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(MainActivity.this)
-                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-                .create();
-        openingStartAnimation.show(MainActivity.this);
         super.onStart();
 //        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
 //        container.startShimmer();
