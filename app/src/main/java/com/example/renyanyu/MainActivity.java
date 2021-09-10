@@ -9,6 +9,7 @@ import androidx.fragment.app.*;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.widget.Button;
 import android.view.View;
 
@@ -20,6 +21,9 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+
+import site.gemus.openingstartanimation.NormalDrawStrategy;
+import site.gemus.openingstartanimation.OpeningStartAnimation;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,18 +39,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        GlobalParms.setFragmentSelected(new ChangeFragment() {
-            @Override
-            public void changge(int position) {
-                //调用BottomNavigationBar的setlecTab方法来改变Tab
-                tabLayout.selectTab(tabLayout.getTabAt(1));
-            }
-        });
-        //GlobalParms.f1=new BlankFragment1();
-        //GlobalParms.f2=new BlankFragment2();
-        //GlobalParms.f3=new BlankFragment3();
-        initView();
 
     }
 
@@ -141,6 +133,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(MainActivity.this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .create();
+        openingStartAnimation.show(MainActivity.this);
+        super.onStart();
+//        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
+//        container.startShimmer();
+
+        GlobalParms.setFragmentSelected(new ChangeFragment() {
+            @Override
+            public void changge(int position) {
+                //调用BottomNavigationBar的setlecTab方法来改变Tab
+                tabLayout.selectTab(tabLayout.getTabAt(1));
+            }
+        });
+        //GlobalParms.f1=new BlankFragment1();
+        //GlobalParms.f2=new BlankFragment2();
+        //GlobalParms.f3=new BlankFragment3();
+
+        initView();
+
+    }
 
 
 }
