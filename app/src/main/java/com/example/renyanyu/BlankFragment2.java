@@ -66,6 +66,7 @@ public class BlankFragment2 extends Fragment {
     public int[] sub;
     String subject;
     boolean beg;
+    int test=0;
     News hot_news;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
@@ -332,6 +333,10 @@ public class BlankFragment2 extends Fragment {
                     }
                 }
                 initlist(subje,page);
+//                for(int i=0;i<10;i++){
+//                    mNewsList.add(new News("标题："+i+" test:"+test,"内容 "+i+" test:"+test));
+//                }
+//                test++;
                 channel_view();
                 /*
                 for(int i=0;i<9;i++) {

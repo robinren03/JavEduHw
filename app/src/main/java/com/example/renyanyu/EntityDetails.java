@@ -23,6 +23,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class EntityDetails extends AppCompatActivity {
     RecyclerView recyclerView;
     List<EntityDetails.AppBean> list;
     BottomSheetDialog dialog;
+
 
     class Adapter extends RecyclerView.Adapter<EntityDetails.ViewHolde>
     {
@@ -152,11 +154,8 @@ public class EntityDetails extends AppCompatActivity {
 
 
     private Gson gson=new Gson();
-    public boolean collected;
-    public News detail;
     public String ss; // 标题
-    public String content1,content2,content3; //内容
-    public String[] related;
+
     public TextView text1,text2;
     List<News> mNewsList = new ArrayList<>();
     List<Exercise> mex = new ArrayList<>();
@@ -174,7 +173,7 @@ public class EntityDetails extends AppCompatActivity {
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
     public boolean nointernet=false;
-
+    private MyTask mTask;
 
 
     @Override
@@ -185,7 +184,6 @@ public class EntityDetails extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
 
         mCardAdapter = new CardPagerAdapter(EntityDetails.this);
-
         //db=new OrderDBHelper(EntityDetails.this).getWritableDatabase();
         mRecyclerView = findViewById(R.id.recyclerview1);
         t1=getIntent();
@@ -193,14 +191,19 @@ public class EntityDetails extends AppCompatActivity {
         //mcontent=t1.getStringExtra("content");
         entity_name=t1.getStringExtra("entity_name");
         kuri=t1.getStringExtra("uri");
+
+        SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
+        user_name = userInfo.getString("username","");
+        if(user_name.equals("")) user_name = "localuser";
+
+        mTask=new MyTask();
+        String[] params = new String[]{user_name, kuri};
+        mTask.execute(kuri);
         //System.out.println("历史记录：名字："+entity_name+" uri:"+kuri+" course"+course);
         getinfo();
         //System.out.println("uri="+kuri);
         text1=findViewById(R.id.txt);
         text2=findViewById(R.id.txt1);
-        SharedPreferences userInfo= EntityDetails.this.getSharedPreferences("user", 0);
-        user_name = userInfo.getString("username","");
-        if(user_name.equals("")) user_name = "localuser";
 
         LinearLayout lin=findViewById(R.id.detail);
         lin.post(new Runnable() {
@@ -210,7 +213,7 @@ public class EntityDetails extends AppCompatActivity {
             }
         });
 
-        kdb=new KEntityRepository(AppDB.getAppDB(EntityDetails.this, user_name));
+        kdb=new KEntityRepository(AppDB.getAppDB(getApplicationContext(), user_name));
 
 // region 分享功能初始化
         //在微博开发平台为应用申请的App Key
@@ -760,4 +763,19 @@ public class EntityDetails extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
     //endregion
+
+    private class MyTask extends AsyncTask<String, Integer, String>{
+
+        private void saveSettingNote(Context context, String filename , String key) {
+            SharedPreferences.Editor note = context.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();
+            note.putString(key, "1");
+            note.commit();
+
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            saveSettingNote(getApplicationContext(),params[0] +"his_ent", params[1]);
+            return null;
+        }
+    }
 }
