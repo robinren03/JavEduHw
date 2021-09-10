@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import java.util.*;
 import java.util.Map;
 import android.widget.*;
 
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -54,6 +56,7 @@ public class BlankFragment1 extends Fragment {
     LinearLayoutManager layoutManager;
     CardView card1,card2,card3;
     Thread thread;
+
 
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     //private ListView mLvMsgList;
@@ -368,8 +371,8 @@ public class BlankFragment1 extends Fragment {
             String res= serverHttpResponse.getResponse(url+msg);
 
             JSONArray ddd=new JSONArray(res);
-            //System.out.println(answer_json);
-            //System.out.println(("!!!!!!!!!!:"+(JSONObject) answer_json.opt("data")));
+            //System.out.println("!!!!!!!!!!!!!!!!!!!"+ddd);
+            //System.out.println(url+msg);
             //System.out.println(ddd.length());
             for(int i=0;i<ddd.length();i++) {
                 JSONObject data2 = ddd.optJSONObject(i);
@@ -383,4 +386,7 @@ public class BlankFragment1 extends Fragment {
             }
         }catch(Exception e){}
     }
+
+
+
 }
