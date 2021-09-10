@@ -17,6 +17,7 @@ import com.example.renyanyu.ServerHttpResponse;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -92,7 +93,12 @@ public class LoginDataSource {
                 String msg="?course="+course+"&name="+entity_name;
                 String result= serverHttpResponse.getResponse(url+msg);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date createdate = simpleDateFormat.parse(his.getString("time"));
+                Date createdate = null;
+                try {
+                    createdate = simpleDateFormat.parse(his.getString("time"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 KEntity tem=new KEntity(kuri,entity_name,card,result,createdate);
                 kdb.insertkEntity(tem);
             }
