@@ -9,6 +9,9 @@ class News {
         title=a;
         content=b;
     }
+    public News(String a){
+        title=a;
+    }
     public News(String a,String b,String c){
         title=a;
         content=b;
