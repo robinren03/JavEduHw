@@ -175,6 +175,8 @@ public class EntityDetails extends AppCompatActivity {
     public boolean nointernet=false;
     private MyTask mTask;
 
+    boolean havepic=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -502,6 +504,18 @@ public class EntityDetails extends AppCompatActivity {
                 String feature_value=da2.opt("feature_value").toString();
                 String s=feature_key+": "+feature_value;
                 //str.
+                if(feature_key.equals("图片")){
+                    if(!havepic){
+                        try{
+                            MyImageView img=findViewById(R.id.picture);
+                            img.setImageURL(feature_value);
+                            img.setVisibility(View.VISIBLE);
+                        }catch(Exception e){}
+                        havepic=true;
+                    }
+
+                }
+                else
                 ss=ss+"\n"+s;
             }
             //Toast.makeText(EntityDetails.this,((JSONArray)da2.opt("entity_features")).optJSONObject(0).toString(),Toast.LENGTH_LONG).show();
