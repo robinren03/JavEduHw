@@ -74,7 +74,7 @@ public class LoginDataSource {
         protected Void doInBackground(@NonNull String... strings){
             String res = strings[0];
             com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(res);
-            String username = jsonObject.getString("username");
+            String username = jsonObject.getString("name");
             String filename = username+"his_ent";
             KEntityRepository kdb = new KEntityRepository(AppDB.getAppDB(c, username));
             SharedPreferences.Editor note = c.getSharedPreferences(filename, Context.MODE_PRIVATE).edit();

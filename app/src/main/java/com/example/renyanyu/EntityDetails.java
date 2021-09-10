@@ -198,7 +198,7 @@ public class EntityDetails extends AppCompatActivity {
 
         mTask=new MyTask();
         String[] params = new String[]{user_name, kuri};
-        mTask.execute(kuri);
+        mTask.execute(params);
         //System.out.println("历史记录：名字："+entity_name+" uri:"+kuri+" course"+course);
         getinfo();
         //System.out.println("uri="+kuri);
