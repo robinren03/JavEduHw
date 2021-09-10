@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(v.getContext(), usernameEditText.getText().toString(),
+                loginViewModel.login(getApplicationContext(), usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
