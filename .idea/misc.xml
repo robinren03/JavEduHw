@@ -58,7 +58,13 @@
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/title_bar.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/layout/view_report_bar.xml" value="0.1296875" />
         <entry key="..\:/Users/dell/Desktop/javahw/javeduhw/app/src/main/res/menu/menu_account.xml" value="0.25364583333333335" />
-        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/fragment_register.xml" value="0.1" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_collection.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_history.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_result_report.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/activity_wrong_exercise_set.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/fragment_register.xml" value="0.2" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/modify_display_name.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/fanxiaoyu/Desktop/LiuYiTian/javeduhw/app/src/main/res/layout/modify_password.xml" value="0.25364583333333335" />
       </map>
     </option>
   </component>

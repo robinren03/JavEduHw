@@ -10,13 +10,22 @@
     android:minHeight="?attr/minTouchTargetSize"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="收藏"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/black"/>
+        android:orientation="horizontal"
+        android:background="#0099fb"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="收藏"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="@color/black"
+
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

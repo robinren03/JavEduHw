@@ -33,6 +33,7 @@ public class BlankFragment3 extends Fragment {
 
     static int hadLogin=0;
     static int refresh=0;
+    private TextView displayNameText;
     public BlankFragment3() {
         // Required empty public constructor
     }
@@ -50,7 +51,7 @@ public class BlankFragment3 extends Fragment {
         //navigationView的header部分
         View headerView = navigationView.getHeaderView(0);
         TextView userNameText=(TextView) headerView .findViewById(R.id.user_name_text);
-        TextView displayNameText=(TextView) headerView .findViewById(R.id.displayNameText);
+        displayNameText=(TextView) headerView .findViewById(R.id.displayNameText);
         Button loginButton = headerView.findViewById(R.id.loginButton);
 
         SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
@@ -306,5 +307,13 @@ public class BlankFragment3 extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
+        String displayName = userInfo.getString("displayName","");
+        displayNameText.setText(displayName);
     }
 }
