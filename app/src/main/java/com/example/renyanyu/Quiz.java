@@ -326,18 +326,25 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
                         if(numberOfMatch(body,"A.")==1&&numberOfMatch(body,"B.")==1&&
                                 numberOfMatch(body,"C.")==1&&numberOfMatch(body,"D.")==1)
                         {
-                            int positionOfA=body.indexOf("A.");
-                            int positionOfB=body.indexOf("B.");
-                            int positionOfC=body.indexOf("C.");
-                            int positionOfD=body.indexOf("D.");
-                            String stem=body.substring(0,positionOfA);
-                            if(stem.indexOf("()")==stem.length()-2)    stem=stem.substring(0,stem.length()-2);
-                            String a=body.substring(positionOfA+2,positionOfB);
-                            String b=body.substring(positionOfB+2,positionOfC);
-                            String c=body.substring(positionOfC+2,positionOfD);
-                            String d=body.substring(positionOfD+2);
-                            Question question = new Question(jsonObject.getString("id"),answer,body,stem, a,b,c,d);
-                            questionList.add(question);
+                            try
+                            {
+                                int positionOfA=body.indexOf("A.");
+                                int positionOfB=body.indexOf("B.");
+                                int positionOfC=body.indexOf("C.");
+                                int positionOfD=body.indexOf("D.");
+                                String stem=body.substring(0,positionOfA);
+                                if(stem.indexOf("()")==stem.length()-2)    stem=stem.substring(0,stem.length()-2);
+                                String a=body.substring(positionOfA+2,positionOfB);
+                                String b=body.substring(positionOfB+2,positionOfC);
+                                String c=body.substring(positionOfC+2,positionOfD);
+                                String d=body.substring(positionOfD+2);
+                                Question question = new Question(jsonObject.getString("id"),answer,body,stem, a,b,c,d);
+                                questionList.add(question);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

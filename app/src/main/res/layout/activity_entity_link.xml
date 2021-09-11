@@ -12,21 +12,65 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="知识链接"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:textColor="@color/black"/>
+            android:orientation="horizontal"
+            android:background="#0099fb">
+            <TextView
+                android:id="@+id/tv_report_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="知识链接"
+                android:textColor="@android:color/white"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textSize="17sp"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
-        <TextView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:id="@+id/entity_link_page_results_text"/>
+            android:elevation="5dp"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:text="这是结果部分"
+                android:id="@+id/entity_link_page_results_text"/>
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_margin="9dp">-->
+<!--                <TextView-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:id="@+id/history_list_item_text"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="测试"-->
+<!--                    android:textColor="#333"-->
+<!--                    android:textSize="17sp"/>-->
+<!--                <CheckBox-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:background="@null"-->
+<!--                    android:button="@drawable/ic_check_circle"-->
+<!--                    android:scaleX="1"-->
+<!--                    android:scaleY="1"-->
+<!--                    android:id="@+id/history_list_item_checkbox"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:clickable="false"-->
+<!--                    />-->
+<!--            </LinearLayout>-->
+
+        </androidx.cardview.widget.CardView>
+
 
         <EditText
             android:id="@+id/entity_link_edit_text"

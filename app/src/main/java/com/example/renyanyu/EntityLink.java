@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,7 @@ public class EntityLink extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_entity_link);
 
         ListView resultsListView=(ListView)findViewById(R.id.entity_link_results_list);
@@ -158,64 +160,71 @@ public class EntityLink extends AppCompatActivity {
                         String msg = "course="+subject+"&context="+content;
                         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
                         String responseString = serverHttpResponse.postResponse(url, msg);
-                        System.out.println(responseString);
-                        JSONObject answer_json = new JSONObject(responseString);
-                        JSONArray resultsArray = (JSONArray) ((JSONObject) answer_json.get("data")).get("results");
-                        // endregion
 
-                        // region 构建类StartAndEndIndexOfEntity用于保存实体出现的index，类Entity用于保存实体信息
-                        class StartAndEndIndexOfEntity
+                        if(responseString==null)//断网了或者服务器断网了
                         {
-                            StartAndEndIndexOfEntity(int start,int end)
+                            Toast.makeText(EntityLink.this, "好像断网了，请检查您的网络设置", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            System.out.println(responseString);
+                            JSONObject answer_json = new JSONObject(responseString);
+                            JSONArray resultsArray = (JSONArray) ((JSONObject) answer_json.get("data")).get("results");
+                            // endregion
+
+                            // region 构建类StartAndEndIndexOfEntity用于保存实体出现的index，类Entity用于保存实体信息
+                            class StartAndEndIndexOfEntity
                             {
-                                startIndex=start;
-                                endIndex=end;
+                                StartAndEndIndexOfEntity(int start,int end)
+                                {
+                                    startIndex=start;
+                                    endIndex=end;
+                                }
+                                int startIndex=0;
+                                int endIndex=0;
                             }
-                            int startIndex=0;
-                            int endIndex=0;
-                        }
-                        class Entity
-                        {
-                            Entity(String _name,String _type, String _uri, String _course)
+                            class Entity
                             {
-                                name=_name;
-                                type=_type;
-                                uri=_uri;
-                                course = _course;
+                                Entity(String _name,String _type, String _uri, String _course)
+                                {
+                                    name=_name;
+                                    type=_type;
+                                    uri=_uri;
+                                    course = _course;
+                                }
+                                String name;
+                                String type;
+                                String uri;
+                                String course;
                             }
-                            String name;
-                            String type;
-                            String uri;
-                            String course;
-                        }
-                        //endregion
+                            //endregion
 
-                        ArrayList<StartAndEndIndexOfEntity> startAndEndIndexOfEntities=new ArrayList<>();
-                        ArrayList<Entity> entityList=new ArrayList<>();
-                        for(int i=0;i<resultsArray.length();i++)
-                        {
-                            JSONObject entity_json=resultsArray.getJSONObject(i);
-                            startAndEndIndexOfEntities.add(new StartAndEndIndexOfEntity(
-                                    (Integer) entity_json.get("start_index"),(Integer) entity_json.get("end_index")));
-                            entityList.add(new Entity((String) entity_json.get("entity"),
-                                    (String) entity_json.get("entity_type"), (String) entity_json.get("entity_url"),subject));
-                        }
-
-                        final String[] entityAbstractInfoList =new String[resultsArray.length()];
-                        for(int i=0;i<resultsArray.length();i++)
-                        {
-                            entityAbstractInfoList[i]="实体类型："+entityList.get(i).type+"\n实体名称："+entityList.get(i).name;
-                        }
-                        //配置ArrayAdapter适配器
-                        ArrayAdapter<String> adapter=new ArrayAdapter<String>
-                                (EntityLink.this,android.R.layout.simple_expandable_list_item_1,entityAbstractInfoList);
-                        resultsListView.setAdapter(adapter);
-                        //设置选中选项监听
-                        resultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                        {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                            ArrayList<StartAndEndIndexOfEntity> startAndEndIndexOfEntities=new ArrayList<>();
+                            ArrayList<Entity> entityList=new ArrayList<>();
+                            for(int i=0;i<resultsArray.length();i++)
                             {
+                                JSONObject entity_json=resultsArray.getJSONObject(i);
+                                startAndEndIndexOfEntities.add(new StartAndEndIndexOfEntity(
+                                        (Integer) entity_json.get("start_index"),(Integer) entity_json.get("end_index")));
+                                entityList.add(new Entity((String) entity_json.get("entity"),
+                                        (String) entity_json.get("entity_type"), (String) entity_json.get("entity_url"),subject));
+                            }
+
+                            final String[] entityAbstractInfoList =new String[resultsArray.length()];
+                            for(int i=0;i<resultsArray.length();i++)
+                            {
+                                entityAbstractInfoList[i]="实体类型："+entityList.get(i).type+"\n实体名称："+entityList.get(i).name;
+                            }
+                            //配置ArrayAdapter适配器
+                            ArrayAdapter<String> adapter=new ArrayAdapter<String>
+                                    (EntityLink.this,android.R.layout.simple_expandable_list_item_1,entityAbstractInfoList);
+                            resultsListView.setAdapter(adapter);
+                            //设置选中选项监听
+                            resultsListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                            {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                {
 
 //                                String url = EntityLink.this.getString(R.string.backend_ip) + "/request/instance";
 //                                String msg="?course="+subject+"&name="+entityList.get(position).name;
@@ -225,76 +234,79 @@ public class EntityLink extends AppCompatActivity {
 //                                String ms="course="+ subject+"&uri="+entityList.get(position).uri;
 //                                String re= serverHttpResponse.postResponse(ur,ms);
 
-                                Intent goToEntityDetailsPage = new Intent(EntityLink.this,EntityDetails.class);
-                                //goToEntityDetailsPage.putExtra("result",res);
-                                //goToEntityDetailsPage.putExtra("card",re);
-                                goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
-                                Toast.makeText(EntityLink.this, "name:"+entityList.get(position).name, Toast.LENGTH_SHORT).show();
-                                goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
-                                goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
-                                goToEntityDetailsPage.putExtra("course",subject);
+                                    Intent goToEntityDetailsPage = new Intent(EntityLink.this,EntityDetails.class);
+                                    //goToEntityDetailsPage.putExtra("result",res);
+                                    //goToEntityDetailsPage.putExtra("card",re);
+                                    goToEntityDetailsPage.putExtra("entity_name",entityList.get(position).name);
+                                    Toast.makeText(EntityLink.this, "name:"+entityList.get(position).name, Toast.LENGTH_SHORT).show();
+                                    goToEntityDetailsPage.putExtra("type",entityList.get(position).type);
+                                    goToEntityDetailsPage.putExtra("uri",entityList.get(position).uri);
+                                    goToEntityDetailsPage.putExtra("course",subject);
 
-                                startActivity(goToEntityDetailsPage);
+                                    startActivity(goToEntityDetailsPage);
+                                }
+                            });
+
+                            SpannableStringBuilder spannable = new SpannableStringBuilder(content);
+                            for(int i=0;i<startAndEndIndexOfEntities.size();i++)
+                            {
+                                StartAndEndIndexOfEntity indexRange=startAndEndIndexOfEntities.get(i);
+                                spannable.setSpan(new ForegroundColorSpan(Color.RED),indexRange.startIndex,indexRange.endIndex+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
-                        });
+                            ((TextView)findViewById(R.id.entity_link_page_results_text)).setText(spannable);
 
-                        SpannableStringBuilder spannable = new SpannableStringBuilder(content);
-                        for(int i=0;i<startAndEndIndexOfEntities.size();i++)
-                        {
-                            StartAndEndIndexOfEntity indexRange=startAndEndIndexOfEntities.get(i);
-                            spannable.setSpan(new ForegroundColorSpan(Color.RED),indexRange.startIndex,indexRange.endIndex+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            resultsTextView.setVisibility(View.VISIBLE);
+                            resultsListView.setVisibility(View.VISIBLE);
+                            reSearchButton.setVisibility(View.VISIBLE);
+                            searchButton.setVisibility(View.GONE);
+                            radioGroup1.setVisibility(View.GONE);
+                            radioGroup2.setVisibility(View.GONE);
+                            editText.setVisibility(View.GONE);
+
+
+                            String subjectInChinese="";
+                            switch (subject)
+                            {
+                                case "chinese":
+                                    subjectInChinese="语文";
+                                    break;
+                                case "math":
+                                    subjectInChinese="数学";
+                                    break;
+                                case "english":
+                                    subjectInChinese="英语";
+                                    break;
+                                case "physics":
+                                    subjectInChinese="物理";
+                                    break;
+                                case "chemistry":
+                                    subjectInChinese="化学";
+                                    break;
+                                case "politics":
+                                    subjectInChinese="政治";
+                                    break;
+                                case "history":
+                                    subjectInChinese="历史";
+                                    break;
+                                case "geo":
+                                    subjectInChinese="地理";
+                                    break;
+                                case "biology":
+                                    subjectInChinese="生物";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            TextView guideInfoText =(TextView)findViewById(R.id.entity_link_page_guide_info);
+                            if(entityList.isEmpty())
+                                guideInfoText.setText("很抱歉，我们在"+subjectInChinese+"这个学科下没有找到这段文本的相关实体。");
+                            else
+                                guideInfoText.setText("这是我们在"+subjectInChinese+"这个学科下找到的文本中包含的实体:");
                         }
-                        ((TextView)findViewById(R.id.entity_link_page_results_text)).setText(spannable);
 
 
-                        resultsTextView.setVisibility(View.VISIBLE);
-                        resultsListView.setVisibility(View.VISIBLE);
-                        reSearchButton.setVisibility(View.VISIBLE);
-                        searchButton.setVisibility(View.GONE);
-                        radioGroup1.setVisibility(View.GONE);
-                        radioGroup2.setVisibility(View.GONE);
-                        editText.setVisibility(View.GONE);
-
-
-                        String subjectInChinese="";
-                        switch (subject)
-                        {
-                            case "chinese":
-                                subjectInChinese="语文";
-                                break;
-                            case "math":
-                                subjectInChinese="数学";
-                                break;
-                            case "english":
-                                subjectInChinese="英语";
-                                break;
-                            case "physics":
-                                subjectInChinese="物理";
-                                break;
-                            case "chemistry":
-                                subjectInChinese="化学";
-                                break;
-                            case "politics":
-                                subjectInChinese="政治";
-                                break;
-                            case "history":
-                                subjectInChinese="历史";
-                                break;
-                            case "geo":
-                                subjectInChinese="地理";
-                                break;
-                            case "biology":
-                                subjectInChinese="生物";
-                                break;
-                            default:
-                                break;
-                        }
-
-                        TextView guideInfoText =(TextView)findViewById(R.id.entity_link_page_guide_info);
-                        if(entityList.isEmpty())
-                            guideInfoText.setText("很抱歉，我们在"+subjectInChinese+"这个学科下没有找到这段文本的相关实体。");
-                        else
-                            guideInfoText.setText("这是我们在"+subjectInChinese+"这个学科下找到的文本中包含的实体:");
                     }
                     catch (Exception e)
                     {

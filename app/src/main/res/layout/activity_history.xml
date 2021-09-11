@@ -7,22 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".History"
     android:orientation="vertical">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#0099fb"
         >
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_report_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="浏览历史"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
-    </LinearLayout>
+            android:textColor="@android:color/white"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textSize="17sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 
     <TextView
@@ -98,8 +98,9 @@
         android:id="@+id/history_page_entity_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/ctype"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:dividerHeight="0px"
+        android:divider="#CCCCCC">
     </ListView>
 
 

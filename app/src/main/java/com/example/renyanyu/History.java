@@ -52,6 +52,7 @@ public class History extends AppCompatActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_history);
 
+        // region 复制的部分
         TextView guideInfoTextView=(TextView) findViewById(R.id.history_page_guide_info);
         guideInfoTextView.setVisibility(View.GONE);
         ListView listView=(ListView)findViewById(R.id.history_page_entity_list);
@@ -107,7 +108,8 @@ public class History extends AppCompatActivity {
                 String name =kEntity.getLabel();
                 String type =kEntity.getType();
                 String uri = kEntity.getKEntityUri();
-                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(kEntity.getCreatedate());//TODO:日期的格式
+                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(kEntity.getCreatedate());
+                //TODO:日期的格式
                 String course = kEntity.getCourse();
                 Long id = 0L;//TODO:已经弄好了吗？
                 entityList.add(new Entity(name,type,uri,time,id, course));
@@ -161,7 +163,7 @@ public class History extends AppCompatActivity {
                     }
                     Entity entity=entityList.get(position);
                     final String content = "实体类型："+entity.type + "\n实体名称："+entity.name
-                            + "\n浏览时间："+entity.time;
+                            + "\n浏览时间："+entity.time.substring(0,entity.time.length()-3);
                     holder.itemTextView.setText(content);
                     holder.itemCheckBox.setChecked(false);
                     if (selectedIdList.contains(position))    holder.itemCheckBox.setChecked(true);
@@ -495,7 +497,7 @@ public class History extends AppCompatActivity {
                         }
                         Entity entity=entityList.get(position);
                         final String content = "实体类型："+entity.type + "\n实体名称："+entity.name
-                                + "\n浏览时间："+entity.time;
+                                + "\n浏览时间："+entity.time.substring(0,entity.time.length()-3);
                         holder.itemTextView.setText(content);
                         holder.itemCheckBox.setChecked(false);
                         if (selectedIdList.contains(position))    holder.itemCheckBox.setChecked(true);
@@ -745,6 +747,8 @@ public class History extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        // endregion
 
     }
 
@@ -753,7 +757,7 @@ public class History extends AppCompatActivity {
     {
         super.onStart();
 
-        //TODO:把onCreate的东西复制过来
+        // region 复制的部分
         TextView guideInfoTextView=(TextView) findViewById(R.id.history_page_guide_info);
         guideInfoTextView.setVisibility(View.GONE);
         ListView listView=(ListView)findViewById(R.id.history_page_entity_list);
@@ -809,7 +813,8 @@ public class History extends AppCompatActivity {
                 String name =kEntity.getLabel();
                 String type =kEntity.getType();
                 String uri = kEntity.getKEntityUri();
-                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(kEntity.getCreatedate());//TODO:日期的格式
+                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(kEntity.getCreatedate());
+                //TODO:日期的格式
                 String course = kEntity.getCourse();
                 Long id = 0L;//TODO:已经弄好了吗？
                 entityList.add(new Entity(name,type,uri,time,id, course));
@@ -823,7 +828,6 @@ public class History extends AppCompatActivity {
                     return y.time.compareTo(x.time); //这是顺序
                 }
             });
-
 
             class HistoryListAdapter extends BaseAdapter
             {
@@ -864,7 +868,7 @@ public class History extends AppCompatActivity {
                     }
                     Entity entity=entityList.get(position);
                     final String content = "实体类型："+entity.type + "\n实体名称："+entity.name
-                            + "\n浏览时间："+entity.time;
+                            + "\n浏览时间："+entity.time.substring(0,entity.time.length()-3);
                     holder.itemTextView.setText(content);
                     holder.itemCheckBox.setChecked(false);
                     if (selectedIdList.contains(position))    holder.itemCheckBox.setChecked(true);
@@ -1198,7 +1202,7 @@ public class History extends AppCompatActivity {
                         }
                         Entity entity=entityList.get(position);
                         final String content = "实体类型："+entity.type + "\n实体名称："+entity.name
-                                + "\n浏览时间："+entity.time;
+                                + "\n浏览时间："+entity.time.substring(0,entity.time.length()-3);
                         holder.itemTextView.setText(content);
                         holder.itemCheckBox.setChecked(false);
                         if (selectedIdList.contains(position))    holder.itemCheckBox.setChecked(true);
@@ -1448,6 +1452,8 @@ public class History extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        // endregion
 
     }
 }
