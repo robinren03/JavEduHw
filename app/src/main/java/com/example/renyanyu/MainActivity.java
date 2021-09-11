@@ -81,6 +81,18 @@ public class MainActivity extends AppCompatActivity {
                 .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
                 .create();
         openingStartAnimation.show(MainActivity.this);
+        GlobalParms.setFragmentSelected(new ChangeFragment() {
+            @Override
+            public void changge(int position) {
+                //调用BottomNavigationBar的setlecTab方法来改变Tab
+                tabLayout.selectTab(tabLayout.getTabAt(1));
+            }
+        });
+        //GlobalParms.f1=new BlankFragment1();
+        //GlobalParms.f2=new BlankFragment2();
+        //GlobalParms.f3=new BlankFragment3();
+
+        initView();
 
     }
 
@@ -181,18 +193,6 @@ public class MainActivity extends AppCompatActivity {
 //        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
 //        container.startShimmer();
 
-        GlobalParms.setFragmentSelected(new ChangeFragment() {
-            @Override
-            public void changge(int position) {
-                //调用BottomNavigationBar的setlecTab方法来改变Tab
-                tabLayout.selectTab(tabLayout.getTabAt(1));
-            }
-        });
-        //GlobalParms.f1=new BlankFragment1();
-        //GlobalParms.f2=new BlankFragment2();
-        //GlobalParms.f3=new BlankFragment3();
-
-        initView();
 
     }
 
