@@ -34,21 +34,18 @@ public class ManageAccount extends AppCompatActivity {
                 switch (id)
                 {
                     case R.id.item_modify_display_name:
-//                        Intent goToManageAccountPage = new Intent(ManageAccount.this,ManageAccount.class);
-//                        startActivity(goToManageAccountPage);
+                        Intent goToManageAccountPage = new Intent(ManageAccount.this,ModifyDisplayName.class);
+                        startActivity(goToManageAccountPage);
                         break;
                     case R.id.item_modify_password:
-//                        Intent goToCollectionPage = new Intent(ManageAccount.this,Collection.class);
-//                        startActivity(goToCollectionPage);
+                        Intent goToModifyPasswordPage = new Intent(ManageAccount.this,ModifyPassword.class);
+                        startActivity(goToModifyPasswordPage);
                         break;
-
                     default:
                         break;
                 }
                 return false;
             }
         });
-
-
     }
 }

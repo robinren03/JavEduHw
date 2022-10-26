@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#FF6200EE">
-        <!--        "#0099fb">-->
+        android:background="#0099fb"
+        >
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_report_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="账户信息"
-            android:gravity="center"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
-    </LinearLayout>
+            android:textColor="@android:color/white"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textSize="17sp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 </LinearLayout>

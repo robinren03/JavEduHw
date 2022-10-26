@@ -314,7 +314,7 @@ public class SearchResult extends AppCompatActivity {
             if(fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"his_ent.xml"))
             {
                 try{
-                    if(getSettingNote(SearchResult.this,user_name+"his_ent",news.uri).equals("1")){
+                    if(getSettingNote(getApplicationContext(),user_name+"his_ent",news.uri).equals("1")){
                         holder.mTitleContent.setTextColor(Color.GRAY);
                         holder.mTitleTv.setTextColor(Color.GRAY);
                     }
@@ -350,8 +350,8 @@ public class SearchResult extends AppCompatActivity {
                             intent1.putExtra("entity_name",news.title);
                             startActivity(intent1);
 
-                            his_ent.put(news.uri,"1");
-                            saveSettingNote(SearchResult.this, user_name+"his_ent", his_ent);
+
+                            //saveSettingNote(SearchResult.this, user_name+"his_ent", his_ent);
 
 
                         }catch (Exception e){

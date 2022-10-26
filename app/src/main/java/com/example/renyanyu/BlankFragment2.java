@@ -61,11 +61,13 @@ public class BlankFragment2 extends Fragment {
     String[] message=new String[]{};
     List<String> mess=new ArrayList<>();
     int msg_num=0;
+    String first="";
     int begin_num;
     private Thread thread;
     public int[] sub;
     String subject;
     boolean beg;
+    int test=0;
     News hot_news;
     private ServerHttpResponse serverHttpResponse = ServerHttpResponse.getServerHttpResponse();
     public BlankFragment2() {
@@ -113,6 +115,7 @@ public class BlankFragment2 extends Fragment {
             public void onClick(View view) {
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
+                user_name = userInfo.getString("username","");
                 if(user_name.length()==0)Toast.makeText(getActivity(), "对不起，您还没有登录，无法进行频道选择！", Toast.LENGTH_SHORT).show();
                 else{
                     Intent intent=new Intent();
@@ -152,7 +155,7 @@ public class BlankFragment2 extends Fragment {
                 {
                     if(bt2.getText().equals(subs[i])){
                         num=i;
-                        System.out.println("点击了"+subs[i]);
+                        //System.out.println("点击了"+subs[i]);
                         break;
                     }
                 }
@@ -332,6 +335,10 @@ public class BlankFragment2 extends Fragment {
                     }
                 }
                 initlist(subje,page);
+//                for(int i=0;i<10;i++){
+//                    mNewsList.add(new News("标题："+i+" test:"+test,"内容 "+i+" test:"+test));
+//                }
+//                test++;
                 channel_view();
                 /*
                 for(int i=0;i<9;i++) {
@@ -409,6 +416,32 @@ public class BlankFragment2 extends Fragment {
         });
         return view;
     }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        message=new String[]{};
+        SharedPreferences userInfo= getActivity().getSharedPreferences("user", 0);
+        user_name = userInfo.getString("username","");
+        //System.out.println("name等于："+user_name);
+        initdata();
+        if(!showorder[0].equals(first))
+        {
+            for(int i=0;i<9;i++){
+                if(showorder[0].equals(subs[i])){
+                    initlist(i,0);
+                    sethot();
+                    break;
+                }
+            }
+        }
+        initview();
+    }
+
+
+
     public void initdata(){
         if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/"+user_name+"subinfo.xml")){begin_num=0;return;}
         //if(!fileIsExists("/data/data/com.example.javeduhw/shared_prefs/subinfo.xml"))return;
@@ -589,7 +622,7 @@ public class BlankFragment2 extends Fragment {
             String result =bundle.getString("json");
 
             try{
-                System.out.println("!!!!!!!!!"+result);
+                //System.out.println("!!!!!!!!!"+result);
                 JSONArray answer_json = new JSONArray(result);
                 for(int i=0;i<answer_json.length();i++){
                     String name=answer_json.optJSONObject(i).opt("name").toString();
@@ -634,7 +667,7 @@ public class BlankFragment2 extends Fragment {
         for(int i=0;i<9;i++){
             if(showorder[0]==subs[i]){
                 begin_num=i;
-                System.out.println("重建："+showorder[0]);
+                //System.out.println("重建："+showorder[0]);
                 initlist(i,0);
                 channel_view();
                 sethot();
@@ -681,7 +714,32 @@ public class BlankFragment2 extends Fragment {
                 mess.add(ss);
             }
         }
+        //System.out.println("学科为："+mess);
+        if(mess.size()!=0)
+        {
+            String msg1="语文1";
+            mess.add(msg1);
+            String msg2="数学1";
+            mess.add(msg2);
+            String msg3="英语1";
+            mess.add(msg3);
+            String msg4="物理1";
+            mess.add(msg4);
+            String msg5="化学1";
+            mess.add(msg5);
+            String msg6="生物1";
+            mess.add(msg6);
+            String msg7="政治1";
+            mess.add(msg7);
+            String msg8="历史1";
+            mess.add(msg8);
+            String msg9="地理1";
+            mess.add(msg9);
+
+
+        }
+        first=mess.get(0).substring(0,2);
         message=mess.toArray(new String[mess.size()]);
-        System.out.println("最终信息为："+mess.toString());
+        //System.out.println("最终信息为："+mess.toString());
     }
 }
