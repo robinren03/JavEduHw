@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ public class Collection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_collection);
 
         TextView guideInfoTextView=(TextView) findViewById(R.id.collection_page_guide_info);
@@ -40,14 +42,14 @@ public class Collection extends AppCompatActivity {
         System.out.println(responseString);
         // endregion
 
-        if(responseString.equals("[]"))
+        if(responseString==null)
         {
+            guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
             guideInfoTextView.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
-        else if(responseString==null)
+        else if(responseString.equals("[]"))
         {
-            guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
             guideInfoTextView.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
@@ -111,7 +113,7 @@ public class Collection extends AppCompatActivity {
             }
             catch (JSONException e)
             {
-                guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
+                guideInfoTextView.setText("抱歉，服务器好像出了点问题，请稍后重试");
                 guideInfoTextView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 e.printStackTrace();
@@ -138,14 +140,14 @@ public class Collection extends AppCompatActivity {
         System.out.println(responseString);
         // endregion
 
-        if(responseString.equals("[]"))
+        if(responseString==null)
         {
+            guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
             guideInfoTextView.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
-        else if(responseString==null)
+        else if(responseString.equals("[]"))
         {
-            guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
             guideInfoTextView.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
         }
@@ -209,7 +211,7 @@ public class Collection extends AppCompatActivity {
             }
             catch (JSONException e)
             {
-                guideInfoTextView.setText("www，好像断网了，请检查您的网络设置");
+                guideInfoTextView.setText("抱歉，服务器好像出了点问题，请稍后重试");
                 guideInfoTextView.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 e.printStackTrace();

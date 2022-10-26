@@ -9,17 +9,24 @@ import androidx.fragment.app.*;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.os.Handler;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.view.View;
 
 import android.widget.SearchView;
 
 import java.util.*;
+
 import android.text.TextUtils;
 import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+
+import site.gemus.openingstartanimation.NormalDrawStrategy;
+import site.gemus.openingstartanimation.OpeningStartAnimation;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,11 +38,49 @@ public class MainActivity extends AppCompatActivity {
     private static GlobalParms globalParms;
     TabLayout tabLayout;
     public int ss;
+    private boolean isExit;
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    public void exit(){
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+            System.exit(0);
+        }
+    }
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(MainActivity.this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .create();
+        openingStartAnimation.show(MainActivity.this);
         GlobalParms.setFragmentSelected(new ChangeFragment() {
             @Override
             public void changge(int position) {
@@ -46,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         //GlobalParms.f1=new BlankFragment1();
         //GlobalParms.f2=new BlankFragment2();
         //GlobalParms.f3=new BlankFragment3();
+
         initView();
 
     }
@@ -141,6 +187,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        ShimmerFrameLayout container = findViewById(R.id.shimmer_view_container);
+//        container.startShimmer();
+
+
+    }
 
 
 }

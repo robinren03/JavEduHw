@@ -40,7 +40,7 @@ public class QuestionItemFragment extends Fragment
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         View rootView = inflater.inflate(R.layout.pager_item, container, false);
         lv = (ListView) rootView.findViewById(R.id.lv_options);
-        TextView tv_paper_name = (TextView) rootView.findViewById(R.id.tv_paper_name);
+//        TextView tv_paper_name = (TextView) rootView.findViewById(R.id.tv_paper_name);
         TextView tv_sequence = (TextView) rootView.findViewById(R.id.tv_sequence);
         TextView tv_total_count = (TextView) rootView.findViewById(R.id.tv_total_count);
         TextView tv_description = (TextView) rootView.findViewById(R.id.tv_description);
@@ -55,7 +55,7 @@ public class QuestionItemFragment extends Fragment
         //setListViewHeightBasedOnChildren(lv);
 
 
-        tv_paper_name.setText("相关知识点：叶绿体");
+//        tv_paper_name.setText("相关知识点：叶绿体");
         tv_sequence.setText((index+1)+"");
         tv_total_count.setText("/"+ Quiz.questionlist.size());
         tv_description.setText(questionBean.stem);
