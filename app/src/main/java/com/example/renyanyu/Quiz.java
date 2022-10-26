@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -180,15 +181,11 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
             return Quiz.questionlist.size()+2;
         }
-
-
-
     }
 
     static class OptionsListAdapter extends BaseAdapter {
         private Context mContext;
         ListView lv ;
-        //        int index;,int index
         public List<QuestionOptionBean> options ;
 
         public OptionsListAdapter(Context context, List<QuestionOptionBean> options,ListView lv) {
@@ -252,21 +249,13 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
 
     }
 
-
-
-    List<View> list = new ArrayList<View>();
     public static List<QuestionBean> questionlist = new ArrayList<QuestionBean>();
     public static ArrayList<String> userAnswerList=new ArrayList<>();
     public static int minute=0;
     public static int second=0;
 
-    public static QuestionBean question;
-
-    public static QuestionOptionBean option;
     private ViewPager vp;
     private ItemAdapter pagerAdapter;
-    View pager_item;
-    public static int currentIndex = 0;
 
 
     @Override
@@ -279,7 +268,6 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
         questionlist.clear();
         userAnswerList.clear();
 
-
         // region 获取responseString
         String url = Quiz.this.getString(R.string.backend_ip) + "/user/quiz";
         SharedPreferences userInfo= Quiz.this.getSharedPreferences("user", 0);
@@ -287,29 +275,8 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
         ServerHttpResponse serverHttpResponse=ServerHttpResponse.getServerHttpResponse();
         String message="token="+userToken;
         url=url+"?"+message;
-        //com.alibaba.fastjson.JSONArray questionJsonArray=(com.alibaba.fastjson.JSONArray)serverHttpResponse.getResponse(url);
         String responseString = serverHttpResponse.getResponse(url);
         System.out.println(responseString);
-//        String responseString="[{\"qAnswer\":\"D\",\"id\":37964,\"qBody\":\"下列哪种现象不是生物对环境的适应()" +
-//                "A.河边垂柳的树枝长向了河心B.仙人掌的叶变成刺C.秋天大雁南飞越冬D.蚯蚓在土壤中括动,可使土壤疏松\"}," +
-//                "{\"qAnswer\":\"B\",\"id\":38086,\"qBody\":\"松树和苹果树这两种植物最主要的区别在于:()" +
-//                "A.松树的种子外面有果皮包被着B.松树没有果实,种子裸露着C.松树比苹果树高大D.松树有果实,苹果树的种子裸露\"}," +
-//                "{\"qAnswer\":\"B\",\"id\":38108,\"qBody\":\"下列属于裸子植物的一组是:()" +
-//                "A.小麦和水稻B.银杏和松树C.玉米和杉树D.杨树和柳树\"}," +
-//                "{\"qAnswer\":\"A\",\"id\":38226,\"qBody\":\"在哺乳动物的骨中,对骨的长粗和骨折修复起着重要作用的结构是()" +
-//                "A.骨膜B.骨松质C.骨密质D.骨髓腔\"},{\"qAnswer\":\"B\",\"id\":38256,\"qBody\":\"下列说法中,正确的是" +
-//                "A.松的球果和桃子一样都是果实B.裸子植物和被子植物的种子中都有胚C.种子中的胚乳能发育成新植株" +
-//                "D.裸子植物的种子比被子植物的种子能得到更好的保护\"}," +
-//                "{\"qAnswer\":\"B\",\"id\":38274,\"qBody\":\"蚯蚓在土壤中生活,可以使土壤疏松,排出的粪便可增加土壤肥力。这说明了:" +
-//                "A.环境影响生物B.生物影响环境C.生物依赖环境D.生物适应环境\"}," +
-//                "{\"qAnswer\":\"D\",\"id\":38354,\"qBody\":\"与桃树相比,松树种子最主要的不同是" +
-//                "A.果实内有种子B.球果是由果皮和种子组成C.胚珠外有子房壁D.没果皮包裹,种子裸露在外\"}," +
-//                "{\"qAnswer\":\"B\",\"id\":38571,\"qBody\":\"下列农业生产措施中,能提高光合作用效率的是()" +
-//                "A.常松士,勤施肥B.合理密植充分利用光照C.温室大棚夜间适当降低室温D.移栽树苗时,剪去树苗的部分叶片\"}," +
-//                "{\"qAnswer\":\"A\",\"id\":38576,\"qBody\":\"下列各组植物中,生活环境和繁殖方式最相似的是()" +
-//                "A.墙藓、肾蕨B.水绵、水稻C.海带、雪松D.白菜、紫菜\"}," +
-//                "{\"qAnswer\":\"A\",\"id\":38640,\"qBody\":\"下列生物防治的方案不可行的是" +
-//                "A.鸡防治菜青虫B.灰喜鹊防治松毛虫C.七星瓢虫防治棉蚜虫D.啄木鸟防治林业害虫\"}]";
         // endregion
 
         class Question
@@ -336,7 +303,15 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
         }
 
         ArrayList<Question> questionList = new ArrayList<>();
-        if(responseString!=null)
+        if(responseString==null)
+        {
+            Toast.makeText(Quiz.this, "好像断网了，请检查您的网络设置", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Quiz.this,QuizException.class);
+            intent.putExtra("exceptionName","Network Connection Exception");
+            startActivity(intent);
+            finish();
+        }
+        else
         {
             try
             {
@@ -351,24 +326,36 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
                         if(numberOfMatch(body,"A.")==1&&numberOfMatch(body,"B.")==1&&
                                 numberOfMatch(body,"C.")==1&&numberOfMatch(body,"D.")==1)
                         {
-                            int positionOfA=body.indexOf("A.");
-                            int positionOfB=body.indexOf("B.");
-                            int positionOfC=body.indexOf("C.");
-                            int positionOfD=body.indexOf("D.");
-                            String stem=body.substring(0,positionOfA);
-                            if(stem.indexOf("()")==stem.length()-2)    stem=stem.substring(0,stem.length()-2);
-                            String a=body.substring(positionOfA+2,positionOfB);
-                            String b=body.substring(positionOfB+2,positionOfC);
-                            String c=body.substring(positionOfC+2,positionOfD);
-                            String d=body.substring(positionOfD+2);
-                            Question question = new Question(jsonObject.getString("id"),answer,body,stem, a,b,c,d);
-                            questionList.add(question);
+                            try
+                            {
+                                int positionOfA=body.indexOf("A.");
+                                int positionOfB=body.indexOf("B.");
+                                int positionOfC=body.indexOf("C.");
+                                int positionOfD=body.indexOf("D.");
+                                String stem=body.substring(0,positionOfA);
+                                if(stem.indexOf("()")==stem.length()-2)    stem=stem.substring(0,stem.length()-2);
+                                String a=body.substring(positionOfA+2,positionOfB);
+                                String b=body.substring(positionOfB+2,positionOfC);
+                                String c=body.substring(positionOfC+2,positionOfD);
+                                String d=body.substring(positionOfD+2);
+                                Question question = new Question(jsonObject.getString("id"),answer,body,stem, a,b,c,d);
+                                questionList.add(question);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
             }
             catch (JSONException e)
             {
+                Toast.makeText(Quiz.this, "抱歉，服务器好像出了点问题，请稍后重试", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Quiz.this,QuizException.class);
+                intent.putExtra("exceptionName","Server Exception");
+                startActivity(intent);
+                finish();
                 e.printStackTrace();
             }
 
@@ -386,7 +373,14 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
                         "叶绿体", options));
             }
             System.out.println(questionlist);
-
+            if(questionList.size()==0)
+            {
+                Toast.makeText(Quiz.this, "学习了您关注的实体再来吧", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Quiz.this,QuizException.class);
+                intent.putExtra("exceptionName","No History Exception");
+                startActivity(intent);
+                finish();
+            }
         }
 
         for(int i=0;i<questionlist.size();i++)
@@ -394,13 +388,9 @@ public class Quiz extends FragmentActivity implements View.OnClickListener
             userAnswerList.add("");
         }
 
-//        Log.e("测试数据", questionlist.get(0).toString());
-//        Log.e("测试数据", questionlist.get(1).toString());
 
-//        TextView backButton = (TextView) findViewById(R.id.quiz_page_back_button);
         TextView timerButton= (TextView) findViewById(R.id.quiz_page_timer_button);
         TextView answerBoardButton = (TextView) findViewById(R.id.quiz_page_answer_board_button);
-//        backButton.setOnClickListener(this);
         timerButton.setOnClickListener(this);
         answerBoardButton.setOnClickListener(this);
 

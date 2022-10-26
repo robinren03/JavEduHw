@@ -81,5 +81,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 //    implementation 'com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar'
 
+    implementation 'com.github.JoshuaRogue:FancyView:d76eeb89a1'
 
 }

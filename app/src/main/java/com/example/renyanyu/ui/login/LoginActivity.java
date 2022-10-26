@@ -25,10 +25,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.renyanyu.AppDB;
+import com.example.renyanyu.EntityDetails;
+import com.example.renyanyu.KEntityRepository;
 import com.example.renyanyu.R;
 import com.example.renyanyu.databinding.ActivityLoginBinding;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 
 public class LoginActivity extends AppCompatActivity implements RegisterFragment.MySend{
 
@@ -134,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(v.getContext(), usernameEditText.getText().toString(),
+                loginViewModel.login(getApplicationContext(), usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
@@ -166,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterFragment
         editor.putString("username", usernameEditText.getText().toString());
         editor.commit();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

@@ -73,8 +73,7 @@
 
 
                 android:id="@+id/physics1"
-
-                android:visibility="gone"/>
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,37 +81,32 @@
 
 
                 android:id="@+id/Chemistry1"
-
-                android:visibility="gone"/>
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="生物"
 
                 android:id="@+id/biology1"
-
-                android:visibility="gone"/>
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="政治"
 
-                android:id="@+id/politics1"
-                android:visibility="gone"/>
+                android:id="@+id/politics1" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="历史"
 
-                android:id="@+id/history1"
-                android:visibility="gone"/>
+                android:id="@+id/history1" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="地理"
                 android:id="@+id/geography1"
-
-                android:visibility="gone"/>
+                />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -152,9 +146,15 @@
         android:layout_height="match_parent"
         android:layout_marginTop="200dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </FrameLayout>

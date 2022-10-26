@@ -4,44 +4,56 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_head_picture"
-        android:layout_width="170dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:src="@drawable/ic_head_picture"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_head_picture"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_face"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/user_name_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="userName"
-                android:textSize="15sp"/>
-            <TextView
-                android:id="@+id/displayNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="displayName"
-                android:textSize="30sp"
-                android:textFontWeight="15"/>
-        </LinearLayout>
-        <Button
-            android:id="@+id/loginButton"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="登录/注册"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:id="@+id/user_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="userName"
+                    android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/displayNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="displayName"
+                    android:textSize="30sp"
+                    android:textFontWeight="15"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="登录/注册"/>
+
+        </RelativeLayout>
     </RelativeLayout>
+
 
 </LinearLayout>
 

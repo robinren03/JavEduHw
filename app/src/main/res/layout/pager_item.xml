@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#0099fb"
@@ -22,27 +22,29 @@
             android:paddingRight="10dp"
             android:paddingTop="15dp" >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="3"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:orientation="horizontal" >-->
 
-                <TextView
-                    android:id="@+id/tv_paper_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="对应知识点：叶绿体"
-                    android:textSize="17sp" />
-            </LinearLayout>
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/tv_paper_name"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="对应知识点：叶绿体"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="17sp" />&ndash;&gt;-->
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                >
 
                 <TextView
                     android:id="@+id/tv_sequence"
@@ -61,7 +63,7 @@
                     android:text="/15"
                     android:textSize="15sp" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -12,7 +12,7 @@ public class KEntityRepository {
     private final KEntityDao kEntityDao;
     private final AppDB appDB;
 
-    KEntityRepository(AppDB appDB){
+    public KEntityRepository(AppDB appDB){
         this.appDB = appDB;
         this.kEntityDao = this.appDB.kEntityDao();
     }
